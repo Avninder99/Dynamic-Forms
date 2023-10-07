@@ -1,0 +1,23 @@
+<div class="container-fluid">
+    <mat-card>
+        <mat-card-content>Dynamic Form</mat-card-content>
+    </mat-card>
+
+    <form [formGroup]="dynamicForm" (ngSubmit)="finalizeForm()" class="example-form">
+
+        <ng-container *ngFor="let element of dynamicForm.get('completeForm')?.value ; index as i">
+            <mat-card class="my-4">
+                <app-form-element [defaultData]="element" [index]="i" (elementEmitter)="elementEmitterHandler($event)"></app-form-element>
+            </mat-card>
+        </ng-container>
+
+        <button mat-fab color="primary" aria-label="Example icon button with a plus one icon" (click)="addNewField($event)">
+            <mat-icon>plus_one</mat-icon>
+        </button>
+
+        <button mat-fab color="primary" aria-label="Example icon button with a plus one icon">
+            <mat-icon>done</mat-icon>
+        </button>
+    </form>
+
+</div>
