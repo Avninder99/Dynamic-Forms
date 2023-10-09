@@ -13,11 +13,20 @@ export class FormHolderComponent {
 
   constructor() {
     this.dynamicForm = new FormGroup({
+      formName: new FormControl('Your Dynamic Form'),
       completeForm: new FormArray([
+        new FormGroup({
+          question: new FormControl(''),
+          type: new FormControl('dropdown'),
+          id: new FormControl(uuid()),
+          answer: new FormControl(''),
+          isRequired: new FormControl(false),
+          options: new FormControl([])
+        })
       ])
     })
   }
-
+  
   elementEmitterHandler(element: { myFormGroup: FormGroup, id: string, index: number }) {
     console.log(element);
     console.log(element.myFormGroup.value);
@@ -25,8 +34,14 @@ export class FormHolderComponent {
     const foundIndex = values.findIndex((value: { id: string }) => value.id === element.id);
 
     console.log(foundIndex);
-
+    
     (<FormArray>this.dynamicForm.get('completeForm')).get(String(foundIndex))?.patchValue(element.myFormGroup.value);
+  }
+  
+  deleteElementHandler(element: { id: string }) {
+    const values = (<FormArray>this.dynamicForm.get('completeForm')).value;
+    const foundIndex = values.findIndex((value: { id: string }) => value.id === element.id);
+    (<FormArray>this.dynamicForm.get('completeForm')).removeAt(foundIndex);
   }
   
   addNewField(e: Event) {
@@ -35,7 +50,10 @@ export class FormHolderComponent {
       new FormGroup({
         question: new FormControl(''),
         type: new FormControl('text'),
-        id: new FormControl(uuid())
+        id: new FormControl(uuid()),
+        answer: new FormControl(''),
+        isRequired: new FormControl(false),
+        options: new FormControl([]),
       })
     );
   }

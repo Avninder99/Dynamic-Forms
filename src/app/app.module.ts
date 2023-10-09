@@ -13,9 +13,9 @@ import {MatCardModule} from '@angular/material/card';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
-import {FormTextComponent} from './form-text/form-text.component';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 import { FormHolderComponent } from './form-holder/form-holder.component';
 import { FormElementComponent } from './form-element/form-element.component';
@@ -23,17 +23,18 @@ import { FormTextFieldComponent } from './form-fields/form-text-field/form-text-
 import { FormNumberFieldComponent } from './form-fields/form-number-field/form-number-field.component';
 import { FormDropdownFieldComponent } from './form-fields/form-dropdown-field/form-dropdown-field.component';
 import { FormRadioButtonsFieldComponent } from './form-fields/form-radio-buttons-field/form-radio-buttons-field.component';
+import { FormCheckboxesFieldComponent } from './form-fields/form-checkboxes-field/form-checkboxes-field.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     FormHolderComponent,
-    FormTextComponent,
     FormElementComponent,
     FormTextFieldComponent,
     FormNumberFieldComponent,
     FormDropdownFieldComponent,
     FormRadioButtonsFieldComponent,
+    FormCheckboxesFieldComponent,
   ],
   imports: [
     BrowserModule,
@@ -48,7 +49,8 @@ import { FormRadioButtonsFieldComponent } from './form-fields/form-radio-buttons
     MatFormFieldModule,
     MatSelectModule,
     MatRadioModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatSlideToggleModule
   ],
   providers: [],
   bootstrap: [AppComponent]

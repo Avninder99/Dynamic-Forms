@@ -1,69 +1,56 @@
 <div>
-    <form [formGroup]="formElementGroup" (ngSubmit)="finalizeElement()" class="example-form p-3">
+    <form [formGroup]="formElementGroup" (ngSubmit)="finalizeElement()" class="example-form p-4">
 
-        <mat-form-field class="example-full-width">
-            <mat-label>Question</mat-label>
-            <input matInput formControlName="question">
-        </mat-form-field>
-
-        <mat-form-field>
-            <mat-label>Select</mat-label>
-            <mat-select formControlName="type" (closed)="getType()">
-                <mat-option value="text">Text</mat-option>
-                <mat-option value="number">Number</mat-option>
-                <mat-option value="dropdown">Dropdown</mat-option>
-                <mat-option value="radioButtons">Radio Buttons</mat-option>
-                <mat-option value="checkboxes">Checkboxes</mat-option>
-            </mat-select>
-        </mat-form-field>
+        <div class="container d-flex flex-row justify-content-between pt-1 flex-wrap">
+            <mat-form-field class="question">
+                <mat-label>Question</mat-label>
+                <input matInput formControlName="question">
+            </mat-form-field>
+    
+            <mat-form-field class="type-selector">
+                <mat-label>Select</mat-label>
+                <mat-select formControlName="type" (closed)="getType()">
+                    <mat-option value="text">Text</mat-option>
+                    <mat-option value="number">Number</mat-option>
+                    <mat-option value="dropdown">Dropdown</mat-option>
+                    <mat-option value="radioButtons">Radio Buttons</mat-option>
+                    <mat-option value="checkboxes">Checkboxes</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
 
 
 
         <div *ngIf="recievedData.type === 'text'">
-            <mat-form-field class="example-full-width">
-                <mat-label>Type your response here</mat-label>
-                <textarea matInput></textarea>
-            </mat-form-field>
+            <app-form-text-field></app-form-text-field>
         </div>
         <div *ngIf="recievedData.type === 'number'">
-            <mat-form-field class="example-full-width">
-                <mat-label></mat-label>
-                <input matInput type="number">
-            </mat-form-field>
+            <app-form-number-field></app-form-number-field>
         </div>
         <div *ngIf="recievedData.type === 'dropdown'">
-            <mat-form-field>
-                <mat-label>Favorite food</mat-label>
-                <mat-select>
-                    <mat-option *ngFor="let item of [0,1,2]" [value]="item">
-                        {{ item }}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
+            <app-form-dropdown-field 
+                [fields]="formElementGroup.get('options')?.value" 
+                (optionsEmitter)="optionsEmitterHandler($event)"
+            ></app-form-dropdown-field>
         </div>
         <div *ngIf="recievedData.type === 'radioButtons'">
-            <mat-radio-group aria-label="Select an option">
-                <mat-radio-button value="1">Option 1</mat-radio-button>
-                <mat-radio-button value="2">Option 2</mat-radio-button>
-            </mat-radio-group>
+            <app-form-radio-buttons-field></app-form-radio-buttons-field>
         </div>
         <div *ngIf="recievedData.type === 'checkboxes'">
-            <section class="example-section">
-                <span class="example-list-section">
-                    <ul>
-                        <li *ngFor="let subtask of task.subtasks">
-                            <mat-checkbox [color]="subtask.color">
-                                {{subtask.name}}
-                            </mat-checkbox>
-                        </li>
-                    </ul>
-                </span>
-            </section>
+            <app-form-checkboxes-field></app-form-checkboxes-field>
         </div>
 
-        <button mat-fab color="primary" aria-label="Example icon button with a plus one icon">
-            <mat-icon>done</mat-icon>
-        </button>
+        <div class="container mb-3 d-flex flex-row justify-content-end align-items-center pt-4 border-top">
+            <mat-slide-toggle color="primary" class="border-end me-4 py-3 pe-4" formControlName="isRequired">Required</mat-slide-toggle>
+
+            <button mat-fab color="primary" class="me-3" aria-label="Delete Button" (click)="deleteElement($event)">
+                <mat-icon>delete</mat-icon>
+            </button>
+
+            <button mat-fab color="primary" class="me-sm-3" aria-label="Submit Element Button">
+                <mat-icon>done</mat-icon>
+            </button>
+        </div>
 
     </form>
 

@@ -1,1 +1,32 @@
-<p>form-dropdown-field works!</p>
+<form [formGroup]="optionsGroup" class="container">
+    <h3 class="ms-1">Add Options Below</h3>
+    <div class="d-flex flex-column options" formArrayName="options">
+        <ng-container *ngFor="let item of optionsGroup.get('options')['controls'] ; index as i">
+            <div class="d-flex flex-row flex-wrap align-items-start">
+                <mat-form-field class="me-3 option-input">
+                    <input matInput type="text" formControlName="{{ i }}" (blur)="emitOptions()"/>
+                </mat-form-field>
+                <div class="">
+                    <button 
+                        *ngIf="optionsGroup.get('options')['controls'].length > 1"
+                        mat-icon-button 
+                        color="primary" 
+                        aria-label="remove field button"
+                        (mousedown)="deleteInput(i)"
+                    >
+                        <mat-icon>remove_circle_outline</mat-icon>
+                    </button>
+                    <button 
+                        *ngIf="i === optionsGroup.get('options')['controls'].length - 1" 
+                        mat-icon-button 
+                        color="primary"
+                        aria-label="add field button"
+                        (click)="addInput()"
+                    >
+                        <mat-icon>add</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+</form>
