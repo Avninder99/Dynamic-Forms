@@ -24,6 +24,7 @@ import { FormNumberFieldComponent } from './form-fields/form-number-field/form-n
 import { FormDropdownFieldComponent } from './form-fields/form-dropdown-field/form-dropdown-field.component';
 import { FormRadioButtonsFieldComponent } from './form-fields/form-radio-buttons-field/form-radio-buttons-field.component';
 import { FormCheckboxesFieldComponent } from './form-fields/form-checkboxes-field/form-checkboxes-field.component';
+import { FormMultipleOptionsFieldComponent } from './form-fields/form-multiple-options-field/form-multiple-options-field.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { FormCheckboxesFieldComponent } from './form-fields/form-checkboxes-fiel
     FormDropdownFieldComponent,
     FormRadioButtonsFieldComponent,
     FormCheckboxesFieldComponent,
+    FormMultipleOptionsFieldComponent,
   ],
   imports: [
     BrowserModule,

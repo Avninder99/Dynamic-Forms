@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { v4 as uuid } from 'uuid';
 
@@ -15,10 +15,8 @@ export interface Task {
   templateUrl: './form-element.component.html',
   styleUrls: ['./form-element.component.css']
 })
-export class FormElementComponent {
-  // id: string = uuid();
+export class FormElementComponent implements OnInit {
   formElementGroup: FormGroup;
-  // type: string = 'text';
 
   @Input() index: number = -1;
   // yet to finalize

@@ -2,13 +2,14 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-form-dropdown-field',
-  templateUrl: './form-dropdown-field.component.html',
-  styleUrls: ['./form-dropdown-field.component.css']
+  selector: 'app-form-multiple-options-field',
+  templateUrl: './form-multiple-options-field.component.html',
+  styleUrls: ['./form-multiple-options-field.component.css']
 })
-export class FormDropdownFieldComponent implements OnInit {
+export class FormMultipleOptionsFieldComponent implements OnInit {
   optionsGroup: FormGroup;
 
+  @Input() type: string = 'dropdown';
   @Input() fields: string[] = []
   @Output() optionsEmitter: EventEmitter<FormArray> = new EventEmitter<FormArray>();
 

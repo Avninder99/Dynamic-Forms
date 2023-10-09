@@ -17,7 +17,7 @@ export class FormHolderComponent {
       completeForm: new FormArray([
         new FormGroup({
           question: new FormControl(''),
-          type: new FormControl('dropdown'),
+          type: new FormControl('text'),
           id: new FormControl(uuid()),
           answer: new FormControl(''),
           isRequired: new FormControl(false),

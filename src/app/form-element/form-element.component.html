@@ -19,25 +19,18 @@
             </mat-form-field>
         </div>
 
-
-
         <div *ngIf="recievedData.type === 'text'">
             <app-form-text-field></app-form-text-field>
         </div>
         <div *ngIf="recievedData.type === 'number'">
             <app-form-number-field></app-form-number-field>
         </div>
-        <div *ngIf="recievedData.type === 'dropdown'">
-            <app-form-dropdown-field 
+        <div *ngIf="recievedData.type === 'dropdown' || recievedData.type === 'radioButtons' || recievedData.type === 'checkboxes'">
+            <app-form-multiple-options-field 
+                [type]="recievedData.type"
                 [fields]="formElementGroup.get('options')?.value" 
                 (optionsEmitter)="optionsEmitterHandler($event)"
-            ></app-form-dropdown-field>
-        </div>
-        <div *ngIf="recievedData.type === 'radioButtons'">
-            <app-form-radio-buttons-field></app-form-radio-buttons-field>
-        </div>
-        <div *ngIf="recievedData.type === 'checkboxes'">
-            <app-form-checkboxes-field></app-form-checkboxes-field>
+            ></app-form-multiple-options-field>
         </div>
 
         <div class="container mb-3 d-flex flex-row justify-content-end align-items-center pt-4 border-top">

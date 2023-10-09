@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./form-radio-buttons-field.component.css']
 })
 export class FormRadioButtonsFieldComponent {
-  itemsGroup
+
 }
