@@ -44,12 +44,14 @@ export class FormDropdownFieldComponent {
 
   deleteInput(index: number) {
     (<FormArray>this.optionsGroup.get('options')).removeAt(index);
+    this.emitOptions();
+    console.log('deleted');
     console.log(this.optionsGroup)
   }
 
   emitOptions() {
-    console.log('emitted')
     console.log(this.optionsGroup.value)
+    console.log('emitted')
     this.optionsEmitter.emit(this.optionsGroup.get('options') as FormArray);
   }
 
