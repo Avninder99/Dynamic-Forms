@@ -1,0 +1,8 @@
+<mat-radio-group aria-label="Select an option">
+    <mat-radio-button 
+        *ngFor="let option of [ '1', '2', '3', '4', '5']; index as i"
+        [value]="option"
+    >
+        {{ option }}
+    </mat-radio-button>
+</mat-radio-group>
