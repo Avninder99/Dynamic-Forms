@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http';
 
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
@@ -25,6 +26,9 @@ import { FormDropdownFieldComponent } from './form-fields/form-dropdown-field/fo
 import { FormRadioButtonsFieldComponent } from './form-fields/form-radio-buttons-field/form-radio-buttons-field.component';
 import { FormCheckboxesFieldComponent } from './form-fields/form-checkboxes-field/form-checkboxes-field.component';
 import { FormMultipleOptionsFieldComponent } from './form-fields/form-multiple-options-field/form-multiple-options-field.component';
+import { LoginComponent } from './auth/login/login.component';
+import { RegisterComponent } from './auth/register/register.component';
+import { AuthComponent } from './auth/auth.component';
 
 @NgModule({
   declarations: [
@@ -37,12 +41,16 @@ import { FormMultipleOptionsFieldComponent } from './form-fields/form-multiple-o
     FormRadioButtonsFieldComponent,
     FormCheckboxesFieldComponent,
     FormMultipleOptionsFieldComponent,
+    LoginComponent,
+    RegisterComponent,
+    AuthComponent,
   ],
   imports: [
     BrowserModule,
     ReactiveFormsModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     MatButtonModule, 
     MatIconModule,
     MatToolbarModule,

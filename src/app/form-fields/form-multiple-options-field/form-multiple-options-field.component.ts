@@ -27,7 +27,7 @@ export class FormMultipleOptionsFieldComponent implements OnInit {
       })
     }else{
       (<FormArray>this.optionsGroup.get('options')).push(
-        new FormControl(null, Validators.required)
+        new FormControl('Option', Validators.required)
       )
     }
   }
@@ -40,7 +40,7 @@ export class FormMultipleOptionsFieldComponent implements OnInit {
   addInput() {
     console.log(this.optionsGroup);
     (<FormArray>this.optionsGroup.get('options')).push(
-      new FormControl(null, Validators.required)
+      new FormControl('Option', Validators.required)
     )
   }
 
@@ -52,7 +52,7 @@ export class FormMultipleOptionsFieldComponent implements OnInit {
   }
 
   emitOptions() {
-    console.log(this.optionsGroup.value)
+    console.log(this.optionsGroup.valid)
     console.log('emitted')
     this.optionsEmitter.emit(this.optionsGroup.get('options') as FormArray);
   }

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormArray, FormControl, FormGroup } from '@angular/forms';
-import { v4 as uuid } from 'uuid';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+// import { v4 as uuid } from 'uuid';
 
 import {ThemePalette} from '@angular/material/core';
 export interface Task {
@@ -39,16 +39,20 @@ export class FormElementComponent implements OnInit {
 
   ngOnInit() {
     console.log(this.recievedData);
-    this.formElementGroup.addControl('id', new FormControl(this.recievedData.id));
-    this.formElementGroup.addControl('question', new FormControl(this.recievedData.question));
-    this.formElementGroup.addControl('type', new FormControl(this.recievedData.type));
+    this.formElementGroup.addControl('id', new FormControl(this.recievedData.id, Validators.required));
+    this.formElementGroup.addControl('question', new FormControl(this.recievedData.question, Validators.required));
+    this.formElementGroup.addControl('type', new FormControl(this.recievedData.type, Validators.required));
     this.formElementGroup.addControl('answer', new FormControl(this.recievedData.answer));
     this.formElementGroup.addControl('options', new FormControl(this.recievedData.options));
     this.formElementGroup.addControl('isRequired', new FormControl(this.recievedData.isRequired));
   }
 
   finalizeElement() {
-    this.elementEmitter.emit({ myFormGroup: this.formElementGroup, id: this.recievedData.id, index: this.index });
+    if(this.formElementGroup.valid){
+      this.elementEmitter.emit({ myFormGroup: this.formElementGroup, id: this.recievedData.id, index: this.index });
+    }else{
+      alert('Please fill all the created fields properly')
+    }
   }
 
   deleteElement(e: Event) {

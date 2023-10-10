@@ -17,8 +17,8 @@ export class FormNumberFieldComponent {
     });
   }
 
-  ngAfterContentInit() {
-    console.log(this.answerHolder.get('answer'))
-    // this.answerAndOptionsEmitter.emit({ answer: <FormControl>this.answerHolder.get('answer'), options: this.options })
-  }
+  // ngAfterContentInit() {
+  //   console.log(this.answerHolder.get('answer'))
+  //   // this.answerAndOptionsEmitter.emit({ answer: <FormControl>this.answerHolder.get('answer'), options: this.options })
+  // }
 }

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { FormArray, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { v4 as uuid } from 'uuid';
+import { FormService } from '../services/form.service';
 
 @Component({
   selector: 'app-form-holder',
@@ -11,14 +12,14 @@ export class FormHolderComponent {
 
   dynamicForm: FormGroup;
 
-  constructor() {
+  constructor(private formService: FormService) {
     this.dynamicForm = new FormGroup({
       formName: new FormControl('Your Dynamic Form'),
       completeForm: new FormArray([
         new FormGroup({
-          question: new FormControl(''),
-          type: new FormControl('text'),
-          id: new FormControl(uuid()),
+          question: new FormControl('', Validators.required),
+          type: new FormControl('text', Validators.required),
+          id: new FormControl(uuid(), Validators.required),
           answer: new FormControl(''),
           isRequired: new FormControl(false),
           options: new FormControl([])
@@ -48,9 +49,9 @@ export class FormHolderComponent {
     e.preventDefault();
     (<FormArray>this.dynamicForm.get('completeForm')).push(
       new FormGroup({
-        question: new FormControl(''),
-        type: new FormControl('text'),
-        id: new FormControl(uuid()),
+        question: new FormControl('', Validators.required),
+        type: new FormControl('text', Validators.required),
+        id: new FormControl(uuid(), Validators.required),
         answer: new FormControl(''),
         isRequired: new FormControl(false),
         options: new FormControl([]),
@@ -59,6 +60,7 @@ export class FormHolderComponent {
   }
 
   finalizeForm() {
-    console.log(this.dynamicForm);
+    console.log(this.dynamicForm.get('completeForm').value);
+    this.formService.saveForm(this.dynamicForm.get('completeForm').value);
   }
 }
