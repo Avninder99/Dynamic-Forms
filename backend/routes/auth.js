@@ -5,8 +5,10 @@ const router = require('express').Router();
 
 router
     .route('/login')
-    .post(login);
+    .post(auth.loginSanitizer, login);
 
 router
     .route('/register')
-    .post(register);
+    .post(auth.registerSanitizer, register);
+
+module.exports = router;

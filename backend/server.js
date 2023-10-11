@@ -4,15 +4,19 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 
+const connectToDatabase = require('./utils/db')
+
 const corsOptions = {
     cors: {
         origin: '*'
     }
 }
 
+connectToDatabase();
+
 const routes = require('./routes/index');
 
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 app.use(cors(corsOptions));
 app.use(express.json());
