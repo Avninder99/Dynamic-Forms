@@ -1,3 +1,4 @@
+const jwt = require('jsonwebtoken');
 const { sanitizeEmail, sanitizePassword, sanitizeString } = require('../utils/validation');
 
 
@@ -29,8 +30,27 @@ module.exports = {
             })
         }
     },
-    isLoggedIn: (req, res, next) => {
-
+    isLoggedIn: async (req, res, next) => {
+        try {
+            console.log(req.headers);
+            const auth_header = req.headers.authorization;
+            if(!auth_header){
+                return res.status(401).json({
+                    message: 'Unauthorized request'
+                });
+            }
+            const token = auth_header.split(' ')[1];
+            const decoded = await jwt.verify(token, process.env.PRIVATE_KEY);
+            req.body.decoded = decoded;
+    
+            console.log(decoded);
+            next();
+        }catch(err) {
+            console.log(err);
+            return res.status(403).json({
+                message: 'Invalid token'
+            })
+        }
     },
     isFormOwner: (req, res, next) => {
 

@@ -30,6 +30,13 @@ import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { AuthComponent } from './auth/auth.component';
 import { HomeComponent } from './home/home.component';
+import { PresentFormComponent } from './present-form/present-form.component';
+import { ShowTextFieldComponent } from './show-fields/show-text-field/show-text-field.component';
+import { ShowRadioFieldComponent } from './show-fields/show-radio-field/show-radio-field.component';
+import { ShowDropdownFieldComponent } from './show-fields/show-dropdown-field/show-dropdown-field.component';
+import { ShowNumberFieldComponent } from './show-fields/show-number-field/show-number-field.component';
+import { ShowCheckboxFieldComponent } from './show-fields/show-checkbox-field/show-checkbox-field.component';
+
 
 @NgModule({
   declarations: [
@@ -46,6 +53,12 @@ import { HomeComponent } from './home/home.component';
     RegisterComponent,
     AuthComponent,
     HomeComponent,
+    PresentFormComponent,
+    ShowTextFieldComponent,
+    ShowRadioFieldComponent,
+    ShowDropdownFieldComponent,
+    ShowNumberFieldComponent,
+    ShowCheckboxFieldComponent,
   ],
   imports: [
     BrowserModule,

@@ -17,8 +17,9 @@ const formSchema = new mongoose.Schema({
     ],
     fields: [
         {
+            id: String,
             question: String,
-            field_type: {
+            type: {
                 type: String,
                 default: 'text'
             },

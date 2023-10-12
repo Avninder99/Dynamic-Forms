@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { v4 as uuid } from 'uuid';
 import { FormService } from '../services/form.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-form-holder',
@@ -11,11 +12,15 @@ import { FormService } from '../services/form.service';
 export class FormHolderComponent {
 
   dynamicForm: FormGroup;
+  showError: Boolean = false;
+  canSubmitForm: Boolean = true;
+  route = inject(Router);
 
   constructor(private formService: FormService) {
     this.dynamicForm = new FormGroup({
       formName: new FormControl('Your Dynamic Form'),
       completeForm: new FormArray([
+        // first element initiation
         new FormGroup({
           question: new FormControl('', Validators.required),
           type: new FormControl('text', Validators.required),
@@ -61,6 +66,23 @@ export class FormHolderComponent {
 
   finalizeForm() {
     console.log(this.dynamicForm.get('completeForm').value);
-    this.formService.saveForm(this.dynamicForm.get('completeForm').value);
+    this.showError = false;
+    this.canSubmitForm = false;
+
+    this.formService.saveForm(this.dynamicForm.get('formName').value, this.dynamicForm.get('completeForm').value)
+    .subscribe(
+      (res: { formId: String }) => {
+        console.log(res);
+        this.route.navigate([ '/forms', res.formId ]);
+      },
+      (error) => {
+        console.log(error);
+        this.showError = true;
+        this.canSubmitForm = true;
+      },
+      () => {
+        console.log('completed');
+      }
+    )
   }
 }

@@ -1,13 +1,14 @@
 const router = require('express').Router();
 const formControllers = require('../controllers/formControllers');
+const auth = require('../middlewares/auth');
 
 router
     .route('/generate')
-    .post(formControllers.generateForm);
+    .post(auth.isLoggedIn, formControllers.generateForm);
     
 router
     .route('/:id')
-    .get(formControllers.fetchForm);
+    .get(auth.isLoggedIn, formControllers.fetchForm);
 
 
 module.exports = router;

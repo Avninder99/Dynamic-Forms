@@ -28,7 +28,10 @@ export class TokenService {
 
   getToken() {
     if (!this.token) {
-      this.fetchTokenFromCookie()
+      if(this.cookieService.check('token')){
+        const userToken = this.cookieService.get('token');
+        this.token = userToken;
+      }
     }
     return this.token;
   }
