@@ -1,17 +1,33 @@
-<form [formGroup]="optionsGroup" class="container">
+<form [formGroup]="elementGroup" class="container p-4">
+    <div class="container d-flex flex-row justify-content-between pt-1 flex-wrap">
+        <mat-form-field class="question">
+            <mat-label>Question</mat-label>
+            <input matInput formControlName="question">
+        </mat-form-field>
+
+        <mat-form-field class="type-selector">
+            <mat-label>Select</mat-label>
+            <mat-select formControlName="type">
+                <mat-option value="text">Text</mat-option>
+                <mat-option value="number">Number</mat-option>
+                <mat-option value="dropdown">Dropdown</mat-option>
+                <mat-option value="radioButtons">Radio Buttons</mat-option>
+                <mat-option value="checkboxes">Checkboxes</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
     <h3 class="ms-1">Add Options Below</h3>
     <div class="d-flex flex-column options" formArrayName="options">
-        <ng-container *ngFor="let item of optionsGroup.get('options')['controls'] ; index as i">
+        <ng-container *ngFor="let item of elementGroup.get('options')['controls'] ; index as i">
             <div class="d-flex flex-row flex-wrap align-items-start">
-
                 <mat-radio-button *ngIf="type === 'radioButtons'" class="mt-2 me-2" disabled="true"/>
                 <mat-checkbox *ngIf="type === 'checkboxes'" class="example-margin mt-2 me-3" disabled="true"/>
                 <mat-form-field class="me-3 option-input">
-                    <input matInput type="text" formControlName="{{ i }}" (blur)="emitOptions()"/>
+                    <input matInput type="text" formControlName="{{ i }}"/>
                 </mat-form-field>
                 <div class="">
                     <button 
-                        *ngIf="optionsGroup.get('options')['controls'].length > 1"
+                        *ngIf="elementGroup.get('options')['controls'].length > 1"
                         mat-icon-button 
                         color="primary" 
                         aria-label="remove field button"
@@ -20,7 +36,7 @@
                         <mat-icon>remove_circle_outline</mat-icon>
                     </button>
                     <button 
-                        *ngIf="i === optionsGroup.get('options')['controls'].length - 1" 
+                        *ngIf="i === elementGroup.get('options')['controls'].length - 1" 
                         mat-icon-button 
                         color="primary"
                         aria-label="add field button"
