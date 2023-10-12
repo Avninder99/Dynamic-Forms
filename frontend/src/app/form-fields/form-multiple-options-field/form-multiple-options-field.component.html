@@ -48,4 +48,11 @@
             </div>
         </ng-container>
     </div>
+    <div class="container mb-3 d-flex flex-row justify-content-end align-items-center pt-4 border-top">
+        <mat-slide-toggle color="primary" class="border-end me-4 py-3 pe-4" formControlName="isRequired">Required</mat-slide-toggle>
+
+        <button mat-fab color="primary" class="me-3" aria-label="Delete Button" (click)="deleteElement($event)">
+            <mat-icon>delete</mat-icon>
+        </button>
+    </div>
 </form>
