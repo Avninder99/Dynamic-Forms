@@ -1,5 +1,5 @@
-import { Component, EventEmitter, HostListener, Output } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { Component, EventEmitter, HostListener, Input, Output } from '@angular/core';
+import { FormArray, FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-form-text-field',
@@ -8,17 +8,31 @@ import { FormControl, FormGroup } from '@angular/forms';
 })
 export class FormTextFieldComponent {
 
-  answerHolder: FormGroup;
-  options: string[] = [];
-  @Output() optionsEmitter: EventEmitter<{ answer: FormControl, options: string[] }> = new EventEmitter<{ answer: FormControl, options: string[] }>()
+  @Input() index: number = -1;
+  @Input() elementGroup: FormGroup;
 
-  constructor() {
-    this.answerHolder = new FormGroup({
-      answer: new FormControl({ value: '', disabled: true })
-    });
-  }
+  @Output() elementEmitter: EventEmitter<{
+    myFormGroup: FormGroup,
+    id: string,
+    index: number
+  }> = new EventEmitter<{
+    myFormGroup: FormGroup,
+    id: string,
+    index: number
+  }>();
+  @Output() deleteElementEmitter: EventEmitter<{ id: string }> = new EventEmitter<{ id: string }>();
 
-  ngAfterContentInit() {
-    this.optionsEmitter.emit({ answer: <FormControl>this.answerHolder.get('answer'), options: this.options })
+  // finalizeElement() {
+  //   if(this.elementGroup.valid){
+  //     this.elementEmitter.emit({ myFormGroup: this.elementGroup, id: 'placeholder_for_now', index: this.index });
+  //   }else{
+  //     alert('Please fill all the created fields properly')
+  //   }
+  // }
+
+  deleteElement(e: Event) {
+    e.preventDefault();
+    e.stopPropagation();
+    this.deleteElementEmitter.emit({ id: this.elementGroup.value.id })
   }
 }

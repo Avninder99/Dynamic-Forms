@@ -8,21 +8,7 @@ import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class FormMultipleOptionsFieldComponent implements OnInit {
 
-  @Input() type: string = 'dropdown';
-  @Input() fields: string[] = []
-  @Input() index: number = -1;
   @Input() elementGroup: FormGroup;
-  
-  @Output() optionsEmitter: EventEmitter<FormArray> = new EventEmitter<FormArray>();
-  @Output() elementEmitter: EventEmitter<{
-    myFormGroup: FormGroup,
-    id: string,
-    index: number
-  }> = new EventEmitter<{
-    myFormGroup: FormGroup,
-    id: string,
-    index: number
-  }>();
   @Output() deleteElementEmitter: EventEmitter<{ id: string }> = new EventEmitter<{ id: string }>();
   
   ngOnInit() {
@@ -32,25 +18,7 @@ export class FormMultipleOptionsFieldComponent implements OnInit {
         new FormControl('Option', Validators.required)
       )
     }
-    
-    // if(this.fields && this.fields.length){
-    //   console.log(this.fields)
-    //   this.fields.forEach((field) => {
-    //     (<FormArray>this.optionsGroup.get('options')).push(
-    //       new FormControl(field, Validators.required)
-    //     )
-    //   })
-    // }else{
-    //   (<FormArray>this.optionsGroup.get('options')).push(
-    //     new FormControl('Option', Validators.required)
-    //   )
-    // }
   }
-
-  // getItems() {
-  //   console.log(this.optionsGroup);
-  //   return this.optionsGroup.get('options') as FormArray;
-  // }
 
   addInput() {
     console.log(this.elementGroup);
@@ -65,6 +33,17 @@ export class FormMultipleOptionsFieldComponent implements OnInit {
     console.log(this.elementGroup)
   }
 
+  deleteElement(e: Event) {
+    e.preventDefault();
+    e.stopPropagation();
+    this.deleteElementEmitter.emit({ id: this.elementGroup.value.id })
+  }
+
+  // getItems() {
+  //   console.log(this.optionsGroup);
+  //   return this.optionsGroup.get('options') as FormArray;
+  // }
+
 
   // commented for taking the validation logic out of it, then i can delete it
 
@@ -75,14 +54,4 @@ export class FormMultipleOptionsFieldComponent implements OnInit {
   //     alert('Please fill all the created fields properly')
   //   }
   // }
-
-  deleteElement(e: Event) {
-    e.preventDefault();
-    e.stopPropagation();
-    this.deleteElementEmitter.emit({ id: this.elementGroup.value.id })
-  }
-
-  getType(): void {
-    
-  }
 }

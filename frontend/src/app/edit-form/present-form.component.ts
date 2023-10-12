@@ -3,7 +3,6 @@ import { RouteService } from '../services/route.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormService } from '../services/form.service';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
-import { v4 as uuid } from 'uuid';
 
 @Component({
   selector: 'app-present-form',
@@ -41,20 +40,13 @@ export class PresentFormComponent {
         this.fetchedForm = res.form;
         this.loading = false;
 
-
-
-
         // this.dynamicForm = new FormGroup({
         //   completeResponse: new FormArray([])
         // })
 
-
         this.fetchedForm.fields.forEach((field) => {
           this.addField(field)
         });
-
-
-
 
       },
       (error) => {
@@ -68,14 +60,23 @@ export class PresentFormComponent {
   }
 
   addField(data: { question: String, id: String, type: String, isRequired: Boolean, options: String[] }) {
+
+    const optionsHolder: FormArray = new FormArray([]);
+
+    data.options.forEach((option: String) => {
+      optionsHolder.push(
+        new FormControl(option, Validators.required)
+      )
+    });
+
     (<FormArray>this.dynamicForm.get('completeResponse')).push(
       new FormGroup({
         question: new FormControl(data.question, Validators.required),
         type: new FormControl(data.type, Validators.required),
         id: new FormControl(data.id, Validators.required),
-        answer: new FormControl(''),
+        answer: new FormControl({ value: '', disabled: true }),
         isRequired: new FormControl(data.isRequired),
-        options: new FormControl(data.options),
+        options: optionsHolder,
       })
     );
   }

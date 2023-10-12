@@ -1,5 +1,5 @@
 <div>
-    <form [formGroup]="formElementGroup" (ngSubmit)="finalizeElement()" class="example-form p-4">
+    <form [formGroup]="elementGroup" (ngSubmit)="finalizeElement()" class="example-form p-4">
 
         <div class="container d-flex flex-row justify-content-between pt-1 flex-wrap">
             <mat-form-field class="question">
@@ -18,19 +18,55 @@
                 </mat-select>
             </mat-form-field>
         </div>
+        <div *ngIf="elementGroup.value.type === 'dropdown' || elementGroup.value.type === 'radioButtons' || elementGroup.value.type === 'checkboxes'">
+                <!-- <app-form-multiple-options-field 
+                    [optionsArray]="elementGroup.get('options')"
+                    [type]="elementGroup.value.type"
+                    [fields]="elementGroup.get('options')?.value" 
+                    (optionsEmitter)="optionsEmitterHandler($event)"
+                ></app-form-multiple-options-field> -->
 
-        <div *ngIf="recievedData.type === 'text'">
-            <app-form-text-field></app-form-text-field>
-        </div>
-        <div *ngIf="recievedData.type === 'number'">
-            <app-form-number-field></app-form-number-field>
-        </div>
-        <div *ngIf="recievedData.type === 'dropdown' || recievedData.type === 'radioButtons' || recievedData.type === 'checkboxes'">
-            <app-form-multiple-options-field 
-                [type]="recievedData.type"
-                [fields]="formElementGroup.get('options')?.value" 
-                (optionsEmitter)="optionsEmitterHandler($event)"
-            ></app-form-multiple-options-field>
+                <h3 class="ms-1">Add Options Below</h3>
+                <div class="d-flex flex-column options" formArrayName="options">
+                    <ng-container *ngFor="let item of elementGroup.get('options')['controls'] ; index as j">
+                        <div class="d-flex flex-row flex-wrap align-items-start">
+                            <mat-radio-button *ngIf="elementGroup.value.type === 'radioButtons'" class="mt-2 me-2" disabled="true"/>
+                            <mat-checkbox *ngIf="elementGroup.value.type === 'checkboxes'" class="example-margin mt-2 me-3" disabled="true"/>
+                            <mat-form-field class="me-3 option-input">
+                                <input matInput type="text" formControlName="{{ j }}"/>
+                            </mat-form-field>
+                            <div class="">
+                                <button 
+                                    *ngIf="elementGroup.get('options')['controls'].length > 1"
+                                    mat-icon-button 
+                                    color="primary" 
+                                    aria-label="remove field button"
+                                    >
+                                    (mousedown)="deleteInput(i)"
+                                    <mat-icon>remove_circle_outline</mat-icon>
+                                </button>
+                                <button 
+                                    *ngIf="j === elementGroup.get('options')['controls'].length - 1" 
+                                    mat-icon-button 
+                                    color="primary"
+                                    aria-label="add field button"
+                                    >
+                                    (click)="addInput()"
+                                    <mat-icon>add</mat-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+
+
+
+
+
+
+
+
+            
         </div>
 
         <div class="container mb-3 d-flex flex-row justify-content-end align-items-center pt-4 border-top">

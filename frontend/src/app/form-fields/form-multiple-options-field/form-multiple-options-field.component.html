@@ -20,9 +20,9 @@
     <div class="d-flex flex-column options" formArrayName="options">
         <ng-container *ngFor="let item of elementGroup.get('options')['controls'] ; index as i">
             <div class="d-flex flex-row flex-wrap align-items-start">
-                <mat-radio-button *ngIf="type === 'radioButtons'" class="mt-2 me-2" disabled="true"/>
-                <mat-checkbox *ngIf="type === 'checkboxes'" class="example-margin mt-2 me-3" disabled="true"/>
-                <mat-form-field class="me-3 option-input">
+                <mat-radio-button *ngIf="elementGroup.value.type === 'radioButtons'" class="mt-2 me-2" disabled="true"/>
+                <mat-checkbox *ngIf="elementGroup.value.type === 'checkboxes'" class="example-margin mt-2 me-3" disabled="true"/>
+                <mat-form-field class="me-3 option-input" [ngClass]="{ 'ms-5': elementGroup.value.type === 'dropdown' }">
                     <input matInput type="text" formControlName="{{ i }}"/>
                 </mat-form-field>
                 <div class="">
