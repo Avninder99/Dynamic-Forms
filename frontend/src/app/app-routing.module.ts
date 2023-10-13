@@ -24,7 +24,7 @@ const routes: Routes = [
       { path: ':id', 
         children: [
           { path: '', component: HomeComponent }, // home component used as placeholder
-          { path: '/edit', component: EditFormHolderComponent }
+          { path: 'edit', component: EditFormHolderComponent }
         ]
       }
     ]  
