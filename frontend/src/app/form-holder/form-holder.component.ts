@@ -68,22 +68,22 @@ export class FormHolderComponent {
     // console.log(this.dynamicForm.get('completeForm').value);
     console.log(this.dynamicForm);
     this.showError = false;
-    // this.canSubmitForm = false;
+    this.canSubmitForm = false;
 
-    // this.formService.saveForm(this.dynamicForm.get('formName').value, this.dynamicForm.get('completeForm').value)
-    // .subscribe(
-    //   (res: { formId: String }) => {
-    //     console.log(res);
-    //     this.route.navigate([ '/forms', res.formId ]);
-    //   },
-    //   (error) => {
-    //     console.log(error);
-    //     this.showError = true;
-    //     this.canSubmitForm = true;
-    //   },
-    //   () => {
-    //     console.log('completed');
-    //   }
-    // )
+    this.formService.saveForm(this.dynamicForm.get('formName').value, this.dynamicForm.get('completeForm').value)
+    .subscribe(
+      (res: { formId: String }) => {
+        console.log(res);
+        this.route.navigate([ '/forms', res.formId ]);
+      },
+      (error) => {
+        console.log(error);
+        this.showError = true;
+        this.canSubmitForm = true;
+      },
+      () => {
+        console.log('completed');
+      }
+    )
   }
 }

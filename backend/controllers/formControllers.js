@@ -30,44 +30,8 @@ const formControllers = {
         }
     },
     generateForm: async (req, res) => {
-        // check form structure replace answer string with empty array
         try {
-            // console.log(req.body);
-            
             const { formFields: form, formName, decoded } = req.body;
-            const allowedFields = [ 'question', 'type', 'id', 'answer', 'isRequired', 'options' ];
-            if(!formName) {
-                return res.status(401).json({
-                    message: 'Invalid Request1'
-                })
-            }
-
-            form.forEach((field) => {
-                const keys = Object.keys(field);
-    
-                keys.forEach((key) => {
-
-                    if(allowedFields.indexOf(key) === -1) {
-                        return res.status(400).json({
-                            message: 'Invalid Request Structure'
-                        })
-                    }
-                })
-                field.answer = [];
-    
-                if( !field.question || 
-                    !field.type || 
-                    !field.id || 
-                    (
-                        (field.type === 'checkboxes' || field.type === 'dropdown' || field.type === 'radioButtons') && 
-                        field.options.length === 0
-                    ) 
-                ) {
-                    return res.status(401).json({
-                        message: 'Invalid Request2'
-                    })
-                }
-            });
 
             const author = decoded.id;
             const newForm = await Form.create({
@@ -87,6 +51,32 @@ const formControllers = {
                 message: 'Server Error'
             });
         }
+    },
+
+    updateForm: async (req, res) => {
+        try {
+            const { formId, formFields } = req.body;
+            const foundForm = await Form.findById(formId);
+    
+            if(!foundForm) {
+                return res.status(404).json({
+                    message: 'Form not found'
+                })
+            }
+    
+            foundForm.fields = formFields;
+            await foundForm.save();
+    
+            return res.status(200).json({
+                message: 'updated succesfully'
+            });
+        } catch(error) {
+            console.log("form update controller - ", error);
+            return res.status(500).json({
+                message: 'Server Error'
+            })
+        }
+
     }
 }
 

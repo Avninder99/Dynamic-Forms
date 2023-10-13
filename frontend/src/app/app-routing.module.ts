@@ -6,7 +6,7 @@ import { RegisterComponent } from './auth/register/register.component';
 import { AuthComponent } from './auth/auth.component';
 import { HomeComponent } from './home/home.component';
 import { userLoggedInCanActivateFn } from './guards/canActivate';
-import { PresentFormComponent } from './edit-form/present-form.component';
+import { EditFormHolderComponent } from './edit-form/edit-form-holder.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -21,7 +21,12 @@ const routes: Routes = [
     canActivateChild: [ userLoggedInCanActivateFn ],
     children: [
       { path: 'create', component: FormHolderComponent },
-      { path: ':id', component: PresentFormComponent }
+      { path: ':id', 
+        children: [
+          { path: '', component: HomeComponent }, // home component used as placeholder
+          { path: '/edit', component: EditFormHolderComponent }
+        ]
+      }
     ]  
   }
 ];

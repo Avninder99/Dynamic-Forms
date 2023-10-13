@@ -12,7 +12,7 @@ module.exports = {
                 }, 
                 process.env.PRIVATE_KEY, 
                 {
-                    expiresIn: '2h'
+                    expiresIn: '24h'
                 }
             );
             return token;

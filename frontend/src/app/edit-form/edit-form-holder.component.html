@@ -9,12 +9,12 @@
     </div>
 
     <div *ngIf="!loading && !showError">
-        <form [formGroup]="dynamicForm" (ngSubmit)="submitResponse()" class="example-form">
+        <form [formGroup]="dynamicForm" (ngSubmit)="submitUpdatedForm()" class="example-form">
             <mat-card class="rounded-4">
-                <mat-card-content class="display-6">{{ fetchedForm.title }}</mat-card-content>
+                <mat-card-content class="display-6">{{ this.dynamicForm.get('formName').value }}</mat-card-content>
             </mat-card>
     
-            <ng-container *ngFor="let element of dynamicForm.get('completeResponse')['controls'] ; index as i">
+            <ng-container *ngFor="let element of dynamicForm.get('completeForm')['controls'] ; index as i">
                 <mat-card class="my-4 rounded-4">
                     <app-form-text-field *ngIf="element.value.type === 'text'" [elementGroup]="element"/>
                     <app-form-number-field *ngIf="element.value.type === 'number'" [elementGroup]="element"/>

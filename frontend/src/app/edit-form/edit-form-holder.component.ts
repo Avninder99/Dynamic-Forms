@@ -5,11 +5,11 @@ import { FormService } from '../services/form.service';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-present-form',
-  templateUrl: './present-form.component.html',
-  styleUrls: ['./present-form.component.css']
+  selector: 'app-edit-form-holder-form',
+  templateUrl: './edit-form-holder.component.html',
+  styleUrls: ['./edit-form-holder.component.css']
 })
-export class PresentFormComponent {
+export class EditFormHolderComponent {
   routeService = inject(RouteService);
   formService = inject(FormService);
   route = inject(ActivatedRoute);
@@ -25,7 +25,8 @@ export class PresentFormComponent {
 
   constructor() {
     this.dynamicForm = new FormGroup({
-      completeResponse: new FormArray([])
+      formName: new FormControl('', Validators.required),
+      completeForm: new FormArray([])
     })
   }
 
@@ -38,20 +39,21 @@ export class PresentFormComponent {
       (res: { message: String, form: any }) => {
         console.log(res);
         this.fetchedForm = res.form;
-        this.loading = false;
-
+        
         // this.dynamicForm = new FormGroup({
         //   completeResponse: new FormArray([])
         // })
-
+        
+        this.dynamicForm.get('formName').setValue(this.fetchedForm.title)
         this.fetchedForm.fields.forEach((field) => {
           this.addField(field)
         });
-
+        this.loading = false;
       },
       (error) => {
         console.log(error);
         this.showError = true;
+        this.loading = false;
       },
       () => {
 
@@ -69,7 +71,7 @@ export class PresentFormComponent {
       )
     });
 
-    (<FormArray>this.dynamicForm.get('completeResponse')).push(
+    (<FormArray>this.dynamicForm.get('completeForm')).push(
       new FormGroup({
         question: new FormControl(data.question, Validators.required),
         type: new FormControl(data.type, Validators.required),
@@ -81,37 +83,30 @@ export class PresentFormComponent {
     );
   }
 
-
-  elementEmitterHandler(element: { myFormGroup: FormGroup, id: string, index: number }) {
-    console.log(element);
-    console.log(element.myFormGroup.value);
-    // const values = (<FormArray>this.dynamicForm.get('completeForm')).value;
-    // const foundIndex = values.findIndex((value: { id: string }) => value.id === element.id);
-
-    // console.log(foundIndex);
-    
-    // (<FormArray>this.dynamicForm.get('completeForm')).get(String(foundIndex))?.patchValue(element.myFormGroup.value);
-  }
-
-  submitResponse() {
+  submitUpdatedForm() {
     console.log(this.dynamicForm);
     this.showError = false;
     this.canSubmitForm = false;
 
-    // this.formService.saveForm(this.dynamicForm.get('formName').value, this.dynamicForm.get('completeForm').value)
-    // .subscribe(
-    //   (res: { formId: String }) => {
-    //     console.log(res);
-    //     this.router.navigate([ '/forms', res.formId ]);
-    //   },
-    //   (error) => {
-    //     console.log(error);
-    //     this.showError = true;
-    //     this.canSubmitForm = true;
-    //   },
-    //   () => {
-    //     console.log('completed');
-    //   }
-    // )
+    if(!this.dynamicForm.valid) {
+      alert("Please fill all the fields properly");
+    } else {
+      console.log(this.dynamicForm.get('formName').value)
+      this.formService.updateForm(this.dynamicForm.get('formName').value, this.dynamicForm.get('completeForm').value, this.formId)
+      .subscribe(
+        (res) => {
+          console.log(res);
+          this.router.navigate([ '/forms', this.formId ]);
+        },
+        (error) => {
+          console.log(error);
+          this.showError = true;
+          this.canSubmitForm = true;
+        },
+        () => {
+          console.log('completed');
+        }
+      )
+    }
   }
 }

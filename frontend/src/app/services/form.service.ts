@@ -37,4 +37,18 @@ export class FormService {
     }
     return this.http.get(`${environment.backend_url}/api/form/${id}`, header);
   }
+
+  updateForm(formName: String, formFields, formId: String) {
+    const userToken = this.tokenService.getToken();
+    const header = {
+      headers: new HttpHeaders().set('Authorization',  `Bearer ${userToken}`)
+    }
+
+    const body = {
+      formName,
+      formFields,
+      formId
+    }
+    return this.http.post(`${environment.backend_url}/api/form/${formId}/update`, body, header);
+  }
 }
