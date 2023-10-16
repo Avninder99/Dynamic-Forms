@@ -1,0 +1,37 @@
+<div class="container">
+
+    <div *ngIf="loading">
+        <h1>Loading...</h1>
+    </div>
+
+    <div *ngIf="showError">
+        <h1>Error loading the form</h1>
+    </div>
+
+    <div *ngIf="!loading && !showError">
+        <form [formGroup]="dynamicForm" (ngSubmit)="submitResponse()" class="example-form">
+            <mat-card class="rounded-4">
+                <mat-card-content class="display-6">{{ this.dynamicForm.get('formName').value }}</mat-card-content>
+            </mat-card>
+    
+            <ng-container *ngFor="let element of dynamicForm.get('completeResponse')['controls'] ; index as i">
+                <mat-card class="my-4 rounded-4">
+                    <app-show-text-field [elementGroup]="element" [fieldData]="fetchedForm.fields[i]" *ngIf="fetchedForm.fields[i].type === 'text'" />
+                    <app-show-number-field [elementGroup]="element" [fieldData]="fetchedForm.fields[i]" *ngIf="fetchedForm.fields[i].type === 'number'" />
+                    <app-show-dropdown-field [elementGroup]="element" [fieldData]="fetchedForm.fields[i]" *ngIf="fetchedForm.fields[i].type === 'dropdown'" />
+                    <app-show-radio-field [elementGroup]="element" [fieldData]="fetchedForm.fields[i]" *ngIf="fetchedForm.fields[i].type === 'radioButtons'" />
+                    <app-show-checkbox-field [elementGroup]="element" [fieldData]="fetchedForm.fields[i]" *ngIf="fetchedForm.fields[i].type === 'checkboxes'" />
+                </mat-card>
+            </ng-container>
+    
+            
+            <div class="container m-0 p-0 d-flex flex-row justify-content-end">
+                <mat-card class="d-flex flex-row p-3 rounded-4">
+                    <button mat-fab color="primary" aria-label="Example icon button with a plus one icon" [disabled]="!canSubmitForm">
+                        <mat-icon>done</mat-icon>
+                    </button>
+                </mat-card>
+            </div>
+        </form>
+    </div>
+</div>

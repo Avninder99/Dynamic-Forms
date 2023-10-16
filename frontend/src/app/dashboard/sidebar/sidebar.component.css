@@ -1,0 +1,6 @@
+.sidebar {
+    height: calc(100vh - 64px);
+    min-width: 200px;
+    width: 20vw;
+    max-width: 300px;
+}

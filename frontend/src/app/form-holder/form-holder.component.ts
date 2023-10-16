@@ -33,17 +33,6 @@ export class FormHolderComponent {
     })
   }
   
-  // elementEmitterHandler(element: { myFormGroup: FormGroup, id: string, index: number }) {
-  //   console.log(element);
-  //   console.log(element.myFormGroup.value);
-  //   const values = (<FormArray>this.dynamicForm.get('completeForm')).value;
-  //   const foundIndex = values.findIndex((value: { id: string }) => value.id === element.id);
-
-  //   console.log(foundIndex);
-    
-  //   // (<FormArray>this.dynamicForm.get('completeForm')).get(String(foundIndex))?.patchValue(element.myFormGroup.value);
-  // }
-  
   deleteElementHandler(element: { id: string }) {
     const values = (<FormArray>this.dynamicForm.get('completeForm')).value;
     const foundIndex = values.findIndex((value: { id: string }) => value.id === element.id);

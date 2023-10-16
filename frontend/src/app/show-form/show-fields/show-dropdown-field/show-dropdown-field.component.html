@@ -1,0 +1,16 @@
+<div>
+    <form [formGroup]="elementGroup" class="example-form p-4">
+        <div class="container d-flex flex-row justify-content-between pt-1 flex-wrap">
+            <h4 class="question">{{ fieldData.question }}</h4>
+        </div>
+
+        <mat-form-field>
+            <mat-label>Choose Answer</mat-label>
+            <mat-select formControlName="answer">
+                <mat-option *ngFor="let option of fieldData.options" [value]="option">
+                    {{ option }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </form>
+</div>

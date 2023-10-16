@@ -1,4 +1,6 @@
 const Form = require("../models/Form");
+const Response = require("../models/Response");
+const Request = require('../models/Request');
 
 const formControllers = {
     // API -/api/form/generate
@@ -77,6 +79,66 @@ const formControllers = {
             })
         }
 
+    },
+    deleteForm: async (req, res) => {
+        try {
+            const formId = req.params.id;
+            const foundForm = await Form.findById(formId);
+    
+            if(!foundForm) {
+                return res.status(404).json({
+                    message: 'Form not found'
+                })
+            }
+    
+            const deletedRes = await foundForm.deleteOne({ _id: formId });
+            console.log(deletedRes);
+
+            const deleteResponses = await Response.deleteMany({ submittedToWhichForm: formId });
+            console.log(deleteResponses);
+
+            const deleteRequests = await Request.deleteMany({ forWhichForm: formId });
+            console.log(deleteRequests);
+
+            return res.status(200).json({
+                message: 'updated succesfully'
+                // formDeleted: deletedRes
+            });
+        } catch(error) {
+            console.log("form update controller - ", error);
+            return res.status(500).json({
+                message: 'Server Error'
+            })
+        }
+    },
+    fetchAllForms: async (req, res) => {
+        try {
+            const userId = req.body.decoded.id;
+            // .select removed the fields that i didn't want to send to frontend
+            const foundForms = await Form.find({ author: userId }).select('-fields').lean();
+            console.log(foundForms); 
+
+            
+            if(foundForms){
+                for(let i=0;i<foundForms.length;i++) {
+                    foundForms[i].editors = foundForms[i].editors.length;
+                    foundForms[i].responses = foundForms[i].responses.length;
+                }
+                return res.status(200).json({
+                    message: 'success',
+                    forms: foundForms
+                });
+            }else{
+                return res.status(404).json({
+                    message: 'Forms Not Found'
+                });
+            }
+        } catch(error) {
+            console.log(error);
+            return res.status(500).json({
+                message: 'Server Error'
+            });
+        }
     }
 }
 

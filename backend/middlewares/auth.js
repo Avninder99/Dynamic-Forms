@@ -52,38 +52,5 @@ module.exports = {
                 message: 'Invalid token'
             })
         }
-    },
-    isFormOwner: (req, res, next) => {
-
-    },
-    hasEditAccess: async (req, res, next) => {
-        try {
-            const { formId } = req.body;
-            const userId = req.body.decoded.id;
-    
-            const foundForm = await Form.findById(formId);
-    
-            if(!foundForm) {
-                return res.status(404).json({
-                    message: 'Form not found'
-                });
-            } else {
-                if(foundForm.author.equals(userId) || 
-                    foundForm.editors.some((editor) => {
-                        editor.equals(userId);
-                    })
-                ) {
-                    next();
-                }else {
-                    return res.status(403).json({
-                        message: 'Not authorized to do this operation'
-                    })
-                }
-            }
-        } catch(error) {
-            return res.status(500).json({
-                message: 'Server Error'
-            })
-        }
     }
 }

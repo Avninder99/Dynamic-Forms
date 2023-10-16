@@ -3,6 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from 'src/environments/environment';
+import { TokenService } from './token.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,8 +11,9 @@ import { environment } from 'src/environments/environment';
 export class AuthService {
 
   constructor() { }
-  route = inject(Router);
+  router = inject(Router);
   http = inject(HttpClient);
+  tokenService = inject(TokenService);
 
   sendLoginRequest(data: { email: String, password: String }) {
     const { email, password } = data; // just to pass required data to backend only

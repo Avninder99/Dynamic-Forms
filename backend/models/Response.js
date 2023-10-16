@@ -12,21 +12,19 @@ const responseSchema = new mongoose.Schema({
     fields: [
         {
             question: String,
-            field_type: {
+            type: {
                 type: String,
                 default: 'text'
             },
+            id: {
+                type: String,
+                required: true
+            },
+            // may remove this later
             options: [{
                 type: String
             }],
-            answer: [{
-                type: String
-            }],
-            isRequired: {
-                type: Boolean,
-                default: false
-            }
-
+            answer: [],
         }
     ]
 }, {

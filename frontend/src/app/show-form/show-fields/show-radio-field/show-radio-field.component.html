@@ -1,0 +1,11 @@
+<div>
+    <form [formGroup]="elementGroup" class="example-form p-4">
+        <div class="container d-flex flex-row justify-content-between pt-1 flex-wrap">
+            <h4 class="question">{{ fieldData.question }}</h4>
+        </div>
+
+        <mat-radio-group aria-label="Select an option" formControlName="answer">
+            <mat-radio-button *ngFor="let option of fieldData.options" [value]="option">{{ option }}</mat-radio-button>
+        </mat-radio-group>
+    </form>
+</div>

@@ -3,6 +3,7 @@ import { RouteService } from '../services/route.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormService } from '../services/form.service';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { v4 as uuid } from 'uuid';
 
 @Component({
   selector: 'app-edit-form-holder-form',
@@ -61,6 +62,20 @@ export class EditFormHolderComponent {
     )
   }
 
+  addNewField(e: Event) {
+    e.preventDefault();
+    (<FormArray>this.dynamicForm.get('completeForm')).push(
+      new FormGroup({
+        question: new FormControl('', Validators.required),
+        type: new FormControl('text', Validators.required),
+        id: new FormControl(uuid(), Validators.required),
+        answer: new FormControl({ value: '', disabled: true }),
+        isRequired: new FormControl(false),
+        options: new FormArray([]),
+      })
+    );
+  }
+
   addField(data: { question: String, id: String, type: String, isRequired: Boolean, options: String[] }) {
 
     const optionsHolder: FormArray = new FormArray([]);
@@ -102,9 +117,6 @@ export class EditFormHolderComponent {
           console.log(error);
           this.showError = true;
           this.canSubmitForm = true;
-        },
-        () => {
-          console.log('completed');
         }
       )
     }

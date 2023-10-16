@@ -8,12 +8,21 @@ router
     .post(auth.isLoggedIn, form.formStructureValidator, formControllers.generateForm);
     
 router
+    .route('/fetchAll')
+    .get(auth.isLoggedIn, formControllers.fetchAllForms);
+    
+router
     .route('/:id')
     .get(auth.isLoggedIn, formControllers.fetchForm);
 
 router
     .route('/:id/update')
-    .post(auth.isLoggedIn, auth.hasEditAccess, form.formStructureValidator, formControllers.updateForm)
+    .post(auth.isLoggedIn, form.hasEditAccess, form.formStructureValidator, formControllers.updateForm);
+
+router
+    .route('/:id/delete')
+    .delete(auth.isLoggedIn, form.isFormOwner, formControllers.deleteForm);
+
 
 
 module.exports = router;
