@@ -1,15 +1,19 @@
-<div class="container-fluid">
+<div class="container mt-5">
     
     <form [formGroup]="dynamicForm" (ngSubmit)="finalizeForm()" class="example-form">
         <mat-card class="rounded-4">
             <mat-card-content class="display-6">Dynamic Form</mat-card-content>
         </mat-card>
 
-        <ng-container *ngFor="let element of dynamicForm.get('completeForm')?.value ; index as i">
-            <mat-card class="my-4 rounded-4">
-                <app-form-element [defaultData]="element" [index]="i" (elementEmitter)="elementEmitterHandler($event)" (deleteElementEmitter)="deleteElementHandler($event)"></app-form-element>
-            </mat-card>
-        </ng-container>
+        <div formArrayName="completeForm">
+            <ng-container *ngFor="let element of dynamicForm.get('completeForm')['controls'] ; index as i">
+                <mat-card class="my-4 rounded-4">
+                    <app-form-text-field *ngIf="element.value.type === 'text'" [elementGroup]="element" (deleteElementEmitter)="deleteElementHandler($event)"></app-form-text-field>
+                    <app-form-number-field *ngIf="element.value.type === 'number'" [elementGroup]="element" (deleteElementEmitter)="deleteElementHandler($event)"></app-form-number-field>
+                    <app-form-multiple-options-field *ngIf="element.value.type === 'dropdown' || element.value.type === 'radioButtons' || element.value.type === 'checkboxes'" [elementGroup]="element" (deleteElementEmitter)="deleteElementHandler($event)"></app-form-multiple-options-field>
+                </mat-card>
+            </ng-container>
+        </div>
 
         <div class="container m-0 p-0 d-flex flex-row justify-content-end">
             <mat-card class="d-flex flex-row p-3 rounded-4">
@@ -17,7 +21,7 @@
                     <mat-icon>add</mat-icon>
                 </button>
         
-                <button mat-fab color="primary" aria-label="Example icon button with a plus one icon">
+                <button mat-fab color="primary" aria-label="Example icon button with a plus one icon" [disabled]="!canSubmitForm">
                     <mat-icon>done</mat-icon>
                 </button>
             </mat-card>

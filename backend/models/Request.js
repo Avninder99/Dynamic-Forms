@@ -20,4 +20,8 @@ const requestSchema = new mongoose.Schema({
         ref: 'Form',
         required: true
     }
-})
+}, {
+    timestamps: true
+});
+
+module.exports = mongoose.model('Request', requestSchema);

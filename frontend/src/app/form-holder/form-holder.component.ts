@@ -25,23 +25,12 @@ export class FormHolderComponent {
           question: new FormControl('', Validators.required),
           type: new FormControl('text', Validators.required),
           id: new FormControl(uuid(), Validators.required),
-          answer: new FormControl(''),
+          answer: new FormControl({ value: '', disabled: true }),
           isRequired: new FormControl(false),
-          options: new FormControl([])
+          options: new FormArray([])
         })
       ])
     })
-  }
-  
-  elementEmitterHandler(element: { myFormGroup: FormGroup, id: string, index: number }) {
-    console.log(element);
-    console.log(element.myFormGroup.value);
-    const values = (<FormArray>this.dynamicForm.get('completeForm')).value;
-    const foundIndex = values.findIndex((value: { id: string }) => value.id === element.id);
-
-    console.log(foundIndex);
-    
-    (<FormArray>this.dynamicForm.get('completeForm')).get(String(foundIndex))?.patchValue(element.myFormGroup.value);
   }
   
   deleteElementHandler(element: { id: string }) {
@@ -57,15 +46,16 @@ export class FormHolderComponent {
         question: new FormControl('', Validators.required),
         type: new FormControl('text', Validators.required),
         id: new FormControl(uuid(), Validators.required),
-        answer: new FormControl(''),
+        answer: new FormControl({ value: '', disabled: true }),
         isRequired: new FormControl(false),
-        options: new FormControl([]),
+        options: new FormArray([]),
       })
     );
   }
 
   finalizeForm() {
-    console.log(this.dynamicForm.get('completeForm').value);
+    // console.log(this.dynamicForm.get('completeForm').value);
+    console.log(this.dynamicForm);
     this.showError = false;
     this.canSubmitForm = false;
 

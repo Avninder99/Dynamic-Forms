@@ -1,4 +1,35 @@
-<mat-form-field class="container">
-    <mat-label>Enter a Nunmber</mat-label>
-    <input matInput type="number" [disabled]="true">
-</mat-form-field>
+<div>
+    <form [formGroup]="elementGroup" class="example-form p-4">
+
+        <div class="container d-flex flex-row justify-content-between pt-1 flex-wrap">
+            <mat-form-field class="question">
+                <mat-label>Question</mat-label>
+                <input matInput formControlName="question">
+            </mat-form-field>
+    
+            <mat-form-field class="type-selector">
+                <mat-label>Select</mat-label>
+                <mat-select formControlName="type">
+                    <mat-option value="text">Text</mat-option>
+                    <mat-option value="number">Number</mat-option>
+                    <mat-option value="dropdown">Dropdown</mat-option>
+                    <mat-option value="radioButtons">Radio Buttons</mat-option>
+                    <mat-option value="checkboxes">Checkboxes</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <mat-form-field class="container">
+            <mat-label>Enter a Number</mat-label>
+            <input matInput type="number" formControlName="answer">
+        </mat-form-field>
+
+        <div class="container mb-3 d-flex flex-row justify-content-end align-items-center pt-4 border-top">
+            <mat-slide-toggle color="primary" class="border-end me-4 py-3 pe-4" formControlName="isRequired">Required</mat-slide-toggle>
+
+            <button mat-fab color="primary" class="me-3" aria-label="Delete Button" (click)="deleteElement($event)">
+                <mat-icon>delete</mat-icon>
+            </button>
+        </div>
+    </form>
+</div>

@@ -37,22 +37,46 @@ export class TokenService {
   }
 
   getParsedTokenData() {
-    if (!this.token) {
-      this.fetchTokenFromCookie()
-      return {};
-    } else {
+    try {
+      if (!this.token) {
+        this.fetchTokenFromCookie()
+      }
       let payload = this.token.split('.')[1];
       payload = payload.replace(/-/g, '+').replace(/_/g, '/');
       payload = decodeURIComponent(window.atob(payload).split('').map(function (c) {
         return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
       }).join(''));
-      payload = JSON.parse(payload);
-      return payload;
+      let res = JSON.parse(payload);
+      return res;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  tokenChecker() {
+    try {
+      const payload = this.getParsedTokenData();
+      if(!payload) {
+        this.route.navigate([ '/login' ]);
+      } else if(payload.exp <= (Date.now()/1000)){
+        this.cookieService.delete('token');
+        this.route.navigate([ '/login' ]);
+      }
+    } catch {
+      this.cookieService.delete('token');
+      this.route.navigate([ '/login' ]);
     }
   }
 
   saveToken(token: string) {
     this.token = token;
-    this.cookieService.set('token', token);
+    const expirationTime = new Date();
+    expirationTime.setTime(expirationTime.getTime() + 3600000);
+    this.cookieService.set('token', token, expirationTime, '/');
+  }
+
+  clearToken() {
+    this.cookieService.delete('token', '/');
+    this.token = '';
   }
 }

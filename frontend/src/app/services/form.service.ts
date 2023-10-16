@@ -17,6 +17,7 @@ export class FormService {
   saveForm(formName: String, formFields) {
 
     const userToken = this.tokenService.getToken();
+    this.tokenService.tokenChecker();
 
     const formData = {
       token: userToken,
@@ -36,5 +37,28 @@ export class FormService {
       headers: new HttpHeaders().set('Authorization',  `Bearer ${userToken}`)
     }
     return this.http.get(`${environment.backend_url}/api/form/${id}`, header);
+  }
+
+  updateForm(formName: String, formFields, formId: String) {
+    const userToken = this.tokenService.getToken();
+    const header = {
+      headers: new HttpHeaders().set('Authorization',  `Bearer ${userToken}`)
+    }
+
+    const body = {
+      formName,
+      formFields,
+      formId
+    }
+    return this.http.post(`${environment.backend_url}/api/form/${formId}/update`, body, header);
+  }
+
+  fetchMyForms() {
+    const userToken = this.tokenService.getToken();
+    const header = {
+      headers: new HttpHeaders().set('Authorization',  `Bearer ${userToken}`)
+    }
+
+    return this.http.get(`${environment.backend_url}/api/form/fetchAll`, header);
   }
 }

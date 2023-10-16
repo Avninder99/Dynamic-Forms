@@ -1,0 +1,19 @@
+<div>
+    <form [formGroup]="elementGroup" class="example-form p-4">
+        <div class="container d-flex flex-row justify-content-between pt-1 flex-wrap">
+            <h4 class="question">{{ fieldData.question }}</h4>
+        </div>
+
+        <section class="example-section">
+            <span class="example-list-section" formGroupName="optionsHolder">
+                <ul>
+                    <li *ngFor="let option of elementGroup.get('optionsHolder').value | keyvalue">
+                        <mat-checkbox color="primary" [formControlName]="stringCast(option.key)" [value]="stringCast(option.value)">
+                            {{ option.key }}
+                        </mat-checkbox>
+                    </li>
+                </ul>
+            </span>
+        </section>
+    </form>
+</div>

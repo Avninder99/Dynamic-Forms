@@ -7,29 +7,36 @@ import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./form-multiple-options-field.component.css']
 })
 export class FormMultipleOptionsFieldComponent implements OnInit {
-  optionsGroup: FormGroup;
 
-  @Input() type: string = 'dropdown';
-  @Input() fields: string[] = []
-  @Output() optionsEmitter: EventEmitter<FormArray> = new EventEmitter<FormArray>();
-
+  @Input() elementGroup: FormGroup;
+  @Output() deleteElementEmitter: EventEmitter<{ id: string }> = new EventEmitter<{ id: string }>();
+  
   ngOnInit() {
-    this.optionsGroup = new FormGroup({
-      options: new FormArray([])
-    })
-    
-    if(this.fields && this.fields.length){
-      console.log(this.fields)
-      this.fields.forEach((field) => {
-        (<FormArray>this.optionsGroup.get('options')).push(
-          new FormControl(field, Validators.required)
-        )
-      })
-    }else{
-      (<FormArray>this.optionsGroup.get('options')).push(
+    if( (this.elementGroup.value.type === 'radioButtons' || this.elementGroup.value.type === 'dropdown' || this.elementGroup.value.type === 'checkboxes') && this.elementGroup.value.options.length < 1){
+      console.log('multioption field add as it was empty');
+      (<FormArray>this.elementGroup.get('options')).push(
         new FormControl('Option', Validators.required)
       )
     }
+  }
+
+  addInput() {
+    console.log(this.elementGroup);
+    (<FormArray>this.elementGroup.get('options')).push(
+      new FormControl('Option', Validators.required)
+    )
+  }
+
+  deleteInput(index: number) {
+    (<FormArray>this.elementGroup.get('options')).removeAt(index);
+    console.log('deleted - ', index);
+    console.log(this.elementGroup)
+  }
+
+  deleteElement(e: Event) {
+    e.preventDefault();
+    e.stopPropagation();
+    this.deleteElementEmitter.emit({ id: this.elementGroup.value.id })
   }
 
   // getItems() {
@@ -37,24 +44,14 @@ export class FormMultipleOptionsFieldComponent implements OnInit {
   //   return this.optionsGroup.get('options') as FormArray;
   // }
 
-  addInput() {
-    console.log(this.optionsGroup);
-    (<FormArray>this.optionsGroup.get('options')).push(
-      new FormControl('Option', Validators.required)
-    )
-  }
 
-  deleteInput(index: number) {
-    (<FormArray>this.optionsGroup.get('options')).removeAt(index);
-    this.emitOptions();
-    console.log('deleted');
-    console.log(this.optionsGroup)
-  }
+  // commented for taking the validation logic out of it, then i can delete it
 
-  emitOptions() {
-    console.log(this.optionsGroup.valid)
-    console.log('emitted')
-    this.optionsEmitter.emit(this.optionsGroup.get('options') as FormArray);
-  }
-
+  // finalizeElement() {
+  //   if(this.elementGroup.valid){
+  //     this.elementEmitter.emit({ myFormGroup: this.elementGroup, id: 'placeholder_for_now', index: this.index });
+  //   }else{
+  //     alert('Please fill all the created fields properly')
+  //   }
+  // }
 }

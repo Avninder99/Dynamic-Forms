@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
@@ -7,18 +7,32 @@ import { FormControl, FormGroup } from '@angular/forms';
   styleUrls: ['./form-number-field.component.css']
 })
 export class FormNumberFieldComponent {
-  answerHolder: FormGroup;
-  options: string[] = [];
+  @Input() index: number = -1;
+  @Input() elementGroup: FormGroup;
+
   @Output() answerAndOptionsEmitter: EventEmitter<{ answer: FormControl, options: string[] }> = new EventEmitter<{ answer: FormControl, options: string[] }>()
+  @Output() elementEmitter: EventEmitter<{
+    myFormGroup: FormGroup,
+    id: string,
+    index: number
+  }> = new EventEmitter<{
+    myFormGroup: FormGroup,
+    id: string,
+    index: number
+  }>();
+  @Output() deleteElementEmitter: EventEmitter<{ id: string }> = new EventEmitter<{ id: string }>();
 
-  constructor() {
-    this.answerHolder = new FormGroup({
-      answer: new FormControl({ value: 0, disabled: true })
-    });
-  }
-
-  // ngAfterContentInit() {
-  //   console.log(this.answerHolder.get('answer'))
-  //   // this.answerAndOptionsEmitter.emit({ answer: <FormControl>this.answerHolder.get('answer'), options: this.options })
+  // finalizeElement() {
+  //   if(this.elementGroup.valid){
+  //     this.elementEmitter.emit({ myFormGroup: this.elementGroup, id: 'placeholder_for_now', index: this.index });
+  //   }else{
+  //     alert('Please fill all the created fields properly')
+  //   }
   // }
+
+  deleteElement(e: Event) {
+    e.preventDefault();
+    e.stopPropagation();
+    this.deleteElementEmitter.emit({ id: this.elementGroup.value.id })
+  }
 }

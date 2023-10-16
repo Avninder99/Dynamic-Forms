@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const { sanitizeEmail, sanitizePassword, sanitizeString } = require('../utils/validation');
+const Form = require('../models/Form');
 
 
 module.exports = {
@@ -51,8 +52,5 @@ module.exports = {
                 message: 'Invalid token'
             })
         }
-    },
-    isFormOwner: (req, res, next) => {
-
     }
 }

@@ -5,13 +5,20 @@ import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { AuthComponent } from './auth/auth.component';
 import { HomeComponent } from './home/home.component';
-import { userLoggedInCanActivateFn } from './guards/canActivate';
-import { PresentFormComponent } from './present-form/present-form.component';
+import { userLoggedInCanActivateFn } from './guards/userLoggedIn';
+import { EditFormHolderComponent } from './edit-form/edit-form-holder.component';
+import { ShowFormComponent } from './show-form/show-form.component';
+import { userLoggedOutCanActivateFn } from './guards/userLoggedOut';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { ProfileComponent } from './dashboard/profile/profile.component';
+import { CreatedFormsComponent } from './dashboard/created-forms/created-forms.component';
+import { ResponsesComponent } from './dashboard/responses/responses.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: '', 
     component: AuthComponent,
+    canActivate: [ userLoggedOutCanActivateFn ],
     children: [
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent }
@@ -21,8 +28,22 @@ const routes: Routes = [
     canActivateChild: [ userLoggedInCanActivateFn ],
     children: [
       { path: 'create', component: FormHolderComponent },
-      { path: ':id', component: PresentFormComponent }
+      { path: ':id', 
+        children: [
+          { path: '', component: ShowFormComponent }, // home component used as placeholder
+          { path: 'edit', component: EditFormHolderComponent }
+        ]
+      }
     ]  
+  },
+  { path: 'dashboard',
+    component: DashboardComponent,
+    canActivate: [ userLoggedInCanActivateFn ],
+    children: [
+      { path: 'profile', component: ProfileComponent },
+      { path: 'myForms', component: CreatedFormsComponent },
+      { path: 'myResponses', component: ResponsesComponent }
+    ]
   }
 ];
 

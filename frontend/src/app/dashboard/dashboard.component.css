@@ -1,0 +1,8 @@
+.dashboard {
+    width: 100vw;
+}
+.dashboard-content {
+    height: calc(100vh - 64px);
+    overflow-y: scroll;
+    /* overflow-x: hidden; */
+}

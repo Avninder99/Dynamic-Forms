@@ -1,0 +1,12 @@
+<div>
+    <form [formGroup]="elementGroup" class="example-form p-4">
+        <div class="container d-flex flex-row justify-content-between pt-1 flex-wrap">
+            <h4 class="question">{{ fieldData.question }}</h4>
+        </div>
+        
+        <mat-form-field class="container">
+            <mat-label>Type your response here</mat-label>
+            <textarea matInput formControlName="answer"></textarea>
+        </mat-form-field>
+    </form>
+</div>
