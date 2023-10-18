@@ -42,6 +42,8 @@ import { ProfileComponent } from './dashboard/profile/profile.component';
 import { CreatedFormsComponent } from './dashboard/created-forms/created-forms.component';
 import { ResponsesComponent } from './dashboard/responses/responses.component';
 import { SidebarComponent } from './dashboard/sidebar/sidebar.component';
+import { OauthHandlerComponent } from './auth/oauth-handler/oauth-handler.component';
+import { AccountActivationComponent } from './account-activation/account-activation.component';
 
 
 @NgModule({
@@ -72,6 +74,8 @@ import { SidebarComponent } from './dashboard/sidebar/sidebar.component';
     CreatedFormsComponent,
     ResponsesComponent,
     SidebarComponent,
+    OauthHandlerComponent,
+    AccountActivationComponent,
   ],
   imports: [
     BrowserModule,

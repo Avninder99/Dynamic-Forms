@@ -13,6 +13,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProfileComponent } from './dashboard/profile/profile.component';
 import { CreatedFormsComponent } from './dashboard/created-forms/created-forms.component';
 import { ResponsesComponent } from './dashboard/responses/responses.component';
+import { OauthHandlerComponent } from './auth/oauth-handler/oauth-handler.component';
+import { AccountActivationComponent } from './account-activation/account-activation.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -44,7 +46,9 @@ const routes: Routes = [
       { path: 'myForms', component: CreatedFormsComponent },
       { path: 'myResponses', component: ResponsesComponent }
     ]
-  }
+  },
+  { path: 'authHandler/google/oauth20', component: OauthHandlerComponent },
+  { path: 'account-activation/:slug', component: AccountActivationComponent }
 ];
 
 @NgModule({

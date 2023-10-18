@@ -69,6 +69,7 @@ export class TokenService {
   }
 
   saveToken(token: string) {
+    this.clearToken();
     this.token = token;
     const expirationTime = new Date();
     expirationTime.setTime(expirationTime.getTime() + 3600000);

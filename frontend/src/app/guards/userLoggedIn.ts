@@ -18,5 +18,5 @@ UrlTree => {
     if(tokenService.getToken()){
         return true;
     }
-    return router.createUrlTree(['/register']);
+    return router.createUrlTree(['/login']);
 };
