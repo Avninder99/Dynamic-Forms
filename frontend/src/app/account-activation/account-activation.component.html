@@ -1,0 +1,17 @@
+<div class="activationPageWrapper">
+    <p class="display-3" *ngIf="error">
+        Invalid Account Activation Link
+    </p>
+    <p class="display-3 text-center" *ngIf="loading">
+        Loading...
+    </p>
+    <div *ngIf="!error && !loading" class="d-flex flex-column">
+        <p class="display-3 text-center">
+            Account Verified Successfully
+        </p>
+        <br>
+        <p class="display-6 text-center">
+            You will be redirected in 3 seconds
+        </p>
+    </div>
+  </div>

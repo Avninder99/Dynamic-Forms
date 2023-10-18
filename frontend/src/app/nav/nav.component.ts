@@ -21,6 +21,6 @@ export class NavComponent {
 
   logoutUser() {
     this.tokenService.clearToken();
-    this.router.navigate([ '/login' ])
+    this.router.navigate([ '/login' ]);
   }
 }

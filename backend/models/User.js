@@ -5,6 +5,18 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    login_type: {
+        type: String,
+        default: 'custom'
+    },
+    isVerified: {
+        type: Boolean,
+        default: false
+    },
+    accountActivationSlug: {
+        type: String,
+        required: true
+    },
     email: {
         type: String,
         unique: true,

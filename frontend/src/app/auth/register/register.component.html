@@ -1,9 +1,18 @@
 <!-- Pills content -->
 <div class="">
-    <div class="tab-pane show" id="pills-register" aria-labelledby="tab-register">
+    <button class="btn btn-lg btn-outline-primary container mt-3 mb-4" (click)="googleLogin()">Sign In with google</button>
+    <div class="tab-pane show border-top pt-4" id="pills-register" aria-labelledby="tab-register">
         <form [formGroup]="registerForm" (ngSubmit)="submitForm($event)">
             <div class="text-center mb-3">
                 <p class="display-5">Sign up</p>
+            </div>
+            
+            <!-- Message Display not a part of the form -->
+            <div class="card d-flex flex-column justify-content-center align-items-center p-2 pt-4 text-success mt-4 border border-success mb-3" *ngIf="showSuccess">
+                <h4>{{ successMessage }}</h4>
+            </div>
+            <div class="card d-flex flex-column justify-content-center align-items-center p-2 pt-4 text-danger mt-4 border border-danger mb-3" *ngIf="showError">
+                <h4>{{ errorMessage }}</h4>
             </div>
 
             <!-- Name input -->
@@ -50,9 +59,6 @@
             <button type="submit" class="btn btn-primary btn-block mb-3 py-2 container" [disabled]="isDisabled">Sign Up</button>
         </form>
 
-        <div class="card d-flex flex-column justify-content-center align-items-center p-2 pt-4 text-danger mt-4 border border-danger" *ngIf="showError">
-            <h4>{{ errorMessage }}</h4>
-        </div>
     </div>
 </div>
 <!-- Pills content -->

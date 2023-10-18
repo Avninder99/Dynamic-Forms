@@ -13,7 +13,7 @@ export class AppComponent {
   tokenService = inject(TokenService);
   title = 'frontend';
 
-  ngOnInit () {
-    this.tokenService.fetchTokenFromCookie();
-  }
+  // ngOnInit () {
+  //   this.tokenService.fetchTokenFromCookie();
+  // }
 }

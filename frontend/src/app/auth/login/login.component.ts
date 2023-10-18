@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { RouteService } from 'src/app/services/route.service';
 import { TokenService } from 'src/app/services/token.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -60,5 +61,9 @@ export class LoginComponent {
       this.showError = true;
       this.isDisabled = false;
     }
+  }
+
+  googleLogin() {
+    window.location.href = `${environment.backend_url}/api/auth/google`
   }
 }

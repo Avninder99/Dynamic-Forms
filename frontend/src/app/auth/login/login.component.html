@@ -1,6 +1,7 @@
 <!-- Pills content -->
 <div class="tab-content">
-    <div class="tab-pane fade show active" id="pills-login" aria-labelledby="tab-login">
+    <button class="btn btn-lg btn-outline-primary container mt-3 mb-4" (click)="googleLogin()">Sign In with google</button>
+    <div class="tab-pane fade show active pt-4 border-top" id="pills-login" aria-labelledby="tab-login">
         <form [formGroup]="loginForm" (ngSubmit)="submitLogin($event)">
             <div class="text-center mb-3">
                 <p class="display-5">Sign in</p>
