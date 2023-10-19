@@ -4,23 +4,24 @@ const auth = require('../middlewares/auth');
 const response = require('../middlewares/response');
 const form = require('../middlewares/form')
 
+// submit a new response and save to database
 router
     .route('/generate')
-    .post(auth.isLoggedIn, response.responseStructureValidator, responseControllers.generateResponse);
+    .post(auth.isLoggedIn, form.formAcceptingResponses, response.responseStructureValidator, responseControllers.generateResponse);
     
+// Fetch all of the user's own responses
 router
     .route('/fetchAll')
     .get(auth.isLoggedIn, responseControllers.fetchMyResponses);
     
-// what middleware does this need ?
+// Fetch a single response from a form user made or has edit access
 router
     .route('/:responseId')
     .get(auth.isLoggedIn, response.hasAccess, responseControllers.fetchResponse);
 
+// Fetch all of the responses submitted to a single form
 router
     .route('/:formid/responses')
     .post(auth.isLoggedIn, form.hasEditAccess, responseControllers.fetchAllResponses);
-
-
 
 module.exports = router;

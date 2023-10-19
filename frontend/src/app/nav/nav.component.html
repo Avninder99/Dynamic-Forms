@@ -3,7 +3,7 @@
         <span routerLink="/">Dynamic Forms</span>
         <div>
             <div class="me-3 d-flex flex-row">
-                <span routerLink="/dashboard" class="me-4">Dashboard</span>
+                <span routerLink="/dashboard/profile" class="me-4">Dashboard</span>
                 <span routerLink="/forms/create" class="me-4">Create Form</span>
                 <span *ngIf="!isLoggedIn() ; else logoutBtn" (click)="loginUser()">Login</span>
                 <ng-template #logoutBtn>

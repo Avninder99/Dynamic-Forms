@@ -2,7 +2,7 @@ const User = require("../models/User");
 const bcrypt = require('bcryptjs');
 const { generateToken } = require("../utils/auth");
 const { v4: uuid } = require('uuid');
-const { generateEmail } = require("../utils/mailer");
+const { generateVerificationEmail } = require("../utils/mailer");
 
 const authControllers = {
     login: async (req, res) => {
@@ -54,7 +54,7 @@ const authControllers = {
                 
                 const slug = uuid();
                 const url = `${process.env.FRONTEND_URL}/account-activation/${slug}`;
-                const emailSentStatus = await generateEmail(email, url);
+                const emailSentStatus = await generateVerificationEmail(email, url);
                 
                 if(!emailSentStatus) {
                     return res.status(500).json({

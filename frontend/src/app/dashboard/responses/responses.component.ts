@@ -1,4 +1,5 @@
 import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { ResponseService } from 'src/app/services/response.service';
 
 @Component({
@@ -8,13 +9,14 @@ import { ResponseService } from 'src/app/services/response.service';
 })
 export class ResponsesComponent {
   responseService = inject(ResponseService);
+  router = inject(Router);
   loading: Boolean = true;
   showError: Boolean = false;
-  myResponses: { formTitle: string, createdAt: string }[];
+  myResponses: { formTitle: string, createdAt: string, formId: string }[];
 
   ngOnInit() {
     this.responseService.fetchMyResponses().subscribe(
-      (res: { message: string, responses: { formTitle: string, createdAt: string }[] }) => {
+      (res: { message: string, responses: { formTitle: string, createdAt: string, formId: string }[] }) => {
         console.log(res);
         this.myResponses = res.responses;
         this.loading = false;
@@ -25,5 +27,13 @@ export class ResponsesComponent {
         console.log(error);
       }
     )
+  }
+
+  showResponse() {
+
+  }
+
+  showForm(id: string) {
+    return this.router.navigate([ 'forms/', id ])
   }
 }

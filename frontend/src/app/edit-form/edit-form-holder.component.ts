@@ -21,6 +21,7 @@ export class EditFormHolderComponent {
   fetchedForm: any;
   loading: Boolean = true;
   showError: Boolean = false;
+  errorMessage: String = 'An Error Occured'
   dynamicForm: FormGroup;
   canSubmitForm: Boolean = true;
 
@@ -35,29 +36,29 @@ export class EditFormHolderComponent {
     this.currentURL = this.routeService.getCurrentURL();
     this.formId = this.route.snapshot.params['id'];
 
-    this.formService.fetchForm(this.formId)
+    this.formService.fetchForm(this.formId, 'editPage')
     .subscribe(
       (res: { message: String, form: any }) => {
         console.log(res);
-        this.fetchedForm = res.form;
-        
-        // this.dynamicForm = new FormGroup({
-        //   completeResponse: new FormArray([])
-        // })
-        
-        this.dynamicForm.get('formName').setValue(this.fetchedForm.title)
-        this.fetchedForm.fields.forEach((field) => {
-          this.addField(field)
-        });
-        this.loading = false;
+        if(res.form.mode !== 'draft') {
+          alert("Form can't be updated, as it is not in draft stage anymore !");
+          this.router.navigate([ this.routeService.getPrevURL() ])
+        }
+        else {
+          this.fetchedForm = res.form;
+          
+          this.dynamicForm.get('formName').setValue(this.fetchedForm.title)
+          this.fetchedForm.fields.forEach((field) => {
+            this.addField(field)
+          });
+          this.loading = false;
+        }
       },
-      (error) => {
-        console.log(error);
+      (res) => {
+        console.log(res.error.message);
+        this.errorMessage = res.error.message;
         this.showError = true;
         this.loading = false;
-      },
-      () => {
-
       }
     )
   }
@@ -120,5 +121,9 @@ export class EditFormHolderComponent {
         }
       )
     }
+  }
+
+  cancelClick(e: Event) {
+    e.preventDefault();
   }
 }
