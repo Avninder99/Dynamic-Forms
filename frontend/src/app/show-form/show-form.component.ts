@@ -36,20 +36,20 @@ export class ShowFormComponent {
     this.currentURL = this.routeService.getCurrentURL();
     this.formId = this.route.snapshot.params['id'];
 
-    this.formService.fetchForm(this.formId)
+    this.formService.fetchForm(this.formId, 'showPage')
     .subscribe(
       (res: { message: String, form: any }) => {
         console.log(res);
         this.fetchedForm = res.form;
-        
+        this.canSubmitForm = (res.form.mode === 'active');
         this.dynamicForm.get('formName').setValue(this.fetchedForm.title)
         this.fetchedForm.fields.forEach((field) => {
           this.addField(field)
         });
         this.loading = false;
       },
-      (error) => {
-        console.log(error);
+      (res) => {
+        console.log(res.error.message);
         this.showError = true;
         this.loading = false;
       }
@@ -80,24 +80,29 @@ export class ShowFormComponent {
 
   submitResponse() {
     console.log(this.dynamicForm);
-    this.showError = false;
-    this.canSubmitForm = false;
-
-    if(!this.dynamicForm.valid) {
-      alert("Please fill all the fields properly");
-    } else {
-      console.log(this.dynamicForm.get('formName').value);
-      this.responseService.saveResponse(this.dynamicForm.get('completeResponse').value, this.formId).subscribe(
-        (res) => {
-          console.log(res);
-          this.router.navigate([ '/forms', this.formId ]);
-        },
-        (error) => {
-          console.log(error);
-          this.canSubmitForm = true;
-          this.showError = true;
-        }
-      )
+    if(this.fetchedForm.mode !== 'active') {
+      alert('This form is not yet accepting responses');
+    }
+    else {
+      this.showError = false;
+      this.canSubmitForm = false;
+  
+      if(!this.dynamicForm.valid) {
+        alert("Please fill all the fields properly");
+      } else {
+        console.log(this.dynamicForm.get('formName').value);
+        this.responseService.saveResponse(this.dynamicForm.get('completeResponse').value, this.formId).subscribe(
+          (res) => {
+            console.log(res);
+            this.router.navigate([ '/forms', this.formId ]);
+          },
+          (error) => {
+            console.log(error);
+            this.canSubmitForm = true;
+            this.showError = true;
+          }
+        )
+      }
     }
   }
 }

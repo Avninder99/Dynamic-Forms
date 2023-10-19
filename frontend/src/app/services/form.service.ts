@@ -31,12 +31,12 @@ export class FormService {
     return this.http.post(`${environment.backend_url}/api/form/generate`, formData, header);
   }
 
-  fetchForm(id: String) {
+  fetchForm(id: String, page: string) {
     const userToken = this.tokenService.getToken();
     const header = {
       headers: new HttpHeaders().set('Authorization',  `Bearer ${userToken}`)
     }
-    return this.http.get(`${environment.backend_url}/api/form/${id}`, header);
+    return this.http.post(`${environment.backend_url}/api/form/${id}`, { page }, header);
   }
 
   updateForm(formName: String, formFields, formId: String) {
@@ -60,5 +60,16 @@ export class FormService {
     }
 
     return this.http.get(`${environment.backend_url}/api/form/fetchAll`, header);
+  }
+
+  switchMode(id: string, mode: string) {
+    const userToken = this.tokenService.getToken();
+    const header = {
+      headers: new HttpHeaders().set('Authorization',  `Bearer ${userToken}`)
+    }
+
+    return this.http.post(`${environment.backend_url}/api/form/${id}/mode/${mode}`, {
+      formId: id
+    }, header);
   }
 }

@@ -1,4 +1,5 @@
 import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { FormService } from 'src/app/services/form.service';
 
 @Component({
@@ -8,14 +9,15 @@ import { FormService } from 'src/app/services/form.service';
 })
 export class CreatedFormsComponent {
   formService = inject(FormService);
+  router = inject(Router)
 
-  myForms: { title: string, editors: number, responses: number, createdAt: string }[] = [];
+  myForms: { _id: string, title: string, editors: number, responses: number, createdAt: string, mode: string }[] = [];
   loading: Boolean = true;
   showError: Boolean = false;
 
   ngOnInit() {
     this.formService.fetchMyForms().subscribe(
-      (res: { message: string, forms: { title: string, editors: number, responses: number, createdAt: string }[] }) => {
+      (res: { message: string, forms: { _id: string, title: string, editors: number, responses: number, createdAt: string, mode: string }[] }) => {
         console.log(res);
         this.myForms = res.forms;
         // console.log(this.myForms)
@@ -24,6 +26,31 @@ export class CreatedFormsComponent {
       (error) => {
         this.loading = false;
         this.showError = true;
+        console.log(error);
+      }
+    )
+  }
+
+  showForm(id: string) {
+    this.router.navigate([ '/forms/', id ]);
+  }
+
+  showResponses() {
+
+  }
+
+  editForm(id: string) {
+    this.router.navigate([ '/forms/', id, 'edit']);
+  }
+
+  switchFormMode(newMode: string, id: string, index: number) {
+    console.log(newMode, id);
+    this.formService.switchMode(id, newMode).subscribe(
+      (res: { message: string, mode: string}) => {
+        console.log(res.mode);
+        this.myForms[index].mode = res.mode;
+      },
+      (error) => {
         console.log(error);
       }
     )

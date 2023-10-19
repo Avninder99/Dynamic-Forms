@@ -9,6 +9,10 @@ const formSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         required: true
     },
+    mode: {
+        type: String,
+        default: 'draft'    // draft, active, inactive
+    },
     editors: [
         {
             type: mongoose.Schema.Types.ObjectId,
@@ -18,7 +22,10 @@ const formSchema = new mongoose.Schema({
     fields: [
         {
             id: String,
-            question: String,
+            question: {
+                type: String,
+                required: true
+            },
             type: {
                 type: String,
                 default: 'text'

@@ -13,16 +13,18 @@ router
     
 router
     .route('/:id')
-    .get(auth.isLoggedIn, formControllers.fetchForm);
+    .post(auth.isLoggedIn, formControllers.fetchForm);
 
 router
     .route('/:id/update')
-    .post(auth.isLoggedIn, form.hasEditAccess, form.formStructureValidator, formControllers.updateForm);
+    .post(auth.isLoggedIn, form.hasEditAccess, form.formAcceptingChanges, form.formStructureValidator, formControllers.updateForm);
 
 router
     .route('/:id/delete')
     .delete(auth.isLoggedIn, form.isFormOwner, formControllers.deleteForm);
 
-
+router
+    .route('/:id/mode/:newMode')
+    .post(auth.isLoggedIn, form.isFormOwner, formControllers.modeSwitch)
 
 module.exports = router;

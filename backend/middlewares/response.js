@@ -33,36 +33,43 @@ module.exports = {
             }
 
             // to check only allowed fields are there
-            response.forEach((resField, index) => {
+            const valid = response.every((resField, index) => {
                 const keys = Object.keys(resField);
     
-                keys.forEach((key) => {
-                    if(allowedFields.indexOf(key) === -1) {
-                        return res.status(400).json({
-                            message: 'Invalid Request Structure'
-                        })
-                    }
+                const syntaxValid = keys.every((key) => {
+                    return allowedFields.indexOf(key) !== -1;
                 })
+
+                if(!syntaxValid) {
+                    return false;
+                }
 
                 // to check that below 3 conditions are not happening
                 if( !resField.question || 
                     ( foundForm.fields[index].isRequired && !resField.answer) || 
                     !resField.id
                 ) {
-                    return res.status(401).json({
-                        message: 'Invalid Request'
-                    })
+                    return false;
                 }
+                return true;
             });
 
+            if(!valid) {
+                return res.status(400).json({
+                    message: 'Invalid Request'
+                });
+            }
+
             // to check all fields are in order
-            foundForm.fields.forEach((field, index) => {
-                if(response[index].id !== field.id) {
-                    return res.status(400).json({
-                        message: 'Invalid Request'
-                    });
-                }
+            const ordered = foundForm.fields.every((field, index) => {
+                return response[index].id === field.id;
             });
+
+            if(!ordered) {
+                return res.status(400).json({
+                    message: 'Invalid Request'
+                });
+            }
 
             next();
 
@@ -95,8 +102,8 @@ module.exports = {
             else if(
                 foundResponse.submittedBy.equals(userId) || 
                 foundForm.author.equals(userId) || 
-                foundForm.editors.forEach((editor) => {
-                    editor.equals(userId)
+                foundForm.editors.some((editor) => {
+                    return editor.equals(userId)
                 })
             ) {
                 next();

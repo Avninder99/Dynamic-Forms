@@ -59,20 +59,31 @@ export class FormHolderComponent {
     this.showError = false;
     this.canSubmitForm = false;
 
+    if(!this.dynamicForm.valid) {
+      alert('Please fill all the fields properly');
+      this.canSubmitForm = true;
+      return;
+    }
+
     this.formService.saveForm(this.dynamicForm.get('formName').value, this.dynamicForm.get('completeForm').value)
     .subscribe(
       (res: { formId: String }) => {
         console.log(res);
         this.route.navigate([ '/forms', res.formId ]);
       },
-      (error) => {
+      (error: { error: { message: string } }) => {
         console.log(error);
         this.showError = true;
+        alert(error.error.message);
         this.canSubmitForm = true;
       },
       () => {
         console.log('completed');
       }
     )
+  }
+
+  cancelClick(e: Event) {
+    e.preventDefault();
   }
 }
