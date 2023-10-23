@@ -36,7 +36,7 @@ export class ShowFormComponent {
     this.currentURL = this.routeService.getCurrentURL();
     this.formId = this.route.snapshot.params['id'];
 
-    this.formService.fetchForm(this.formId, 'showPage')
+    this.formService.fetchFormBasic(this.formId)
     .subscribe(
       (res: { message: String, form: any }) => {
         console.log(res);
@@ -49,7 +49,7 @@ export class ShowFormComponent {
         this.loading = false;
       },
       (res) => {
-        console.log(res.error.message);
+        console.log(res);
         this.showError = true;
         this.loading = false;
       }

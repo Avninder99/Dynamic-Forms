@@ -15,6 +15,7 @@ export class FormHolderComponent {
   showError: Boolean = false;
   canSubmitForm: Boolean = true;
   route = inject(Router);
+  editors: string[] = [];
 
   constructor(private formService: FormService) {
     this.dynamicForm = new FormGroup({
@@ -65,7 +66,7 @@ export class FormHolderComponent {
       return;
     }
 
-    this.formService.saveForm(this.dynamicForm.get('formName').value, this.dynamicForm.get('completeForm').value)
+    this.formService.saveForm(this.dynamicForm.get('formName').value, this.dynamicForm.get('completeForm').value, this.editors)
     .subscribe(
       (res: { formId: String }) => {
         console.log(res);
@@ -85,5 +86,10 @@ export class FormHolderComponent {
 
   cancelClick(e: Event) {
     e.preventDefault();
+  }
+
+  patchEditors(newEditors: string[]) {
+    this.editors = newEditors;
+    alert('Editors added to form successfully')
   }
 }

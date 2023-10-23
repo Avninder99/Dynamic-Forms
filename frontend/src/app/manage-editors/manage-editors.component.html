@@ -1,0 +1,32 @@
+<div class="container-fluid d-flex flex-column justify-content-between h-100">
+    <div>
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2" [(ngModel)]="searchTerm">
+            <button class="btn btn-outline-success" type="button" id="button-addon2" (click)="fetchUsers()">Search</button>
+        </div>
+        <ul class="list-group mb-3">
+            <li class="list-group-item d-flex flex-row justify-content-between align-items-center" *ngFor="let user of searchedUsers; index as i">
+                {{ user.email }}
+                <button class="btn btn-success btn-sm" (click)="addToEditors(user._id, i)">
+                    Add
+                </button>
+            </li>
+        </ul>
+        <ul class="list-group pt-3 border-top">
+            <li class="list-group-item d-flex flex-column align-items-center" *ngFor="let editor of editors; index as i">
+                <p>
+                    {{ editor.fullname }} - {{ editor.email }}
+                </p>
+                <button class="btn btn-danger btn-sm" (click)="removeFromEditors(editor._id, i)">
+                    Remove
+                </button>
+            </li>
+        </ul>
+    </div>
+
+    <div>
+        <button class="btn btn-success btn-lg container-fluid mb-3" (click)="updateEditors()">
+            Update Editors
+        </button>
+    </div>
+</div>

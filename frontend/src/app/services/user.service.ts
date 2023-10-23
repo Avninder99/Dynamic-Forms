@@ -15,11 +15,20 @@ export class UserService {
   
   constructor() { }
 
-  fetchUser() {
+  fetchMe() {
     const token = this.tokenService.getToken();
     const header = {
       headers: new HttpHeaders().set('Authorization',  `Bearer ${token}`)
     }
-    return this.http.get(`${environment.backend_url}/api/user/`, header);
+    return this.http.get(`${environment.backend_url}/api/user/me`, header);
   }
+
+  fetchUsers(searchTerm) {
+    const token = this.tokenService.getToken();
+    const header = {
+      headers: new HttpHeaders().set('Authorization',  `Bearer ${token}`)
+    }
+    return this.http.get(`${environment.backend_url}/api/user?search=${searchTerm}`, header);
+  }
+
 }

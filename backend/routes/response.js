@@ -19,9 +19,9 @@ router
     .route('/:responseId')
     .get(auth.isLoggedIn, response.hasAccess, responseControllers.fetchResponse);
 
-// Fetch all of the responses submitted to a single form
+// Fetch all of the responses submitted to a single form (id is formId)
 router
-    .route('/:formid/responses')
-    .post(auth.isLoggedIn, form.hasEditAccess, responseControllers.fetchAllResponses);
+    .route('/:id/responses')
+    .get(auth.isLoggedIn, form.hasEditAccess, responseControllers.fetchAllResponses);
 
 module.exports = router;
