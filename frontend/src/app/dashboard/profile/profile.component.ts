@@ -19,7 +19,7 @@ export class ProfileComponent {
     this.showError = false;
     // this.profileInfo = this.tokenService.getParsedTokenData();
     // console.log(this.profileInfo);
-    this.userService.fetchUser().subscribe(
+    this.userService.fetchMe().subscribe(
       (res: { message: string, user: Object }) => {
         console.log(res);
         this.profileInfo = res.user;

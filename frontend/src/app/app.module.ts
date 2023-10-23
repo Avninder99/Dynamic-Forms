@@ -44,6 +44,8 @@ import { ResponsesComponent } from './dashboard/responses/responses.component';
 import { SidebarComponent } from './dashboard/sidebar/sidebar.component';
 import { OauthHandlerComponent } from './auth/oauth-handler/oauth-handler.component';
 import { AccountActivationComponent } from './account-activation/account-activation.component';
+import { ManageEditorsComponent } from './manage-editors/manage-editors.component';
+import { SharedFormsComponent } from './dashboard/shared-forms/shared-forms.component';
 
 
 @NgModule({
@@ -76,6 +78,8 @@ import { AccountActivationComponent } from './account-activation/account-activat
     SidebarComponent,
     OauthHandlerComponent,
     AccountActivationComponent,
+    ManageEditorsComponent,
+    SharedFormsComponent,
   ],
   imports: [
     BrowserModule,

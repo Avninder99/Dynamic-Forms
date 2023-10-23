@@ -17,7 +17,7 @@ export class EditFormHolderComponent {
   router = inject(Router);
 
   currentURL: String;
-  formId: String;
+  formId: string;
   fetchedForm: any;
   loading: Boolean = true;
   showError: Boolean = false;
@@ -36,7 +36,7 @@ export class EditFormHolderComponent {
     this.currentURL = this.routeService.getCurrentURL();
     this.formId = this.route.snapshot.params['id'];
 
-    this.formService.fetchForm(this.formId, 'editPage')
+    this.formService.fetchFormComplete(this.formId)
     .subscribe(
       (res: { message: String, form: any }) => {
         console.log(res);
@@ -46,7 +46,6 @@ export class EditFormHolderComponent {
         }
         else {
           this.fetchedForm = res.form;
-          
           this.dynamicForm.get('formName').setValue(this.fetchedForm.title)
           this.fetchedForm.fields.forEach((field) => {
             this.addField(field)
@@ -55,7 +54,7 @@ export class EditFormHolderComponent {
         }
       },
       (res) => {
-        console.log(res.error.message);
+        console.log(res);
         this.errorMessage = res.error.message;
         this.showError = true;
         this.loading = false;
@@ -125,5 +124,17 @@ export class EditFormHolderComponent {
 
   cancelClick(e: Event) {
     e.preventDefault();
+  }
+
+  patchEditors(newEditors: string[]) {
+    this.formService.patchFormEditors(newEditors, this.formId).subscribe(
+      (res: { message: string }) => {
+        console.log(res);
+        alert(res.message);
+      },
+      (errorRes) => {
+        console.log(errorRes);
+      }
+    )
   }
 }

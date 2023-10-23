@@ -81,7 +81,7 @@ module.exports = {
     // check if user can edit this form or not, works for both author and editors
     hasEditAccess: async (req, res, next) => {
         try {
-            const { formId } = req.body;
+            const formId = req.params.id;
             const userId = req.body.decoded.id;
     
             const foundForm = await Form.findById(formId);
@@ -113,7 +113,7 @@ module.exports = {
     // check form mode for 'draft'
     formAcceptingChanges: async (req, res, next) => {
         try {
-            const { formId } = req.body;
+            const formId = req.params.id;
             if(!formId) {
                 return res.status().json({
                     message: 'Invalid Request'

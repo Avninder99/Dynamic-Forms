@@ -5,29 +5,62 @@ const User = require("../models/User");
 
 const formControllers = {
     // API -/api/form/generate
-    fetchForm: async (req, res) => {
+    fetchFormBasic: async (req, res) => {
         try {
-
-            const id = req.params.id, page = req.body.page, userId = req.body.decoded.id;
+            const id = req.params.id, userId = req.body.decoded.id;
     
             // .select removed the fields that i didn't want to send to frontend
-            const foundForm = await Form.findById(id).select('-responses');
+            const foundForm = await Form.findById(id).select('-editors -responses');
             // console.log(foundForm.projection({ title: 1, author: 1, fields: 1 }));
             console.log(foundForm);
     
             if(foundForm){
-                console.log(foundForm);
+                return res.status(200).json({
+                    message: 'success',
+                    form: foundForm
+                });
+                // if(
+                //     page === 'showPage' || 
+                //     (
+                //         page === 'editPage' && 
+                //         (
+                //             foundForm.author.equals(userId) ||
+                //             foundForm.editors.some((editor) => {
+                //                 return editor.equals(userId);
+                //             })
+                //         ) 
+                //     )
+                // ) {
+                //     // send form data (success)
+                // }
+                // return res.status(403).json({
+                //     message: 'You are Not Permitted to do this operation'
+                // });
+            }else{
+                return res.status(404).json({
+                    message: 'Form Not Found'
+                });
+            }
+        } catch(error) {
+            console.log(error);
+            return res.status(500).json({
+                message: 'Server Error'
+            });
+        }
+    },
+    fetchFormComplete: async (req, res) => {
+        try {
+            const id = req.params.id, userId = req.body.decoded.id;
+            const foundForm = await Form.findById(id).select('-responses').populate('editors', 'fullname email _id');
+
+            console.log("fetchFormComplete - ", foundForm);
+    
+            if(foundForm){
                 if(
-                    page === 'showPage' || 
-                    (
-                        page === 'editPage' && 
-                        (
-                            foundForm.author.equals(userId) ||
-                            foundForm.editors.some((editor) => {
-                                return editor.equals(userId);
-                            })
-                        ) 
-                    )
+                    foundForm.author.equals(userId) ||
+                    foundForm.editors.some((editor) => {
+                        return editor.equals(userId);
+                    })
                 ) {
                     return res.status(200).json({
                         message: 'success',
@@ -51,7 +84,7 @@ const formControllers = {
     },
     generateForm: async (req, res) => {
         try {
-            const { formFields: form, formName, decoded } = req.body;
+            const { formFields: form, formName, decoded, newEditors } = req.body;
 
             const author = decoded.id;
 
@@ -65,8 +98,9 @@ const formControllers = {
             const newForm = await Form.create({
                 title: formName,
                 author,
-                fields: form
-            })
+                fields: form,
+                editors: newEditors
+            });
             // console.log("new form - ", newForm._id);
             foundUser.createdForms.push(newForm._id);
             await foundUser.save();
@@ -140,6 +174,8 @@ const formControllers = {
             })
         }
     },
+
+    // fetches form created by the user
     fetchAllForms: async (req, res) => {
         try {
             const userId = req.body.decoded.id;
@@ -195,6 +231,52 @@ const formControllers = {
                     message: 'Invalid Request'
                 });
             }
+        } catch(error) {
+            console.log(error);
+            return res.status(500).json({
+                message: 'Server Error'
+            });
+        }
+    },
+
+    patchFormEditors: async (req, res) => {
+        try {
+            const formId = req.params.id, newEditors = req.body.newEditors;
+            const foundForm = await Form.findById(formId);
+    
+            if(!foundForm) {
+                return res.status(404).json({
+                    message: 'Form not found'
+                });
+            }
+    
+            foundForm.editors = newEditors;
+            await foundForm.save();
+    
+            return res.status(200).json({
+                message: 'Editors updated successfully'
+            });
+        } catch (error) {
+            console.log(error);
+            return res.status(500).json({
+                message: 'Server Error'
+            });
+        }
+    },
+
+    fetchSharedForms: async (req, res) => {
+        try {
+            const userId = req.body.decoded.id;
+            const foundForms = await Form.find({ editors: userId }).select("-fields").lean();
+
+            for(let i=0;i<foundForms.length;i++) {
+                foundForms[i].editors = foundForms[i].editors.length;
+                foundForms[i].responses = foundForms[i].responses.length;
+            }
+            return res.status(200).json({
+                message: 'success',
+                forms: foundForms
+            });
         } catch(error) {
             console.log(error);
             return res.status(500).json({

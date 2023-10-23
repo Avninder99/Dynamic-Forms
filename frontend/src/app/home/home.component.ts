@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { TokenService } from '../services/token.service';
 
 @Component({
   selector: 'app-home',
@@ -7,4 +8,11 @@ import { Component } from '@angular/core';
 })
 export class HomeComponent {
 
+  isLoggedIn: Boolean = false;
+  tokenService = inject(TokenService);
+
+  ngOnInit() {
+    this.isLoggedIn = this.tokenService.getToken() !== '';
+  }
+  
 }

@@ -14,7 +14,7 @@ export class FormService {
 
   constructor(private http: HttpClient) { }
 
-  saveForm(formName: String, formFields) {
+  saveForm(formName: String, formFields, newEditors: string[]) {
 
     const userToken = this.tokenService.getToken();
     this.tokenService.tokenChecker();
@@ -22,7 +22,8 @@ export class FormService {
     const formData = {
       token: userToken,
       formName,
-      formFields
+      formFields,
+      newEditors
     }
 
     const header = {
@@ -31,12 +32,23 @@ export class FormService {
     return this.http.post(`${environment.backend_url}/api/form/generate`, formData, header);
   }
 
-  fetchForm(id: String, page: string) {
+  // for show page
+  fetchFormBasic(id: String) {
     const userToken = this.tokenService.getToken();
     const header = {
       headers: new HttpHeaders().set('Authorization',  `Bearer ${userToken}`)
     }
-    return this.http.post(`${environment.backend_url}/api/form/${id}`, { page }, header);
+
+    return this.http.get(`${environment.backend_url}/api/form/${id}`, header);
+  }
+
+  // for edit page
+  fetchFormComplete(id: String) {
+    const userToken = this.tokenService.getToken();
+    const header = {
+      headers: new HttpHeaders().set('Authorization',  `Bearer ${userToken}`)
+    }
+    return this.http.get(`${environment.backend_url}/api/form/${id}/complete`, header);
   }
 
   updateForm(formName: String, formFields, formId: String) {
@@ -62,6 +74,15 @@ export class FormService {
     return this.http.get(`${environment.backend_url}/api/form/fetchAll`, header);
   }
 
+  fetchSharedWithMeForms() {
+    const userToken = this.tokenService.getToken();
+    const header = {
+      headers: new HttpHeaders().set('Authorization',  `Bearer ${userToken}`)
+    }
+
+    return this.http.get(`${environment.backend_url}/api/form/fetchSharedForms`, header);
+  }
+
   switchMode(id: string, mode: string) {
     const userToken = this.tokenService.getToken();
     const header = {
@@ -71,5 +92,14 @@ export class FormService {
     return this.http.post(`${environment.backend_url}/api/form/${id}/mode/${mode}`, {
       formId: id
     }, header);
+  }
+
+  patchFormEditors(newEditors: string[], formId: string) {
+    const userToken = this.tokenService.getToken();
+    const header = {
+      headers: new HttpHeaders().set('Authorization',  `Bearer ${userToken}`)
+    }
+
+    return this.http.post(`${environment.backend_url}/api/form/${formId}/patchEditors`, { newEditors }, header);
   }
 }

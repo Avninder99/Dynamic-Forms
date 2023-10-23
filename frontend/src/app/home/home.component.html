@@ -1,1 +1,9 @@
-<p>home works!</p>
+<div class="h-100 container text-center d-flex flex-column justify-content-center">
+
+    <div>
+        <p class="display-4 mb-4">Welcome to the dynamic Forms</p>
+        <div class="btn btn-primary btn-lg" [routerLink]="isLoggedIn ? '/dashboard/profile' : '/login'">
+            {{ isLoggedIn ? 'Dashboard' : 'Get Started' }}
+        </div>
+    </div>
+</div>
