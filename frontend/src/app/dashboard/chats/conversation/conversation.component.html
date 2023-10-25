@@ -1,0 +1,16 @@
+<div class="d-flex flex-column border border-primary h-100">
+    <p>conversation</p>
+
+    <div class="overflow-y-scroll border border-danger d-flex flex-column flex-grow-1">
+        <div *ngFor="let chat of chats; index as i" class="w-100 border border-warning">
+            <p class="">{{ chat.message }}</p>
+        </div>
+    </div>
+
+    <div>
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Enter your message here ..." aria-label="message input" [(ngModel)]="message">
+            <button class="btn btn-success" type="button" id="sendBtn" (click)="sendChat()">Send</button>
+        </div>
+    </div>
+</div>

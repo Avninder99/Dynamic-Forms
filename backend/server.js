@@ -2,6 +2,10 @@ require('dotenv').config();
 
 const express = require('express');
 const app = express();
+const server = require('http').createServer(app);
+const io = require('socket.io')(server, { cors: { origin: '*' } });
+const sockets = require('./sockets/socket');
+
 const cors = require('cors');
 const passport = require('passport');
 
@@ -14,6 +18,7 @@ const corsOptions = {
 }
 
 connectToDatabase();
+sockets(io);
 
 const routes = require('./routes/index');
 
@@ -25,6 +30,6 @@ app.use(express.json());
 
 app.use('/api', routes);
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
     console.log(`server started at port ${ PORT }`);
 })

@@ -4,6 +4,8 @@ import { FormService } from '../services/form.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ResponseService } from '../services/response.service';
+import { ChatService } from '../services/chat.service';
+import { SocketService } from '../services/socket.service';
 
 @Component({
   selector: 'app-show-form',
@@ -16,14 +18,17 @@ export class ShowFormComponent {
   responseService = inject(ResponseService);
   route = inject(ActivatedRoute);
   router = inject(Router);
+  socketService = inject(SocketService);
+  chatService = inject(ChatService);
 
   currentURL: String;
-  formId: String;
+  formId: string;
   fetchedForm: any;
   loading: Boolean = true;
   showError: Boolean = false;
   dynamicForm: FormGroup;
   canSubmitForm: Boolean = true;
+  chatMessage: string = '';
 
   constructor() {
     this.dynamicForm = new FormGroup({
@@ -105,4 +110,21 @@ export class ShowFormComponent {
       }
     }
   }
+
+  cancelClick(e: Event) {
+    e.preventDefault();
+  }
+
+  initiateChat() {
+    console.log(this.chatMessage);
+    this.chatService.initiateChat(this.chatMessage, this.fetchedForm.author, this.formId, (res) => {
+      alert(res);
+    });
+  }
+
+  closeChat() {
+    this.chatService.closeSocket()
+  }
+
+
 }

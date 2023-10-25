@@ -1,0 +1,9 @@
+<div class="container-fluid h-100">
+    <div class="container-fluid bg-white border-white rounded-3 d-flex flex-column h-100">
+        <p class="display-6 mb-3 mt-3 ms-2">My Chats</p>
+        <div class="h-100 row">
+            <app-chat-list class="col-4 border" [conversations]="conversations" [currentUserId]="currentUserId" (fetchChats)="fetchChats($event)"></app-chat-list>
+            <app-conversation class="col-8 border" [chats]="selectedConversationChats" (messageEmitter)="sendMessage($event)"></app-conversation>
+        </div>
+    </div>
+</div>

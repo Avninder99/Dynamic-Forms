@@ -24,14 +24,41 @@
                 </mat-card>
             </ng-container>
     
-            
             <div class="container m-0 p-0 d-flex flex-row justify-content-end">
                 <mat-card class="d-flex flex-row p-3 rounded-4">
-                    <button mat-fab color="primary" aria-label="Example icon button with a plus one icon" [disabled]="!canSubmitForm">
+                    <button mat-fab color="primary" aria-label="Add new form field at end" [disabled]="!canSubmitForm" class="me-3">
                         <mat-icon>done</mat-icon>
+                    </button>
+
+                    <!-- Button trigger modal -->
+                    <button mat-fab color="primary" aria-label="Help" data-bs-toggle="modal" data-bs-target="#staticBackdrop" id="help_button" (click)="cancelClick($event)">
+                        <mat-icon>live_help</mat-icon>
                     </button>
                 </mat-card>
             </div>
         </form>
+
+        <!-- Modal -->
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Initiate Chat with form's Author</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body pb-0">
+                        <mat-form-field class="w-100">
+                            <mat-label>Enter your message here</mat-label>
+                            <textarea matInput [(ngModel)]="chatMessage"></textarea>
+                        </mat-form-field>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="closeChat()">Close</button>
+                        <button type="button" class="btn btn-primary" (click)="initiateChat()">Send Message</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

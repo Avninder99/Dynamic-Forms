@@ -1,0 +1,8 @@
+<p>chat-list works!</p>
+<ul class="list-group w-100">
+    <li class="list-group-item border border-success" *ngFor="let conversation of conversations; index as i" (click)="triggerFetchChats(conversation._id)" >
+        <p>{{ i }}</p>
+        <p>{{ (conversation.formAuthor === currentUserId) ? conversation.formResponder : conversation.formAuthor }}</p>
+        <p>{{ conversation.relatedForm }}</p>
+    </li>
+</ul>

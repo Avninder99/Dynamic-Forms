@@ -46,7 +46,9 @@ import { OauthHandlerComponent } from './auth/oauth-handler/oauth-handler.compon
 import { AccountActivationComponent } from './account-activation/account-activation.component';
 import { ManageEditorsComponent } from './manage-editors/manage-editors.component';
 import { SharedFormsComponent } from './dashboard/shared-forms/shared-forms.component';
-
+import { ChatsComponent } from './dashboard/chats/chats.component';
+import { ChatListComponent } from './dashboard/chats/chat-list/chat-list.component';
+import { ConversationComponent } from './dashboard/chats/conversation/conversation.component';
 
 @NgModule({
   declarations: [
@@ -80,6 +82,9 @@ import { SharedFormsComponent } from './dashboard/shared-forms/shared-forms.comp
     AccountActivationComponent,
     ManageEditorsComponent,
     SharedFormsComponent,
+    ChatsComponent,
+    ChatListComponent,
+    ConversationComponent,
   ],
   imports: [
     BrowserModule,

@@ -16,6 +16,7 @@ import { ResponsesComponent } from './dashboard/responses/responses.component';
 import { OauthHandlerComponent } from './auth/oauth-handler/oauth-handler.component';
 import { AccountActivationComponent } from './account-activation/account-activation.component';
 import { SharedFormsComponent } from './dashboard/shared-forms/shared-forms.component';
+import { ChatsComponent } from './dashboard/chats/chats.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -46,7 +47,8 @@ const routes: Routes = [
       { path: 'profile', component: ProfileComponent },
       { path: 'myForms', component: CreatedFormsComponent },
       { path: 'myResponses', component: ResponsesComponent },
-      { path: 'sharedWithMe', component: SharedFormsComponent }
+      { path: 'sharedWithMe', component: SharedFormsComponent },
+      { path: 'chats', component: ChatsComponent }
     ]
   },
   { path: 'authHandler/google/oauth20', component: OauthHandlerComponent },
