@@ -69,7 +69,7 @@ export class ShowFormComponent {
     (<FormArray>this.dynamicForm.get('completeResponse')).push(
       new FormGroup({
         question: new FormControl(data.question),
-        answer: new FormControl(''),
+        answer: new FormControl('', data.isRequired ? Validators.required : []),
         id: new FormControl(data.id),
         // type: new FormControl(data.type),
         // isRequired: new FormControl(data.isRequired),
@@ -104,5 +104,9 @@ export class ShowFormComponent {
         )
       }
     }
+  }
+
+  cancelClick(e: Event) {
+    e.preventDefault();
   }
 }
