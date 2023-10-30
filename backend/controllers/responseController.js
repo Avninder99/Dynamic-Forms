@@ -102,7 +102,6 @@ const responseControllers = {
     },
     fetchMyResponses: async (req, res) => {
         try {
-            console.log('here')
             const userId = req.body.decoded.id;
             const foundResponses = await Response.find({ submittedBy: userId }).populate('submittedToWhichForm').lean();
 

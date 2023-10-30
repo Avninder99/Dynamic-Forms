@@ -84,7 +84,7 @@ export class ShowResponseComponent {
       (errorRes) => {
         console.log(errorRes);
         alert('An Error Occured');
-        this.router.navigate([ this.routeService.getPrevURL() ]);
+        this.router.navigate([ '/' ]);
       }
     )
   }
