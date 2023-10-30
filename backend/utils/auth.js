@@ -19,5 +19,12 @@ module.exports = {
         } catch (error) {
             throw new Error('Token generation Error');
         }
+    },
+    validateToken: (token) => {
+        try {
+            return jwt.verify(token, process.env.PRIVATE_KEY);
+        } catch (error) {
+            throw new Error('Token Validation error');
+        }
     }
 }

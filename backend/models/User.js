@@ -53,6 +53,12 @@ const userSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Request'
         }
+    ],
+    subscribedToFormIds: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Form'
+        }
     ]
 },
 {

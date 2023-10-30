@@ -103,6 +103,7 @@ const formControllers = {
             });
             // console.log("new form - ", newForm._id);
             foundUser.createdForms.push(newForm._id);
+            foundUser.subscribedToFormIds.push(newForm._id);
             await foundUser.save();
 
             return res.status(200).json({

@@ -15,6 +15,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatBadgeModule } from '@angular/material/badge';
 
 import { AppComponent } from './app.component';
 import { FormHolderComponent } from './form-holder/form-holder.component';
@@ -46,6 +47,10 @@ import { OauthHandlerComponent } from './auth/oauth-handler/oauth-handler.compon
 import { AccountActivationComponent } from './account-activation/account-activation.component';
 import { ManageEditorsComponent } from './manage-editors/manage-editors.component';
 import { SharedFormsComponent } from './dashboard/shared-forms/shared-forms.component';
+import { NotificationHolderComponent } from './notification-holder/notification-holder.component';
+import { FormChatComponent } from './form-chat/form-chat.component';
+import { MessageComponent } from './form-chat/message/message.component';
+import { ShowResponseComponent } from './show-response/show-response.component';
 
 
 @NgModule({
@@ -80,6 +85,10 @@ import { SharedFormsComponent } from './dashboard/shared-forms/shared-forms.comp
     AccountActivationComponent,
     ManageEditorsComponent,
     SharedFormsComponent,
+    NotificationHolderComponent,
+    FormChatComponent,
+    MessageComponent,
+    ShowResponseComponent,
   ],
   imports: [
     BrowserModule,
@@ -97,7 +106,8 @@ import { SharedFormsComponent } from './dashboard/shared-forms/shared-forms.comp
     MatSelectModule,
     MatRadioModule,
     MatCheckboxModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatBadgeModule
   ],
   providers: [],
   bootstrap: [ AppComponent ]

@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
+import { SocketService } from './socket.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,7 @@ export class TokenService {
   constructor() { }
 
   cookieService = inject(CookieService);
+  // socketService = inject(SocketService);
   route = inject(Router);
 
   // fetches the token from cookies and redirects to login page if cookie not avaliable
@@ -79,10 +81,12 @@ export class TokenService {
     const expirationTime = new Date();
     expirationTime.setTime(expirationTime.getTime() + 3600000);
     this.cookieService.set('token', token, expirationTime, '/');
+    // this.socketService.refreshConnection();
   }
 
   // delete token from the cookies
   clearToken() {
+    // this.socketService.disconnect();
     this.cookieService.delete('token', '/');
     this.token = '';
   }

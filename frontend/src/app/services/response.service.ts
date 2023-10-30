@@ -36,4 +36,14 @@ export class ResponseService {
 
     return this.http.get(`${environment.backend_url}/api/response/fetchAll`, header);
   }
+
+  fetchResponse(responseId: string) {
+    const userToken = this.tokenService.getToken();
+    const header = {
+      headers: new HttpHeaders().set('Authorization',  `Bearer ${userToken}`)
+    }
+
+    console.log(responseId);
+    return this.http.get(`${environment.backend_url}/api/response/${responseId}`, header);
+  }
 }

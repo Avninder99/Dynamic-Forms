@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { TokenService } from '../services/token.service';
+import { SocketService } from '../services/socket.service';
 
 @Component({
   selector: 'app-account-activation',
@@ -13,6 +14,7 @@ export class AccountActivationComponent {
   router = inject(Router);
   authService = inject(AuthService);
   tokenService = inject(TokenService);
+  socketService = inject(SocketService);
 
   slug: string = '';
   error: Boolean = false;
@@ -26,6 +28,9 @@ export class AccountActivationComponent {
         (res: { message: string, token: string }) => {
           this.loading = false;
           this.tokenService.saveToken(res.token);
+
+          this.socketService.refreshConnection();
+          
           setTimeout(() => {
             this.router.navigate([ '/' ]);
           }, 3000);

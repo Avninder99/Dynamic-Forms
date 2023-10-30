@@ -6,7 +6,12 @@ const { generateResponseEmail } = require("../utils/mailer");
 const responseControllers = {
     fetchResponse: async (req, res) => {
         try {
-            
+            const responseId = req.params.responseId;
+            const foundResponse = await Response.findById(responseId).populate('submittedToWhichForm', '_id title').lean();
+            return res.status(200).json({
+                message: 'success',
+                response: foundResponse
+            });
         } catch(error) {
             console.log(error);
             return res.status(500).json({
@@ -71,6 +76,7 @@ const responseControllers = {
             foundUser.myResponses.push(newResponse._id);
             await foundUser.save();
 
+            console.log('response generated');
             // just commented for testing add it back later
 
             // const responseMailSent = await generateResponseEmail(foundUser.email, foundForm.title);

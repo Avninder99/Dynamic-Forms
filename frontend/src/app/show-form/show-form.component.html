@@ -27,11 +27,29 @@
             
             <div class="container m-0 p-0 d-flex flex-row justify-content-end">
                 <mat-card class="d-flex flex-row p-3 rounded-4">
-                    <button mat-fab color="primary" aria-label="Example icon button with a plus one icon" [disabled]="!canSubmitForm">
+                    <button mat-fab color="primary" aria-label="Query Chat button" class="me-3" (click)="openChat($event)" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight">
+                        <mat-icon>question_answer</mat-icon>
+                    </button>
+                    <button mat-fab color="primary" aria-label="Submit button" [disabled]="!canSubmitForm">
                         <mat-icon>done</mat-icon>
                     </button>
                 </mat-card>
             </div>
         </form>
+
+        <div class="offcanvas offcanvas-end canvas-index" data-bs-scroll="true" data-bs-backdrop="false" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+            <div class="offcanvas-header mb-0 pb-0">
+                <h2 class="offcanvas-title" id="offcanvasRightLabel">Query Chat</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close" (click)="closeChat()"></button>
+            </div>
+            <div class="offcanvas-body d-flex flex-column border border-top pt-2" *ngIf="chatOpened">
+                <app-form-chat class="h-100 rounded-2" [formId]="formId" [formTitle]="fetchedForm.title"></app-form-chat>
+            </div>
+        </div>
+
+
+        <div class="offcanvas offcanvas-end"  tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasScrollingLabel">
+            
+        </div>
     </div>
 </div>
