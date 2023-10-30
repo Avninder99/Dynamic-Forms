@@ -11,7 +11,7 @@ const responseSchema = new mongoose.Schema({
     },
     fields: [
         {
-            question: String,
+            // question: String,
             type: {
                 type: String,
                 default: 'text'

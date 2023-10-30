@@ -19,23 +19,6 @@ const formControllers = {
                     message: 'success',
                     form: foundForm
                 });
-                // if(
-                //     page === 'showPage' || 
-                //     (
-                //         page === 'editPage' && 
-                //         (
-                //             foundForm.author.equals(userId) ||
-                //             foundForm.editors.some((editor) => {
-                //                 return editor.equals(userId);
-                //             })
-                //         ) 
-                //     )
-                // ) {
-                //     // send form data (success)
-                // }
-                // return res.status(403).json({
-                //     message: 'You are Not Permitted to do this operation'
-                // });
             }else{
                 return res.status(404).json({
                     message: 'Form Not Found'
@@ -85,8 +68,11 @@ const formControllers = {
     generateForm: async (req, res) => {
         try {
             const { formFields: form, formName, decoded, newEditors } = req.body;
-
             const author = decoded.id;
+
+            for(let i=0; i<form.length;i++) {
+                form[i].options = [ ...new Set(form[i].options)];
+            }
 
             const foundUser = await User.findById(author);
             if(!foundUser) {

@@ -15,7 +15,27 @@ export class ShowResponseComponent {
   routeService = inject(RouteService);
   router = inject(Router);
 
-  responseData: any;
+  responseData: { 
+    createdAt: string, 
+    fields: any, 
+    submittedBy: string, 
+    submittedToWhichForm: {
+      _id: string,
+      title: string
+    },
+    _id: string
+  };
+  formData: {
+    _id: string,
+    title: string,
+    fields: {
+      _id: string,
+      question: string,
+      isRequired: boolean,
+      type: string,
+      id: string
+    }[]
+  };
   responseId: string;
   loading: boolean = true;
   showError: boolean = false;
@@ -26,17 +46,40 @@ export class ShowResponseComponent {
 
     console.log(this.responseId);
     this.responseService.fetchResponse(this.responseId).subscribe(
-      (res: { 
-        createdAt: string, 
-        fields: any, 
-        submittedBy: string, 
-        submittedToWhichForm: {
-          question: string
+      (res: {
+        message: string,
+        response: { 
+          createdAt: string, 
+          fields: {
+            type: string,
+            id: string,
+            options: string[],
+            answer: any,
+            _id: string
+          }[], 
+          submittedBy: string, 
+          submittedToWhichForm: {
+            _id: string,
+            title: string
+          },
+          _id: string
         },
-        _id: string
-      
+        form: {
+          _id: string,
+          title: string,
+          fields: {
+            _id: string,
+            question: string,
+            isRequired: boolean,
+            type: string,
+            id: string
+          }[]
+        }
       }) => {
         console.log(res);
+        this.responseData = res.response;
+        this.formData = res.form;
+        this.loading = false;
       },
       (errorRes) => {
         console.log(errorRes);
@@ -44,5 +87,9 @@ export class ShowResponseComponent {
         this.router.navigate([ this.routeService.getPrevURL() ]);
       }
     )
+  }
+
+  goBackToForm() {
+    this.router.navigate([ '/forms', this.formData._id ]);
   }
 }

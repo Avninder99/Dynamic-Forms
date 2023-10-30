@@ -17,11 +17,11 @@ export class NotificationHolderComponent {
   router = inject(Router);
 
   notifications: { form: { formTitle: string, formId: string } }[] = [];
-  @Output() openedEvent: EventEmitter<void>;
+  @Output() navigateEvent: EventEmitter<void>;
   // fetchedNotification: { form: { formTitle: string, formId: string } }[] = []
 
   constructor() {
-    this.openedEvent = new EventEmitter<void>();
+    this.navigateEvent = new EventEmitter<void>();
   }
 
   ngOnInit() {
@@ -38,7 +38,6 @@ export class NotificationHolderComponent {
           reciever: string,
         }[]
       }) => {
-        this.openedEvent.emit();
         this.notifications = [];
         res.notifications.forEach((notification) => {
           const notificationObject = {
@@ -71,6 +70,10 @@ export class NotificationHolderComponent {
     this.notifications.splice(index, 1);
   }
   
+  navigateToForm() {
+    this.navigateEvent.emit();
+    // this.showNotification = false;
+  }
   
   
 }

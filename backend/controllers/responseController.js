@@ -8,9 +8,16 @@ const responseControllers = {
         try {
             const responseId = req.params.responseId;
             const foundResponse = await Response.findById(responseId).populate('submittedToWhichForm', '_id title').lean();
+            if(!foundResponse) {
+                return res.status(404).json({
+                    message: 'Form not found'
+                });
+            }
+            const foundForm = await Form.findById(foundResponse.submittedToWhichForm._id).select('title fields').lean();
             return res.status(200).json({
                 message: 'success',
-                response: foundResponse
+                response: foundResponse,
+                form: foundForm
             });
         } catch(error) {
             console.log(error);

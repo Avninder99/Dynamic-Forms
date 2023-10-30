@@ -59,7 +59,7 @@ export class FormChatComponent {
         alert('An error occured will retriving the chats');
       }
     )
-    this.chatService.joinChat(this.formId);
+    // this.chatService.joinChat(this.formId);
 
     this.socketService.newMessagePresenter().subscribe(
       (newMessageObject: { message: string, createdAt: string, sender: { _id: string, fullname: string } }) => {

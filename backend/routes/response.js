@@ -7,7 +7,7 @@ const form = require('../middlewares/form')
 // submit a new response and save to database
 router
     .route('/generate')
-    .post(auth.isLoggedIn, form.formAcceptingResponses, response.responseStructureValidator, responseControllers.generateResponse);
+    .post(auth.isLoggedIn, form.formAcceptingResponses, response.responseStructureValidator, response.responseFormatter, responseControllers.generateResponse);
     
 // Fetch all of the user's own responses
 router

@@ -6,13 +6,11 @@
 
         <section class="example-section">
             <span class="example-list-section" formGroupName="optionsHolder">
-                <ul>
-                    <li *ngFor="let option of elementGroup.get('optionsHolder').value | keyvalue">
-                        <mat-checkbox color="primary" [formControlName]="stringCast(option.key)" [value]="stringCast(option.value)">
-                            {{ option.key }}
-                        </mat-checkbox>
-                    </li>
-                </ul>
+                <span *ngFor="let option of elementGroup.get('optionsHolder').value | keyvalue">
+                    <mat-checkbox color="primary" [formControlName]="stringCast(option.key)" [value]="stringCast(option.value)">
+                        {{ option.key }}
+                    </mat-checkbox>
+                </span>
             </span>
         </section>
     </form>

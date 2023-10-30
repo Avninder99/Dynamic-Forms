@@ -80,6 +80,63 @@ module.exports = {
             })
         }
     },
+    responseFormatter: async (req, res, next) => {
+        try {
+            const { response, formId } = req.body;
+            const foundForm = await Form.findById(formId);
+            console.log(response);
+            for(let i=0;i<response.length;i++){
+                delete response[i].optionsHolder;
+                delete response[i].question;
+
+                // console.log(foundForm.fields[i], " ----- ", response[i].answer, " ------ ", typeof response[i].answer);
+                // console.log(foundForm.fields[i].type === typeof response[i].answer);
+                
+                const typeOfThisField = foundForm.fields[i].type;
+                response[i].type = typeOfThisField;
+
+                if(typeOfThisField === 'number') {
+                    if(typeof response[i].answer !== 'number'){
+                        throw new Error('number error');
+                    }
+                }
+                else if(typeOfThisField === 'text') {
+                    if(typeof response[i].answer !== 'string'){
+                        throw new Error('text error');
+                    }
+                }
+                else if(typeOfThisField === 'dropdown' || typeOfThisField === 'radioButtons') {
+                    if(typeof response[i].answer !== 'string'){
+                        throw new Error('MCQ error');
+                    }
+                }
+                else if(typeOfThisField === 'checkboxes') {
+                    if(typeof response[i].answer !== 'object'){
+                        throw new Error('MSQ error');
+                    }
+                    const recievedOptions = Object.keys(response[i].answer);
+                    const expectedOptions = foundForm.fields[i].options;
+
+                    if(
+                        recievedOptions.length !== expectedOptions.length ||
+                        !(expectedOptions.every((option) => {
+                            return recievedOptions.includes(option);
+                        }))
+                    ) {
+                        throw new Error('MSQ error');
+                    }
+                }
+            }
+
+            next();
+
+        } catch(error) {
+            console.log("response formatter - ", error);
+            return res.status(400).json({
+                message: 'Invalid response'
+            });
+        }
+    },
     hasAccess: async (req, res, next) => {
         try {
             const userId = req.body.decoded.id, responseId = req.params.responseId;
