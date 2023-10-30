@@ -12,11 +12,11 @@ export class ResponsesComponent {
   router = inject(Router);
   loading: Boolean = true;
   showError: Boolean = false;
-  myResponses: { formTitle: string, createdAt: string, formId: string }[];
+  myResponses: { formTitle: string, createdAt: string, formId: string, _id: string }[];
 
   ngOnInit() {
     this.responseService.fetchMyResponses().subscribe(
-      (res: { message: string, responses: { formTitle: string, createdAt: string, formId: string }[] }) => {
+      (res: { message: string, responses: { formTitle: string, createdAt: string, formId: string, _id: string }[] }) => {
         console.log(res);
         this.myResponses = res.responses;
         this.loading = false;
@@ -29,11 +29,11 @@ export class ResponsesComponent {
     )
   }
 
-  showResponse() {
-
+  showResponse(id: string) {
+    return this.router.navigate([ '/response', id ]);
   }
 
   showForm(id: string) {
-    return this.router.navigate([ 'forms/', id ])
+    return this.router.navigate([ '/forms', id ]);
   }
 }

@@ -6,7 +6,7 @@
                 <p class="card-title display-6">{{ response.formTitle }}</p>
             </div>
             <div class="d-flex flex-column justify-content-around mx-3">
-                <a class="btn btn-success container mb-3" (click)="showResponse()">View Response</a>
+                <a class="btn btn-success container mb-3" (click)="showResponse(response._id)">View Response</a>
                 <a class="btn btn-primary container" (click)="showForm(response.formId)">View Form</a>
             </div>
         </div>

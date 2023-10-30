@@ -73,8 +73,6 @@ export class ShowFormComponent {
         question: new FormControl(data.question),
         answer: new FormControl('', data.isRequired ? Validators.required : []),
         id: new FormControl(data.id),
-        // type: new FormControl(data.type),
-        // isRequired: new FormControl(data.isRequired),
         options: optionsHolder,
       })
     );
@@ -95,11 +93,10 @@ export class ShowFormComponent {
       } else {
         console.log(this.dynamicForm.get('formName').value);
         this.responseService.saveResponse(this.dynamicForm.get('completeResponse').value, this.formId).subscribe(
-          (res) => {
+          (res: { message: string, responseId: string }) => {
             console.log(res);
-            alert('Form submitted successfully')
-            window.location.href=`${environment.frontend_url}/forms/${this.formId}`;
-            // this.router.navigate([ '/forms', this.formId ]);
+            alert('Form submitted successfully');
+            this.router.navigate([ '/response', res.responseId ]);
           },
           (error) => {
             console.log(error);

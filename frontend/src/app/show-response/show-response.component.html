@@ -1,0 +1,75 @@
+<div class="container mt-4">
+
+    <div *ngIf="loading">
+        <h1>Loading...</h1>
+    </div>
+
+    <div *ngIf="showError">
+        <h1>Error loading the form</h1>
+    </div>
+
+    <div *ngIf="!loading && !showError">
+        <mat-card class="rounded-4">
+            <mat-card-content class="display-6">{{ responseData.submittedToWhichForm.title }}</mat-card-content>
+        </mat-card>
+
+        <ng-container *ngFor="let element of responseData.fields; index as i">
+            <mat-card class="my-4 rounded-4 px-4 pt-3">
+                <div class="p-4">
+                    <div class="container d-flex flex-row justify-content-between pt-1 flex-wrap">
+                        <p class="question fs-6 fw-medium pb-2">Q. {{ formData.fields[i].question }}</p>
+                    </div>
+
+                    <ng-container *ngIf="formData.fields[i].type === 'text'">
+                        <mat-form-field class="container">
+                            <textarea matInput disabled>{{ element.answer[0] }}</textarea>
+                        </mat-form-field>
+                    </ng-container>
+                    
+                    <ng-container *ngIf="formData.fields[i].type === 'number'">
+                        <mat-form-field class="container">
+                            <input matInput type="number" disabled [value]="element.answer[0]">
+                        </mat-form-field>
+                    </ng-container>
+
+                    <ng-container *ngIf="formData.fields[i].type === 'dropdown'">
+                        <mat-form-field class="container">
+                            <mat-select [value]="element.answer[0]" disabled>
+                                <mat-option [value]="element.answer[0]">
+                                    {{ element.answer[0] }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </ng-container>
+
+                    <ng-container *ngIf="formData.fields[i].type === 'radioButtons'">
+                        <mat-radio-group aria-label="Select an option" class="d-flex flex-column">
+                            <mat-radio-button *ngFor="let option of element.options" color="primary" [checked]="element.answer[0] === option" [value]="option" disabled>{{ option }}</mat-radio-button>
+                        </mat-radio-group>
+                    </ng-container>
+
+                    <ng-container *ngIf="formData.fields[i].type === 'checkboxes'">
+                        <section class="example-section">
+                            <span class="example-list-section">
+                                <div *ngFor="let option of element.options">
+                                    <mat-checkbox color="primary" [value]="option" [checked]="element.answer[0][option]" disabled>
+                                        {{ option }}
+                                    </mat-checkbox>
+                                </div>
+                            </span>
+                        </section>
+                    </ng-container>
+                </div>
+            </mat-card>
+        </ng-container>
+
+        
+        <div class="container m-0 p-0 d-flex flex-row justify-content-end">
+            <mat-card class="d-flex flex-row p-3 rounded-4">
+                <button mat-fab color="primary" aria-label="Submit another response" (click)="goBackToForm()">
+                    <mat-icon>keyboard_backspace</mat-icon>
+                </button>
+            </mat-card>
+        </div>
+    </div>
+</div>

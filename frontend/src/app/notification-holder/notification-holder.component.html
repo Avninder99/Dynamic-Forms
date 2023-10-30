@@ -11,7 +11,7 @@
                 <button class="btn btn-danger px-4" [routerLink]="[ '/forms', notification.form.formId ]" (click)="deleteNotification(i)">
                     <mat-icon class="p-0 m-0">delete_outline</mat-icon>
                 </button>
-                <button class="btn btn-primary ms-3 px-4" [routerLink]="[ '/forms', notification.form.formId ]" data-bs-dismiss="modal">
+                <button class="btn btn-primary ms-3 px-4" [routerLink]="[ '/forms', notification.form.formId ]" data-bs-dismiss="modal" (click)="navigateToForm()">
                     <mat-icon class="p-0 m-0">arrow_forward</mat-icon>
                 </button>
             </div>

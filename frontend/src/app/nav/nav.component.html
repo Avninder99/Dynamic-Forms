@@ -36,7 +36,8 @@
                 </div>
                 <div class="modal-body">
                     <app-notification-holder 
-                        *ngIf="showNotification" 
+                        *ngIf="showNotification"
+                        (navigateEvent)="showNotification = false"
                     >
                     </app-notification-holder>
                 </div>
