@@ -1,0 +1,6 @@
+<div class=" mx-3 my-2 d-flex flex-row flex-shrink-1" [ngClass]="{ 'justify-content-end': chat.sender._id === currentUserId }">
+    <div class="text-wrap text-light px-3 py-2 rounded-3 d-flex flex-column" [ngClass]="{ 'bg-secondary': !(chat.sender._id === currentUserId), 'bg-success': chat.sender._id === currentUserId }">
+        <span class="mb-1 fw-semibold">{{ chat.sender.fullname }}</span>
+        <span class="fw-normal">{{ chat.message }}</span>
+    </div>
+</div>

@@ -3,12 +3,46 @@
         <span routerLink="/">Dynamic Forms</span>
         <div>
             <div class="me-3 d-flex flex-row">
+                <button 
+                    mat-raised-button 
+                    color="primary" 
+                    class="me-4" 
+                    [matBadge]="newNotificationCount" 
+                    [matBadgeHidden]="newNotificationCount === 0" 
+                    matBadgePosition="before" 
+                    matBadgeColor="warn" 
+                    data-bs-toggle="modal" 
+                    data-bs-target="#exampleModal" 
+                    (click)="toggleNotificationHolder()"
+                >
+                    Notifications
+                </button>
                 <span routerLink="/dashboard/profile" class="me-4">Dashboard</span>
                 <span routerLink="/forms/create" class="me-4">Create Form</span>
                 <span *ngIf="!isLoggedIn() ; else logoutBtn" (click)="loginUser()">Login</span>
                 <ng-template #logoutBtn>
                     <span (click)="logoutUser()">Logout</span>
                 </ng-template>
+            </div>
+        </div>
+    </div>
+  
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5 text-dark ps-3" id="exampleModalLabel">Notifications</h1>
+                </div>
+                <div class="modal-body">
+                    <app-notification-holder 
+                        *ngIf="showNotification" 
+                    >
+                    </app-notification-holder>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="toggleNotificationHolder()">Close</button>
+                </div>
             </div>
         </div>
     </div>

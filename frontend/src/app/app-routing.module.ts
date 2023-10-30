@@ -16,6 +16,7 @@ import { ResponsesComponent } from './dashboard/responses/responses.component';
 import { OauthHandlerComponent } from './auth/oauth-handler/oauth-handler.component';
 import { AccountActivationComponent } from './account-activation/account-activation.component';
 import { SharedFormsComponent } from './dashboard/shared-forms/shared-forms.component';
+import { ShowResponseComponent } from './show-response/show-response.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -38,6 +39,11 @@ const routes: Routes = [
         ]
       }
     ]  
+  },
+  {
+    path: 'response/:id',
+    component: ShowResponseComponent,
+    canActivate: [ userLoggedInCanActivateFn ]
   },
   { path: 'dashboard',
     component: DashboardComponent,

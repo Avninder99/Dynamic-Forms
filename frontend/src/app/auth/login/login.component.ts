@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { RouteService } from 'src/app/services/route.service';
+import { SocketService } from 'src/app/services/socket.service';
 import { TokenService } from 'src/app/services/token.service';
 import { environment } from 'src/environments/environment';
 
@@ -19,6 +20,7 @@ export class LoginComponent {
   authService = inject(AuthService);
   tokenService = inject(TokenService);
   routeService = inject(RouteService);
+  socketService = inject(SocketService);
 
   showError: Boolean = false;
   errorMessage: String = '';
@@ -43,6 +45,7 @@ export class LoginComponent {
           console.log(res.token);
           if(res.token) {
             this.tokenService.saveToken(res.token);
+            this.socketService.refreshConnection();
             this.route.navigate([ this.routeService.getPrevURL() ]);
           }
         },
