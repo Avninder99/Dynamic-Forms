@@ -17,6 +17,7 @@ import { OauthHandlerComponent } from './auth/oauth-handler/oauth-handler.compon
 import { AccountActivationComponent } from './account-activation/account-activation.component';
 import { SharedFormsComponent } from './dashboard/shared-forms/shared-forms.component';
 import { ShowResponseComponent } from './show-response/show-response.component';
+import { ResponseSheetComponent } from './dashboard/response-sheet/response-sheet.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -35,7 +36,8 @@ const routes: Routes = [
       { path: ':id', 
         children: [
           { path: '', component: ShowFormComponent }, // home component used as placeholder
-          { path: 'edit', component: EditFormHolderComponent }
+          { path: 'edit', component: EditFormHolderComponent },
+          { path: 'responses', component: ResponseSheetComponent }
         ]
       }
     ]  
@@ -56,7 +58,7 @@ const routes: Routes = [
     ]
   },
   { path: 'authHandler/google/oauth20', component: OauthHandlerComponent },
-  { path: 'account-activation/:slug', component: AccountActivationComponent }
+  { path: 'account-activation/:slug', component: AccountActivationComponent },
 ];
 
 @NgModule({

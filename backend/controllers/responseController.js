@@ -29,24 +29,20 @@ const responseControllers = {
     // for a single form
     fetchAllResponses: async (req, res) => {
         try {
-            const { formId } = req.body;
+            const formId = req.params.id;
 
-            const foundResponses = await Response.find({ submittedToWhichForm: formId });
-
-            if(!foundResponses) {
+            const foundForm = await Form.findById(formId).select("_id title author mode fields").populate('author', 'fullname email').lean();
+            const foundResponses = await Response.find({ submittedToWhichForm: formId }).select('-submittedToWhichForm').populate('submittedBy', 'fullname email').lean();
+            if(!foundForm || !foundResponses) {
                 return res.status(404).json({
-                    message: 'Responses not found'
-                })
-            }
-            else if(foundResponses.length === 0) {
-                return res.status(200).json({
-                    message: 'No responses found for the mentioned form'
-                })
+                    message: `${ !foundForm ? 'Form' : 'Responses' } not found`
+                });
             }
             else{
                 return res.status(200).json({
                     message: 'success',
-                    responses: foundResponses
+                    responses: foundResponses,
+                    form: foundForm
                 });
             }
         } catch(error) {

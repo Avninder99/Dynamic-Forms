@@ -1,0 +1,57 @@
+<div *ngIf="loading" class="w-100 mt-5 text-center fs-1 pt-5">
+    Loading...
+</div>
+
+<div *ngIf="showError" class="w-100 mt-5 text-center fs-1 pt-5">
+    An Error Occured
+</div>
+
+<div *ngIf="!loading && !showError" class="container-fluid d-flex flex-column justify-content-center mt-3 px-md-5">
+    <mat-card class="mb-3">
+        <mat-card-content class="d-flex flex-row justify-content-between">
+            <p class="fs-3 align-self-center m-0">
+                {{ fetchedForm.title }} Responses
+            </p>
+            <div class="d-flex flex-row">
+                <div class="d-flex border-end">
+                    <p class="m-0 fs-6 text-secondary me-4  align-self-center">
+                        No. of responses - {{ formatedResponseData.length }}
+                    </p>
+                </div>
+                <button class="btn btn-lg btn-primary ms-4" (click)="exportToExcel()">
+                    Export as Excelsheet
+                </button>
+            </div>
+        </mat-card-content>
+    </mat-card>
+    <div class="w-100 mb-3">
+        <table mat-table [dataSource]="formatedResponseData" class="mat-elevation-z8">
+            
+            <!-- Name Column -->
+            <ng-container matColumnDef="Sr No">
+                <th mat-header-cell *matHeaderCellDef> Sr. No. </th>
+                <td mat-cell *matCellDef="let element"> {{ element['Sr No'] }} </td>
+            </ng-container>
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef> Name </th>
+                <td mat-cell *matCellDef="let element"> {{ element.name }} </td>
+            </ng-container>
+            
+            <!-- Email Column -->
+            <ng-container matColumnDef="email">
+                <th mat-header-cell *matHeaderCellDef> email </th>
+                <td mat-cell *matCellDef="let element"> {{ element.email }} </td>
+            </ng-container>
+    
+            <!-- All of the questions columns -->
+            <ng-container *ngFor="let field of fetchedForm.fields" [matColumnDef]="field.id">
+                <th mat-header-cell *matHeaderCellDef> {{ field.question }} </th>
+                <td mat-cell *matCellDef="let element"> {{ element[field.id] }} </td>
+            </ng-container>
+    
+        
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </div>
+</div>

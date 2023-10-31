@@ -16,6 +16,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatBadgeModule } from '@angular/material/badge';
+import { MatTableModule } from '@angular/material/table';
 
 import { AppComponent } from './app.component';
 import { FormHolderComponent } from './form-holder/form-holder.component';
@@ -51,6 +52,7 @@ import { NotificationHolderComponent } from './notification-holder/notification-
 import { FormChatComponent } from './form-chat/form-chat.component';
 import { MessageComponent } from './form-chat/message/message.component';
 import { ShowResponseComponent } from './show-response/show-response.component';
+import { ResponseSheetComponent } from './dashboard/response-sheet/response-sheet.component';
 
 
 @NgModule({
@@ -89,6 +91,7 @@ import { ShowResponseComponent } from './show-response/show-response.component';
     FormChatComponent,
     MessageComponent,
     ShowResponseComponent,
+    ResponseSheetComponent,
   ],
   imports: [
     BrowserModule,
@@ -107,7 +110,8 @@ import { ShowResponseComponent } from './show-response/show-response.component';
     MatRadioModule,
     MatCheckboxModule,
     MatSlideToggleModule,
-    MatBadgeModule
+    MatBadgeModule,
+    MatTableModule
   ],
   providers: [],
   bootstrap: [ AppComponent ]
