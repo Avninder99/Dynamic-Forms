@@ -3,11 +3,13 @@ const uuid = require('uuid');
 const { validateToken } = require('../utils/auth');
 const User = require('../models/User');
 const Notification = require('../models/Notification');
+const mongoose = require('mongoose');
 
 // yet to add middlewares and validators in sockets
 module.exports = (io) => {
 
     const connectedUsers = new Map();
+    const usersSubscribedChats = new Map();
 
     // socket connection listener
     io.on('connection', async (socket) => {
@@ -26,13 +28,18 @@ module.exports = (io) => {
                 connectedUsers.set(payload.id, socket);
 
                 const foundUser = await User.findById(payload.id);
+                const formIdsHolder = [];
                 if(!foundUser) {
                     throw new Error('user not found');
                 }
+
                 foundUser.subscribedToFormIds.forEach((formId) => {
                     console.log('subscribing user to notify room of form with id -> ', formId);
                     socket.join(`${formId}_notify`);
+                    formIdsHolder.push(formId);
                 })
+
+                usersSubscribedChats.set(payload.id, formIdsHolder);
             }
         } catch (error) {
             console.log(error);
@@ -56,6 +63,7 @@ module.exports = (io) => {
         socket.on('join_chat_CTS', ({ userId, formId }, cb) => {
             try {
                 socket.join(`${formId}_chat`);
+                socket.leave(`${formId}_notify`);
                 console.log('user joined the chat room - ', formId);
                 cb(true);
             } catch (error) {
@@ -67,6 +75,12 @@ module.exports = (io) => {
         socket.on('leave_chat_CTS', ({ userId, formId }, cb) => {
             try {
                 socket.leave(`${formId}_chat`);
+                const member = usersSubscribedChats.get(userId).some((subscribedFormId) => {
+                    return subscribedFormId.equals(formId);
+                });
+                if(member) {
+                    socket.join(`${formId}_notify`);
+                }
                 console.log('user left the chat room - ', formId);
                 cb(true);
             } catch (error) {
@@ -137,7 +151,7 @@ module.exports = (io) => {
 
                 if (index === -1 && newState) {
                     foundUser.subscribedToFormIds.push(formId);
-                    socket.join(`${formId}_notify`);
+                    usersSubscribedChats.set(userId, [ ...usersSubscribedChats.get(userId), new mongoose.Types.ObjectId(formId)]);
                 } else if (index !== -1 && !newState) {
                     foundUser.subscribedToFormIds.splice(index, 1);
                     socket.leave(`${formId}_notify`);
