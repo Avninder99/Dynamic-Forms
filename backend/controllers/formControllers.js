@@ -2,6 +2,8 @@ const Form = require("../models/Form");
 const Response = require("../models/Response");
 const Request = require('../models/Request');
 const User = require("../models/User");
+const Chat = require("../models/Chat");
+const Notification = require("../models/Notification");
 
 const formControllers = {
     // API -/api/form/generate
@@ -141,14 +143,20 @@ const formControllers = {
                 })
             }
     
-            const deletedRes = await foundForm.deleteOne({ _id: formId });
-            console.log(deletedRes);
-
             const deleteResponses = await Response.deleteMany({ submittedToWhichForm: formId });
             console.log(deleteResponses);
-
+            
             const deleteRequests = await Request.deleteMany({ forWhichForm: formId });
             console.log(deleteRequests);
+            
+            const deleteChats = await Chat.deleteMany({ formId });
+            console.log(deleteChats);
+
+            const deleteNotifications = await Notification.deleteMany({ formId });
+            console.log(deleteNotifications);
+            
+            const deletedRes = await foundForm.deleteOne({ _id: formId });
+            console.log(deletedRes);
 
             return res.status(200).json({
                 message: 'updated succesfully'

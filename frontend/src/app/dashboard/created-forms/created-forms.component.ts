@@ -35,8 +35,8 @@ export class CreatedFormsComponent {
     this.router.navigate([ '/forms/', id ]);
   }
 
-  showResponses() {
-
+  showResponses(id: string) {
+    this.router.navigate([ '/forms', id, 'responses' ]);
   }
 
   editForm(id: string) {
