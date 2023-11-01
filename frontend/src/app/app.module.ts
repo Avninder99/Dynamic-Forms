@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 import { MatButtonModule} from '@angular/material/button';
 import { MatIconModule} from '@angular/material/icon';
@@ -54,6 +54,8 @@ import { MessageComponent } from './form-chat/message/message.component';
 import { ShowResponseComponent } from './show-response/show-response.component';
 import { ResponseSheetComponent } from './dashboard/response-sheet/response-sheet.component';
 
+// interceptors
+import { httpInterceptorProviders } from './interceptors';
 
 @NgModule({
   declarations: [
@@ -113,7 +115,9 @@ import { ResponseSheetComponent } from './dashboard/response-sheet/response-shee
     MatBadgeModule,
     MatTableModule
   ],
-  providers: [],
+  providers: [
+    httpInterceptorProviders
+  ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }

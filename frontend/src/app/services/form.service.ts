@@ -26,89 +26,52 @@ export class FormService {
       newEditors
     }
 
-    const header = {
-      headers: new HttpHeaders().set('Authorization',  `Bearer ${userToken}`)
-    }
-    return this.http.post(`${environment.backend_url}/api/form/generate`, formData, header);
+    return this.http.post(`${environment.backend_url}/api/form/generate`, formData);
   }
 
   // for show page
   fetchFormBasic(id: String) {
-    const userToken = this.tokenService.getToken();
-    const header = {
-      headers: new HttpHeaders().set('Authorization',  `Bearer ${userToken}`)
-    }
-
-    return this.http.get(`${environment.backend_url}/api/form/${id}`, header);
+    return this.http.get(`${environment.backend_url}/api/form/${id}`);
   }
 
   // for edit page
   fetchFormComplete(id: String) {
-    const userToken = this.tokenService.getToken();
-    const header = {
-      headers: new HttpHeaders().set('Authorization',  `Bearer ${userToken}`)
-    }
-    return this.http.get(`${environment.backend_url}/api/form/${id}/complete`, header);
+    // const userToken = this.tokenService.getToken();
+    // const header = {
+    //   headers: new HttpHeaders().set('Authorization',  `Bearer ${userToken}`)
+    // }
+    // return this.http.get(`${environment.backend_url}/api/form/${id}/complete`, header);
+    return this.http.get(`${environment.backend_url}/api/form/${id}/complete`);
   }
 
   updateForm(formName: String, formFields, formId: String) {
-    const userToken = this.tokenService.getToken();
-    const header = {
-      headers: new HttpHeaders().set('Authorization',  `Bearer ${userToken}`)
-    }
-
     const body = {
       formName,
       formFields,
       formId
     }
-    return this.http.post(`${environment.backend_url}/api/form/${formId}/update`, body, header);
+    return this.http.post(`${environment.backend_url}/api/form/${formId}/update`, body);
   }
 
   fetchMyForms() {
-    const userToken = this.tokenService.getToken();
-    const header = {
-      headers: new HttpHeaders().set('Authorization',  `Bearer ${userToken}`)
-    }
-
-    return this.http.get(`${environment.backend_url}/api/form/fetchAll`, header);
+    return this.http.get(`${environment.backend_url}/api/form/fetchAll`);
   }
 
   fetchSharedWithMeForms() {
-    const userToken = this.tokenService.getToken();
-    const header = {
-      headers: new HttpHeaders().set('Authorization',  `Bearer ${userToken}`)
-    }
-
-    return this.http.get(`${environment.backend_url}/api/form/fetchSharedForms`, header);
+    return this.http.get(`${environment.backend_url}/api/form/fetchSharedForms`);
   }
 
   switchMode(id: string, mode: string) {
-    const userToken = this.tokenService.getToken();
-    const header = {
-      headers: new HttpHeaders().set('Authorization',  `Bearer ${userToken}`)
-    }
-
     return this.http.post(`${environment.backend_url}/api/form/${id}/mode/${mode}`, {
       formId: id
-    }, header);
+    });
   }
 
   patchFormEditors(newEditors: string[], formId: string) {
-    const userToken = this.tokenService.getToken();
-    const header = {
-      headers: new HttpHeaders().set('Authorization',  `Bearer ${userToken}`)
-    }
-
-    return this.http.post(`${environment.backend_url}/api/form/${formId}/patchEditors`, { newEditors }, header);
+    return this.http.post(`${environment.backend_url}/api/form/${formId}/patchEditors`, { newEditors });
   }
 
   unloadTransmitter(id: string) {
-    const userToken = this.tokenService.getToken();
-    const header = {
-      headers: new HttpHeaders().set('Authorization',  `Bearer ${userToken}`)
-    }
-
-    return this.http.post(`${environment.backend_url}/api/form/${id}/unlock`, {}, header);
+    return this.http.post(`${environment.backend_url}/api/form/${id}/unlock`, {});
   }
 }

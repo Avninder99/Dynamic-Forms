@@ -14,10 +14,6 @@ export class ResponseService {
   constructor(private http: HttpClient) { }
 
   saveResponse(response, formId) {
-    const userToken = this.tokenService.getToken();
-    const header = {
-      headers: new HttpHeaders().set('Authorization',  `Bearer ${userToken}`)
-    }
     console.log(response);
 
     const body = {
@@ -25,34 +21,19 @@ export class ResponseService {
       formId
     }
 
-    return this.http.post(`${environment.backend_url}/api/response/generate`, body, header);
+    return this.http.post(`${environment.backend_url}/api/response/generate`, body);
   }
 
   fetchMyResponses() {
-    const userToken = this.tokenService.getToken();
-    const header = {
-      headers: new HttpHeaders().set('Authorization',  `Bearer ${userToken}`)
-    }
-
-    return this.http.get(`${environment.backend_url}/api/response/fetchAll`, header);
+    return this.http.get(`${environment.backend_url}/api/response/fetchAll`);
   }
 
   fetchResponse(responseId: string) {
-    const userToken = this.tokenService.getToken();
-    const header = {
-      headers: new HttpHeaders().set('Authorization',  `Bearer ${userToken}`)
-    }
-
     console.log(responseId);
-    return this.http.get(`${environment.backend_url}/api/response/${responseId}`, header);
+    return this.http.get(`${environment.backend_url}/api/response/${responseId}`);
   }
 
   fetchFormResponses(formId: string) {
-    const userToken = this.tokenService.getToken();
-    const header = {
-      headers: new HttpHeaders().set('Authorization',  `Bearer ${userToken}`)
-    }
-    console.log(header);
-    return this.http.get(`${environment.backend_url}/api/response/${formId}/responses`, header);
+    return this.http.get(`${environment.backend_url}/api/response/${formId}/responses`);
   }
 }

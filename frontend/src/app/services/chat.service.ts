@@ -16,11 +16,7 @@ export class ChatService {
   constructor() { }
 
   fetchChats(formId: String) {
-    const userToken = this.tokenService.getToken();
-    const header = {
-      headers: new HttpHeaders().set('Authorization',  `Bearer ${userToken}`)
-    }
-    return this.http.get(`${environment.backend_url}/api/chats/${formId}`, header);
+    return this.http.get(`${environment.backend_url}/api/chats/${formId}`);
   }
 
   joinChat(formId: String) {
