@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
 import { TokenService } from '../services/token.service';
 import { SocketService } from '../services/socket.service';
 import { Router } from '@angular/router';
@@ -9,7 +9,7 @@ import { NotificationService } from '../services/notification.service';
   templateUrl: './notification-holder.component.html',
   styleUrls: ['./notification-holder.component.css']
 })
-export class NotificationHolderComponent {
+export class NotificationHolderComponent implements OnInit {
 
   tokenService = inject(TokenService);
   socketService = inject(SocketService);

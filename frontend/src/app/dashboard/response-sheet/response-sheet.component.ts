@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ResponseService } from 'src/app/services/response.service';
 import * as xlsx from 'xlsx';
@@ -8,7 +8,7 @@ import * as xlsx from 'xlsx';
   templateUrl: './response-sheet.component.html',
   styleUrls: ['./response-sheet.component.css']
 })
-export class ResponseSheetComponent {
+export class ResponseSheetComponent implements OnInit {
 
   responseService = inject(ResponseService);
   route = inject(ActivatedRoute);

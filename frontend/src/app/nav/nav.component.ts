@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { TokenService } from '../services/token.service';
 import { Router } from '@angular/router';
 import { MatBadgeModule } from '@angular/material/badge';
@@ -10,7 +10,7 @@ import { SocketService } from '../services/socket.service';
   templateUrl: './nav.component.html',
   styleUrls: ['./nav.component.css']
 })
-export class NavComponent {
+export class NavComponent implements OnInit {
   tokenService = inject(TokenService);
   socketService = inject(SocketService);
   router = inject(Router);

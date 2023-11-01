@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SocketService } from 'src/app/services/socket.service';
 import { TokenService } from 'src/app/services/token.service';
@@ -8,7 +8,7 @@ import { TokenService } from 'src/app/services/token.service';
   templateUrl: './oauth-handler.component.html',
   styleUrls: ['./oauth-handler.component.css']
 })
-export class OauthHandlerComponent {
+export class OauthHandlerComponent implements OnInit {
   route = inject(ActivatedRoute);
   tokenService = inject(TokenService);
   socketService = inject(SocketService);

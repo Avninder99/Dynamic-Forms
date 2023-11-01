@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { RouteService } from '../services/route.service';
 
@@ -7,7 +7,7 @@ import { RouteService } from '../services/route.service';
   templateUrl: './manage-editors.component.html',
   styleUrls: ['./manage-editors.component.css']
 })
-export class ManageEditorsComponent {
+export class ManageEditorsComponent implements OnInit {
 
   searchTerm: string = '';
   allowDirectSubmission: Boolean = false;

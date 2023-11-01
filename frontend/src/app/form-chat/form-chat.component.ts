@@ -1,4 +1,4 @@
-import { Component, Input, inject } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, inject } from '@angular/core';
 import { ChatService } from '../services/chat.service';
 import { TokenService } from '../services/token.service';
 import { SocketService } from '../services/socket.service';
@@ -9,7 +9,7 @@ import { NotificationService } from '../services/notification.service';
   templateUrl: './form-chat.component.html',
   styleUrls: ['./form-chat.component.css']
 })
-export class FormChatComponent {
+export class FormChatComponent implements OnInit, OnDestroy {
 
   chatService = inject(ChatService);
   notificationService = inject(NotificationService);

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormService } from 'src/app/services/form.service';
 
@@ -7,7 +7,7 @@ import { FormService } from 'src/app/services/form.service';
   templateUrl: './shared-forms.component.html',
   styleUrls: ['./shared-forms.component.css']
 })
-export class SharedFormsComponent {
+export class SharedFormsComponent implements OnInit {
   formService = inject(FormService);
   router = inject(Router)
 

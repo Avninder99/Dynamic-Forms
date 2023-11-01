@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
@@ -6,7 +6,7 @@ import { FormControl, FormGroup } from '@angular/forms';
   templateUrl: './show-checkbox-field.component.html',
   styleUrls: ['./show-checkbox-field.component.css']
 })
-export class ShowCheckboxFieldComponent {
+export class ShowCheckboxFieldComponent implements OnInit {
   @Input() fieldData: { question: String, isRequired: String, id: String, options: string[] };
   @Input() elementGroup: FormGroup;
 

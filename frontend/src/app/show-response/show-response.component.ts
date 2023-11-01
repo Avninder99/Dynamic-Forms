@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ResponseService } from '../services/response.service';
 import { RouteService } from '../services/route.service';
@@ -8,7 +8,7 @@ import { RouteService } from '../services/route.service';
   templateUrl: './show-response.component.html',
   styleUrls: ['./show-response.component.css']
 })
-export class ShowResponseComponent {
+export class ShowResponseComponent implements OnInit {
 
   activatedRoute = inject(ActivatedRoute);
   responseService = inject(ResponseService);

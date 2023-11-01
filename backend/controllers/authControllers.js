@@ -141,7 +141,7 @@ const authControllers = {
     
             const foundUser = await User.findOne({ email });
 
-            if(!foundUser){
+            if(!foundUser){  
                 // dummy password generation
                 const salt = await bcrypt.genSalt(parseInt(process.env.SALT_ROUNDS));
                 const hashedPassword = await bcrypt.hash(uuid(), salt);
@@ -152,6 +152,7 @@ const authControllers = {
                     login_type,
                     password: hashedPassword,
                     isVerified: true,
+                    accountActivationSlug: 'qwertyuiop1234567890'
                 });
 
                 if(savedUser){

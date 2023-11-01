@@ -82,8 +82,8 @@ const responseControllers = {
             console.log('response generated');
             // just commented for testing add it back later
 
-            // const responseMailSent = await generateResponseEmail(foundUser.email, foundForm.title);
-            // console.log("Was mail sent successfully - ", responseMailSent);
+            const responseMailSent = await generateResponseEmail(foundUser.email, foundForm.title);
+            console.log("Was mail sent successfully - ", responseMailSent);
 
             return res.status(200).json({
                 message: 'success',

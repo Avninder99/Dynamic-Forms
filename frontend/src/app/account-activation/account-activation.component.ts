@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { TokenService } from '../services/token.service';
@@ -9,7 +9,7 @@ import { SocketService } from '../services/socket.service';
   templateUrl: './account-activation.component.html',
   styleUrls: ['./account-activation.component.css']
 })
-export class AccountActivationComponent {
+export class AccountActivationComponent implements OnInit {
   route = inject(ActivatedRoute);
   router = inject(Router);
   authService = inject(AuthService);

@@ -1,4 +1,4 @@
-import { Component, HostListener, inject } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit, inject } from '@angular/core';
 import { RouteService } from '../services/route.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormService } from '../services/form.service';
@@ -10,7 +10,7 @@ import { v4 as uuid } from 'uuid';
   templateUrl: './edit-form-holder.component.html',
   styleUrls: ['./edit-form-holder.component.css']
 })
-export class EditFormHolderComponent {
+export class EditFormHolderComponent implements OnInit, OnDestroy {
   routeService = inject(RouteService);
   formService = inject(FormService);
   route = inject(ActivatedRoute);
@@ -139,6 +139,11 @@ export class EditFormHolderComponent {
         console.log(errorRes);
       }
     )
+  }
+
+  ngOnDestroy() {
+    console.log('unload called');
+    this.unloadTransmitter();
   }
 
   @HostListener('window:beforeunload', ['$event'])

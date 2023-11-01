@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { RouteService } from '../services/route.service';
 import { FormService } from '../services/form.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -11,7 +11,7 @@ import { environment } from 'src/environments/environment';
   templateUrl: './show-form.component.html',
   styleUrls: ['./show-form.component.css']
 })
-export class ShowFormComponent {
+export class ShowFormComponent implements OnInit {
   routeService = inject(RouteService);
   formService = inject(FormService);
   responseService = inject(ResponseService);
