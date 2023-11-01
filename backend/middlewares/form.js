@@ -169,5 +169,62 @@ module.exports = {
                 message: 'Server Error'
             });
         }
+    },
+    // check Edit lock
+    checkEditLock: async (req, res, next) => {
+        try {
+            const formId = req.params.id;
+
+            const foundForm = await Form.findById(formId).select('_id editLock').lean();
+
+            if(!foundForm) {
+                return res.status(404).json({
+                    message: 'Form Not Found'
+                });
+            }
+            console.log('checking lock status - ', foundForm.editLock.isLocked);
+            if(foundForm.editLock.isLocked) {
+                return res.status(403).json({
+                    message: 'Form is currently locked'
+                });
+            }
+            next();
+        } catch(error) {
+            console.log(error);
+            return res.status(500).json({
+                message: 'Server Error'
+            });
+        }
+    },
+    // for update route because instead of just returning forbidden error on isLocked === true
+    // i then need to check the editors id to decided whether to proceed or not
+    canUpdateEditLockCheck: async (req, res, next) => {
+        try {
+            const formId = req.params.id, userId = req.body.decoded.id;
+
+            const foundForm = await Form.findById(formId).select('_id editLock').lean();
+
+            if(!foundForm) {
+                return res.status(404).json({
+                    message: 'Form Not Found'
+                });
+            }
+            console.log('checking lock status - ', foundForm.editLock.isLocked);
+            if(!foundForm.editLock.isLocked) {
+                return res.status(401).json({
+                    message: 'Invalid API call'
+                });
+            } else if(!foundForm.editLock.editorId.equals(userId)) {
+                return res.status(403).json({
+                    message: 'Form is locked'
+                })
+            }
+            next();
+        } catch(error) {
+            console.log(error);
+            return res.status(500).json({
+                message: 'Server Error'
+            });
+        }
     }
 }

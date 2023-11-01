@@ -102,4 +102,13 @@ export class FormService {
 
     return this.http.post(`${environment.backend_url}/api/form/${formId}/patchEditors`, { newEditors }, header);
   }
+
+  unloadTransmitter(id: string) {
+    const userToken = this.tokenService.getToken();
+    const header = {
+      headers: new HttpHeaders().set('Authorization',  `Bearer ${userToken}`)
+    }
+
+    return this.http.post(`${environment.backend_url}/api/form/${id}/unlock`, {}, header);
+  }
 }

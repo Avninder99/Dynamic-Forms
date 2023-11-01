@@ -13,6 +13,17 @@ const formSchema = new mongoose.Schema({
         type: String,
         default: 'draft'    // draft, active, inactive
     },
+    editLock: {
+        editorId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+            default: null
+        },
+        isLocked: {
+            type: Boolean,
+            default: false
+        }
+    },
     editors: [
         {
             type: mongoose.Schema.Types.ObjectId,
