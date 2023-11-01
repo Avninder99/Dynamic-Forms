@@ -18,42 +18,60 @@ export class ShowFormComponent {
   route = inject(ActivatedRoute);
   router = inject(Router);
 
-  currentURL: String;
-  formId: String;
-  fetchedForm: any;
+  currentURL: String = '';
+  formId: String = '';
+  fetchedForm: any = null;
   loading: Boolean = true;
   showError: Boolean = false;
-  dynamicForm: FormGroup;
+  dynamicForm: FormGroup = null;
   canSubmitForm: Boolean = true;
   chatOpened: Boolean = false;
 
-  constructor() {
-    this.dynamicForm = new FormGroup({
-      formName: new FormControl('', Validators.required),
-      completeResponse: new FormArray([])
-    })
-  }
+  // constructor() {
 
+  // }
+  
   ngOnInit() {
-    this.currentURL = this.routeService.getCurrentURL();
-    this.formId = this.route.snapshot.params['id'];
 
-    this.formService.fetchFormBasic(this.formId)
-    .subscribe(
-      (res: { message: String, form: any }) => {
-        console.log(res);
-        this.fetchedForm = res.form;
-        this.canSubmitForm = (res.form.mode === 'active');
-        this.dynamicForm.get('formName').setValue(this.fetchedForm.title)
-        this.fetchedForm.fields.forEach((field) => {
-          this.addField(field)
-        });
-        this.loading = false;
-      },
-      (res) => {
-        console.log(res);
-        this.showError = true;
-        this.loading = false;
+    this.route.params.subscribe(
+      (params: { id: string }) => {
+        console.log(params);
+
+        this.currentURL = '';
+        this.formId = '';
+        this.fetchedForm = null;
+        this.loading = true;
+        this.showError = false;
+        this.dynamicForm = null;
+        this.canSubmitForm = true;
+        this.chatOpened = false;
+
+        this.dynamicForm = new FormGroup({
+          formName: new FormControl('', Validators.required),
+          completeResponse: new FormArray([])
+        })
+
+        this.currentURL = this.routeService.getCurrentURL();
+        this.formId = params.id;
+
+        this.formService.fetchFormBasic(this.formId)
+        .subscribe(
+          (res: { message: String, form: any }) => {
+            console.log(res);
+            this.fetchedForm = res.form;
+            this.canSubmitForm = (res.form.mode === 'active');
+            this.dynamicForm.get('formName').setValue(this.fetchedForm.title)
+            this.fetchedForm.fields.forEach((field) => {
+              this.addField(field)
+            });
+            this.loading = false;
+          },
+          (res) => {
+            console.log(res);
+            this.showError = true;
+            this.loading = false;
+          }
+        )
       }
     )
   }
@@ -112,6 +130,7 @@ export class ShowFormComponent {
     e.preventDefault();
     this.chatOpened = true;
   }
+  
   closeChat() {
     this.chatOpened = false;
   }
