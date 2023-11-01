@@ -5,12 +5,12 @@ const form = require('../middlewares/form');
 const user = require('../middlewares/user');
 
 router
-.route('/generate')
-.post(auth.isLoggedIn, form.formStructureValidator, user.editorsValidator, formControllers.generateForm);
+    .route('/generate')
+    .post(auth.isLoggedIn, form.formStructureValidator, user.editorsValidator, formControllers.generateForm);
 
 router
-.route('/fetchAll')
-.get(auth.isLoggedIn, formControllers.fetchAllForms);
+    .route('/fetchAll')
+    .get(auth.isLoggedIn, formControllers.fetchAllForms);
 
 router
     .route('/fetchSharedForms')
@@ -18,17 +18,17 @@ router
     
 // this fetches the form data with limited data for show page
 router
-.route('/:id')
-.get(auth.isLoggedIn, formControllers.fetchFormBasic);
+    .route('/:id')
+    .get(auth.isLoggedIn, formControllers.fetchFormBasic);
 
 // this fetches form data without filtering the secure fields
 router
     .route('/:id/complete')
-    .get(auth.isLoggedIn, form.hasEditAccess, formControllers.fetchFormComplete);
+    .get(auth.isLoggedIn, form.hasEditAccess, form.checkEditLock, formControllers.fetchFormComplete);
 
 router
     .route('/:id/update')
-    .post(auth.isLoggedIn, form.hasEditAccess, form.formAcceptingChanges, form.formStructureValidator, formControllers.updateForm);
+    .post(auth.isLoggedIn, form.hasEditAccess, form.canUpdateEditLockCheck, form.formAcceptingChanges, form.formStructureValidator, formControllers.updateForm);
 
 router
     .route('/:id/delete')
@@ -41,6 +41,10 @@ router
 router
     .route('/:id/patchEditors')
     .post(auth.isLoggedIn, form.hasEditAccess, form.formAcceptingChanges, user.editorsValidator, formControllers.patchFormEditors);
+
+router
+    .route('/:id/unlock')
+    .post(auth.isLoggedIn, form.hasEditAccess, formControllers.unlockForm);
 
 
 module.exports = router;

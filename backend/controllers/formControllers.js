@@ -47,6 +47,8 @@ const formControllers = {
                         return editor.equals(userId);
                     })
                 ) {
+                    foundForm.editLock = { editorId: userId, isLocked: true };
+                    await foundForm.save();
                     return res.status(200).json({
                         message: 'success',
                         form: foundForm
@@ -119,6 +121,8 @@ const formControllers = {
             }
     
             foundForm.fields = formFields;
+            foundForm.editLock = { editorId: null, isLocked: false };
+
             await foundForm.save();
     
             return res.status(200).json({
@@ -130,7 +134,6 @@ const formControllers = {
                 message: 'Server Error'
             })
         }
-
     },
     deleteForm: async (req, res) => {
         try {
@@ -277,6 +280,33 @@ const formControllers = {
             return res.status(500).json({
                 message: 'Server Error'
             });
+        }
+    },
+    unlockForm: async (req, res) => {
+        try {
+            console.log('------------------here------------------')
+            const formId = req.params.id, userId = req.body.decoded.id;
+            const foundForm = await Form.findById(formId);
+    
+            if(!foundForm) {
+                return res.status(404).json({
+                    message: 'Form not found'
+                })
+            }
+
+            if(foundForm.editLock.editorId.equals(userId)){
+                foundForm.editLock = { editorId: null, isLocked: false };
+                await foundForm.save();
+            }
+    
+            return res.status(200).json({
+                message: 'unlocked succesfully'
+            });
+        } catch(error) {
+            console.log("form unlock controller - ", error);
+            return res.status(500).json({
+                message: 'Server Error'
+            })
         }
     }
 }

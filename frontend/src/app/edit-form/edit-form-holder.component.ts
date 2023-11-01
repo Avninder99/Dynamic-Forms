@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, HostListener, inject } from '@angular/core';
 import { RouteService } from '../services/route.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormService } from '../services/form.service';
@@ -24,6 +24,7 @@ export class EditFormHolderComponent {
   errorMessage: String = 'An Error Occured'
   dynamicForm: FormGroup;
   canSubmitForm: Boolean = true;
+  loaded: boolean = false;
 
   constructor() {
     this.dynamicForm = new FormGroup({
@@ -33,6 +34,7 @@ export class EditFormHolderComponent {
   }
 
   ngOnInit() {
+    this.loaded = false;
     this.currentURL = this.routeService.getCurrentURL();
     this.formId = this.route.snapshot.params['id'];
 
@@ -51,6 +53,7 @@ export class EditFormHolderComponent {
             this.addField(field)
           });
           this.loading = false;
+          this.loaded = true;
         }
       },
       (res) => {
@@ -136,5 +139,16 @@ export class EditFormHolderComponent {
         console.log(errorRes);
       }
     )
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  unloadTransmitter() {
+    if(this.loaded) {
+      this.formService.unloadTransmitter(this.formId).subscribe(
+        (res) => {
+          console.log(res);
+        }
+      );
+    }
   }
 }
