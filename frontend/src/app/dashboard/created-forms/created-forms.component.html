@@ -1,34 +1,48 @@
 <div class="container-fluid">
     <p class="display-5 mb-5 mt-3 ms-2">My Forms</p>
-    <div *ngFor="let form of myForms; index as i" class="card container-fluid mb-4">
-        <div class="card-body d-flex flex-row container-fluid justify-content-between">
-            <div>
-                <p class="card-title display-6">{{ form.title }}</p>
-                <div>
-                    <p>Editors - {{ form.editors }}</p>
-                    <p>Responses - {{ form.responses }}</p>
-                </div>
-            </div>
-            <div class="d-flex flex-row flex-wrap">
-                <div class="d-flex flex-column justify-content-around mx-3">
-                    <button class="btn btn-warning container" (click)="editForm(form._id)" [disabled]="form.mode !== 'draft'">Edit Form</button>
-                    <div class="dropdown">
-                        <button class="btn btn-primary dropdown-toggle container-fluid" type="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            {{ form.mode }}
-                        </button>
-                        <ul class="dropdown-menu">
-                            <!-- <li class="dropdown-item" (click)="switchFormMode('draft', form._id)">Draft</li> -->
-                            <li class="dropdown-item" (click)="switchFormMode('active', form._id, i)">Active</li>
-                            <li class="dropdown-item" (click)="switchFormMode('inactive', form._id, i)">Inactive</li>
-                        </ul>
+
+    <div *ngIf="loading" class="w-100 text-center my-5 py-5">
+        <p class="fs-2 fw-normal">Loading...</p>
+    </div>
+
+    <div *ngIf="showError" class="w-100 text-center my-5 py-5">
+        <p class="fs-2 fw-normal">An Error Occured</p>
+    </div>
+
+    <ng-container *ngIf="!loading && !showError">
+        <div *ngIf="myForms.length === 0" class="w-100 text-center my-5 py-5">
+            <p class="fs-2 fw-normal">No Forms Available</p>
+        </div>
+        <div *ngFor="let form of myForms; index as i" class="card container-fluid mb-4">
+            <div class="card-body d-flex flex-column flex-lg-row container-fluid justify-content-between">
+                <div w-lg-100>
+                    <p class="card-title display-6">{{ form.title }}</p>
+                    <div>
+                        <p>Editors - {{ form.editors }}</p>
+                        <p>Responses - {{ form.responses }}</p>
                     </div>
                 </div>
-                <div class="d-flex flex-column justify-content-around mx-3">
-                    <a class="btn btn-primary container" (click)="showForm(form._id)">View Form</a>
-                    <a class="btn btn-success container" (click)="showResponses(form._id)">View Responses</a>
+                <div class="d-flex flex-row flex-wrap mt-3 mb-lg-0">
+                    <div class="d-flex flex-column justify-content-around mx-3">
+                        <button class="btn btn-warning container mb-3 mb-lg-0" (click)="editForm(form._id)" [disabled]="form.mode !== 'draft'">Edit Form</button>
+                        <div class="dropdown">
+                            <button class="btn btn-primary dropdown-toggle container-fluid" type="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                {{ form.mode }}
+                            </button>
+                            <ul class="dropdown-menu">
+                                <!-- <li class="dropdown-item" (click)="switchFormMode('draft', form._id)">Draft</li> -->
+                                <li class="dropdown-item" (click)="switchFormMode('active', form._id, i)">Active</li>
+                                <li class="dropdown-item" (click)="switchFormMode('inactive', form._id, i)">Inactive</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-column justify-content-around mx-3">
+                        <a class="btn btn-primary container mb-3 mb-lg-0" (click)="showForm(form._id)">View Form</a>
+                        <a class="btn btn-success container" (click)="showResponses(form._id)">View Responses</a>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </ng-container>
 </div>

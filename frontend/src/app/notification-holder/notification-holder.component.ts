@@ -15,65 +15,65 @@ export class NotificationHolderComponent implements OnInit {
   socketService = inject(SocketService);
   notificationService = inject(NotificationService);
   router = inject(Router);
+  loading: boolean = true;
 
-  notifications: { form: { formTitle: string, formId: string } }[] = [];
+  notifications: { form: { title: string, _id: string }, _id: string, message: string }[] = [];
   @Output() navigateEvent: EventEmitter<void>;
-  // fetchedNotification: { form: { formTitle: string, formId: string } }[] = []
 
   constructor() {
     this.navigateEvent = new EventEmitter<void>();
   }
 
   ngOnInit() {
-    // alert('calling')
+    this.loading = true;
     this.notificationService.fetchNotifications().subscribe(
       (res: { 
         message: string, 
         notifications: { 
-          formId: { 
+          form: { 
             _id: string, 
             title: string 
           }, 
           message: string, 
-          reciever: string,
+          _id: string
         }[]
       }) => {
         this.notifications = [];
         res.notifications.forEach((notification) => {
-          const notificationObject = {
-            form: {
-              formTitle: notification.formId.title,
-              formId: notification.formId._id
-            },
-          }
-          this.notifications.unshift(notificationObject);
+          this.notifications.unshift(notification);
         })
-
-        // this.notifications.forEach((newNotification) => {
-        //   this.fetchedNotification.unshift(newNotification);
-        // })
+        this.loading = false;
       },
       (errorRes) => {
         console.log(errorRes);
+        this.loading = false;
       }
     )
 
     this.socketService.newNotificationPresenter().subscribe(
-      (newNotification: { form: { formTitle: string, formId: string } }) => {
-        // this.newNotificationCount++;
+      (newNotification: { form: { title: string, _id: string }, _id: string, message: string }) => {
         this.notifications.unshift(newNotification);
       }
     )
   }
 
-  deleteNotification(index) {
-    this.notifications.splice(index, 1);
+  deleteNotification(id: string) {
+    this.notificationService.deleteNotification(id).subscribe(
+      (res) => {
+        console.log(res);
+        const index = this.notifications.findIndex((element) => {
+          return element._id === id;
+        })
+        this.notifications.splice(index, 1);
+      },
+      (errorRes) => {
+        console.log(errorRes);
+        alert('Error on deleting notification');
+      }
+    )
   }
   
   navigateToForm() {
     this.navigateEvent.emit();
-    // this.showNotification = false;
   }
-  
-  
 }

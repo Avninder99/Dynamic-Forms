@@ -8,12 +8,7 @@ import { TokenService } from './services/token.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-
   authService = inject(AuthService);
   tokenService = inject(TokenService);
   title = 'frontend';
-
-  // ngOnInit () {
-  //   this.tokenService.fetchTokenFromCookie();
-  // }
 }

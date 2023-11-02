@@ -12,8 +12,8 @@ import { Router } from '@angular/router';
 export class FormHolderComponent {
 
   dynamicForm: FormGroup;
-  showError: Boolean = false;
-  canSubmitForm: Boolean = true;
+  showError: boolean = false;
+  canSubmitForm: boolean = true;
   route = inject(Router);
   editors: string[] = [];
 
@@ -68,7 +68,7 @@ export class FormHolderComponent {
 
     this.formService.saveForm(this.dynamicForm.get('formName').value, this.dynamicForm.get('completeForm').value, this.editors)
     .subscribe(
-      (res: { formId: String }) => {
+      (res: { formId: string }) => {
         console.log(res);
         this.route.navigate([ '/forms', res.formId ]);
       },

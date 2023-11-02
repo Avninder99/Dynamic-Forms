@@ -7,7 +7,7 @@ import { FormGroup } from '@angular/forms';
   styleUrls: ['./show-dropdown-field.component.css']
 })
 export class ShowDropdownFieldComponent {
-  @Input() fieldData: { question: String, isRequired: String, id: String, options: String[] };
+  @Input() fieldData: { question: string, isRequired: string, id: string, options: string[] };
   @Input() elementGroup: FormGroup;
 
 }

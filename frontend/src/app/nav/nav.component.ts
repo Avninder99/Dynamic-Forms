@@ -16,21 +16,38 @@ export class NavComponent implements OnInit {
   router = inject(Router);
 
   showNotification: boolean = false;
-  notifications: { form: { formTitle: string, formId: string } }[] = [];
+  notifications: { form: { formTitle: string, formId: string }, notificationId: string }[] = [];
   newNotificationCount: number = 0;
 
+  isUserLoggedIn: boolean = false;
+
   ngOnInit() {
+
+    this.tokenService.presentTokenSubject().subscribe(
+      (token) => {
+        if(token){
+          this.isUserLoggedIn = true;
+          console.log('ranI');
+        } else {
+          this.isUserLoggedIn = false;
+          console.log('ranO')
+        }
+      }
+    )
+
+    this.tokenService.setSubjectInitially();
+
     this.socketService.newNotificationPresenter().subscribe(
-      (newNotification: { form: { formTitle: string, formId: string } }) => {
+      (newNotification: { form: { title: string, _id: string }, _id: string, message: string }) => {
         this.newNotificationCount++;
         // this.notifications.unshift(newNotification);
       }
     )
   }
 
-  isLoggedIn() {
-    return this.tokenService.getToken();
-  }
+  // isLoggedIn() {
+  //   return this.tokenService.getToken();
+  // }
 
   loginUser() {
     return this.router.navigate([ '/login' ]);
@@ -45,7 +62,6 @@ export class NavComponent implements OnInit {
   toggleNotificationHolder(){
     console.log(this.notifications.length)
     this.showNotification = !this.showNotification;
-
     this.newNotificationCount = 0;
   }
 }

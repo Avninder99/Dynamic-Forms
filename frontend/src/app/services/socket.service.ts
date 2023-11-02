@@ -15,19 +15,18 @@ export class SocketService {
   tokenService = inject(TokenService);
 
   private socket: Socket;
-  private connected: Promise<Boolean>;
-  private isConnected: Boolean = false;
-  private isPending: Boolean = false;
-  private userToken: String = '';
+  private connected: Promise<boolean>;
+  private isConnected: boolean = false;
+  private isPending: boolean = false;
+  private userToken: string = '';
 
   private messages$: Subject<{ message: string, createdAt: string, sender: { _id: string, fullname: string } }>;
-  private notification$: Subject<{ form: { formTitle: string, formId: string }}>;
-
+  private notification$: Subject<{ form: { title: string, _id: string }, _id: string, message: string }>;
 
   constructor() { 
 
     this.messages$ = new Subject<{ message: string, createdAt: string, sender: { _id: string, fullname: string } }>();
-    this.notification$ = new Subject<{ form: { formTitle: string, formId: string } }>();
+    this.notification$ = new Subject<{ form: { title: string, _id: string }, _id: string, message: string }>();
 
     this.userToken = this.tokenService.getToken();
     console.log("Socket checking user token - ", this.userToken);
@@ -49,7 +48,6 @@ export class SocketService {
       console.log('Socket disconnected');
       this.isPending = false;
       this.isConnected = false;
-      // this.status = -1;
     });
 
     this.socket.on('message_STC', (messageObject) => {
@@ -57,7 +55,7 @@ export class SocketService {
       this.messages$.next(messageObject);
     })
 
-    this.socket.on('notify_STC', (newNotification: { form: { formTitle: string, formId: string } }) => {
+    this.socket.on('notify_STC', (newNotification: { form: { title: string, _id: string }, _id: string, message: string }) => {
       this.notification$.next(newNotification);
     })
   }
@@ -78,12 +76,6 @@ export class SocketService {
     this.userToken = this.tokenService.getToken();
     console.log("Socket checking user token - ", this.userToken);
     if(this.userToken) {
-      // this.socket = io(`${environment.backend_url}`, {
-      //   autoConnect: false,
-      //   query: {
-      //     userToken: this.userToken
-      //   }
-      // });
       this.connect();
     }
 
@@ -91,15 +83,12 @@ export class SocketService {
 
   // this is a promise based handler which is made keeping in mind the delay it can take for socket to establish the connection
   // connected class variable takes it's promise, it also manages an isConnected class variable
-  private socketConnectionHandler(): Promise<Boolean> {
-    // console.log('checker')
+  private socketConnectionHandler(): Promise<boolean> {
     return new Promise((resolve, reject) => {
       this.socket.on('connect', () => {
         console.log('Socket connected');
-        // console.log(Date())
         this.isPending = false;
         this.isConnected = true;
-        // this.status = 1;
         resolve(true);
       });
       
@@ -108,7 +97,6 @@ export class SocketService {
         console.error('Socket connection error:', error);
         this.isPending = false;
         this.isConnected = false;
-        // this.status = -1;
         reject(false);
       });
     })
@@ -127,7 +115,6 @@ export class SocketService {
       this.connected = this.socketConnectionHandler();
       this.socket.connect();
     }
-    // console.log(this.connected)
   }
 
   // disconnect socket

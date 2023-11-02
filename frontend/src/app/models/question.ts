@@ -1,5 +1,5 @@
 export default interface SingleFormElement {
-    question: String,
+    question: string,
     answer?: string | string[],
     type: string,
     id: string,

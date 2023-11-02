@@ -1,20 +1,29 @@
 <ul class="list-group">
-    <li *ngFor="let notification of notifications; index as i" class="list-group-item px-2 py-3 my-2 text-wrap" style="background-color: rgb(255, 218, 35);">
-        <div class="d-flex flex-row justify-content-between w-100 px-2">
-            <div class="fs-6">
-                <p class="fw-medium">New Notification !</p>
-                <span class="fw-normal text-wrap">
-                    A New chat from {{ notification.form.formTitle }} query chat.
-                </span>
+
+    <div *ngIf="loading" class="w-100 py-5">
+        <p class="text-center">Loading...</p>
+    </div>
+    <div *ngIf="notifications.length === 0; else notification_list" class="w-100 py-5">
+        <p class="text-center fs-6 fw-medium text-secondary">No Notification</p>
+    </div>
+    <ng-template #notification_list>
+        <li *ngFor="let notification of notifications; index as i" class="list-group-item px-2 py-3 my-2 text-wrap" style="background-color: rgb(255, 218, 35);">
+            <div class="d-flex flex-row justify-content-between w-100 px-2">
+                <div class="fs-6">
+                    <p class="fw-medium">New Notification !</p>
+                    <span class="fw-normal text-wrap">
+                        A New chat from {{ notification.form.title }} query chat.
+                    </span>
+                </div>
+                <div class="d-flex flex-row">
+                    <button class="btn btn-danger px-4" (click)="deleteNotification(notification._id)">
+                        <mat-icon class="p-0 m-0">delete_outline</mat-icon>
+                    </button>
+                    <button class="btn btn-primary ms-3 px-4" [routerLink]="[ '/forms', notification.form._id ]" data-bs-dismiss="modal" (click)="navigateToForm()">
+                        <mat-icon class="p-0 m-0">arrow_forward</mat-icon>
+                    </button>
+                </div>
             </div>
-            <div class="d-flex flex-row">
-                <button class="btn btn-danger px-4" [routerLink]="[ '/forms', notification.form.formId ]" (click)="deleteNotification(i)">
-                    <mat-icon class="p-0 m-0">delete_outline</mat-icon>
-                </button>
-                <button class="btn btn-primary ms-3 px-4" [routerLink]="[ '/forms', notification.form.formId ]" data-bs-dismiss="modal" (click)="navigateToForm()">
-                    <mat-icon class="p-0 m-0">arrow_forward</mat-icon>
-                </button>
-            </div>
-        </div>
-    </li>
+        </li>
+    </ng-template>
 </ul>

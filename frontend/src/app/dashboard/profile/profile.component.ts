@@ -9,8 +9,8 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class ProfileComponent implements OnInit {
   profileInfo: any;
-  showError: Boolean = false;
-  loading: Boolean = true;
+  showError: boolean = false;
+  loading: boolean = true;
   tokenService = inject(TokenService);
   userService = inject(UserService);
 

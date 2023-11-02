@@ -8,7 +8,7 @@ import { TokenService } from '../services/token.service';
 })
 export class HomeComponent implements OnInit {
 
-  isLoggedIn: Boolean = false;
+  isLoggedIn: boolean = false;
   tokenService = inject(TokenService);
 
   ngOnInit() {

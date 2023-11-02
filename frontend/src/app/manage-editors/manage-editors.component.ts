@@ -10,7 +10,7 @@ import { RouteService } from '../services/route.service';
 export class ManageEditorsComponent implements OnInit {
 
   searchTerm: string = '';
-  allowDirectSubmission: Boolean = false;
+  allowDirectSubmission: boolean = false;
   searchedUsers: { _id: string, fullname: string, email: string }[] = [];
 
   @Input() editors: { _id: string, fullname: string, email: string }[] = [];

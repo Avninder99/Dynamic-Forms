@@ -6,3 +6,10 @@
     overflow-y: scroll;
     /* overflow-x: hidden; */
 }
+#dashboard_menu_button {
+    display: block;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 500;
+}

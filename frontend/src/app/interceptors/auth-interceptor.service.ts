@@ -17,7 +17,7 @@ export class AuthInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
 
-    console.log(req.url);
+    // console.log(req.url);
     // Protected URLS via auth token
     const protectedUrls = [ '/api/user', '/api/response', '/api/notifications', '/api/form', '/api/chats' ];
 

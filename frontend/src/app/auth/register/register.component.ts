@@ -14,11 +14,11 @@ export class RegisterComponent {
   // Simple form so template-driven form approach
   
   registerForm: FormGroup;
-  showError: Boolean = false;
-  errorMessage: String = '';
-  isDisabled: Boolean = false;
-  successMessage: String = '';
-  showSuccess: Boolean = false;
+  showError: boolean = false;
+  errorMessage: string = '';
+  isDisabled: boolean = false;
+  successMessage: string = '';
+  showSuccess: boolean = false;
 
   route = inject(Router);
   authService = inject(AuthService);
@@ -45,7 +45,7 @@ export class RegisterComponent {
 
     if(this.registerForm.valid && this.registerForm.get('password').value === this.registerForm.get('repeatPassword').value){
       this.authService.sendRegisterRequest(this.registerForm.value).subscribe(
-        (res: { message: String }) => {
+        (res: { message: string }) => {
           console.log(res);
           this.showSuccess = true;
           this.successMessage = res.message;
