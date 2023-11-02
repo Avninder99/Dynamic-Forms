@@ -22,4 +22,7 @@ export class NotificationService {
     return this.http.get(`${environment.backend_url}/api/notifications/`);
   }
 
+  deleteNotification(notificationId: string) {
+    return this.http.get(`${environment.backend_url}/api/notifications/${notificationId}/delete`);
+  }
 }

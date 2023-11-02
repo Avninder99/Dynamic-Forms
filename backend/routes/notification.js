@@ -8,6 +8,6 @@ router
 
 router
     .route('/:notificationId/delete')
-    .post(auth.isLoggedIn, deleteNotification);
+    .get(auth.isLoggedIn, deleteNotification);
 
 module.exports = router;

@@ -21,12 +21,12 @@ export class SocketService {
   private userToken: string = '';
 
   private messages$: Subject<{ message: string, createdAt: string, sender: { _id: string, fullname: string } }>;
-  private notification$: Subject<{ form: { formTitle: string, formId: string }}>;
+  private notification$: Subject<{ form: { title: string, _id: string }, _id: string, message: string }>;
 
   constructor() { 
 
     this.messages$ = new Subject<{ message: string, createdAt: string, sender: { _id: string, fullname: string } }>();
-    this.notification$ = new Subject<{ form: { formTitle: string, formId: string } }>();
+    this.notification$ = new Subject<{ form: { title: string, _id: string }, _id: string, message: string }>();
 
     this.userToken = this.tokenService.getToken();
     console.log("Socket checking user token - ", this.userToken);
@@ -55,7 +55,7 @@ export class SocketService {
       this.messages$.next(messageObject);
     })
 
-    this.socket.on('notify_STC', (newNotification: { form: { formTitle: string, formId: string } }) => {
+    this.socket.on('notify_STC', (newNotification: { form: { title: string, _id: string }, _id: string, message: string }) => {
       this.notification$.next(newNotification);
     })
   }

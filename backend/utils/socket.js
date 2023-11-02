@@ -111,27 +111,30 @@ module.exports = (io) => {
                         fullname: sender.name 
                     } 
                 });
-
                 
+                const subscribedUsers = await User.find({ subscribedToFormIds: form.formId }).select('_id').lean();
+                console.log('subscribed users - ', subscribedUsers);
+
+                const newNotification = new Notification({
+                    form: form.formId,
+                    recievers: [ ...subscribedUsers ],
+                    message
+                })
+
+                const savedNotification = await newNotification.save();
+
                 socket
                 .to(`${form.formId}_notify`)
                 .emit('notify_STC', {
                     form: {
-                        formId: form.formId,
-                        formTitle: form.formTitle
-                    }
-                })
-                
+                        _id: form.formId,
+                        title: form.formTitle
+                    },
+                    _id: savedNotification._id,
+                    message: savedNotification.message
+                });
+
                 cb(true);
-                const subscribedUsers = await User.find({ subscribedToFormIds: form.formId }).select('_id').lean();
-                console.log('subscribed users - ', subscribedUsers);
-                subscribedUsers.forEach(async (user) => {
-                    await Notification.create({
-                        formId: form.formId,
-                        reciever: user._id,
-                        message
-                    });
-                })
 
             } catch(error) {
                 console.log(error)

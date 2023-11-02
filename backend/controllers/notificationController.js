@@ -7,22 +7,11 @@ const notificationControllers = {
         try {
             const userId = req.body.decoded.id;
 
-            let foundNotifications = await Notification.find({ reciever: userId }).select('_id formId reciever message').populate('formId', ' _id title').lean();
+            let foundNotifications = await Notification.find({ recievers: userId }).select('_id form message').populate('form', ' _id title').lean();
             console.log("foundNotifications -> ", foundNotifications);
             
             foundNotifications = JSON.parse(JSON.stringify(foundNotifications));
-            
-            // testing code
-            // const newFoundNotifications = foundNotifications.map((notification) => {
-            //     const holder = notification.formId.title;
-            //     const message = notification.message;
-            //     // console.log("here1 - ", holder);
-            //     const updatedTitle = `${holder}_${message}`;
-            //     notification.formId.title = updatedTitle;
-            //     return notification;
-            // })
-            // console.log("foundNotifications -> ", newFoundNotifications);
-            
+
             return res.status(200).json({
                 message: 'success',
                 notifications: foundNotifications
@@ -38,7 +27,7 @@ const notificationControllers = {
     // yet to be connected and tested
     deleteNotification: async (req, res) => {
         try {
-            const userId = req.body.decoded.id, notificationId = req.body.notificationId;
+            const userId = req.body.decoded.id, notificationId = req.params.notificationId;
             const deleteRes = await Notification.deleteOne({ _id: notificationId });
     
             console.log(deleteRes);
