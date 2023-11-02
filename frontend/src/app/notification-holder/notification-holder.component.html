@@ -3,7 +3,7 @@
     <div *ngIf="loading" class="w-100 py-5">
         <p class="text-center">Loading...</p>
     </div>
-    <div *ngIf="notifications.length === 0; else notification_list" class="w-100 py-5">
+    <div *ngIf="!loading && notifications.length === 0; else notification_list" class="w-100 py-5">
         <p class="text-center fs-6 fw-medium text-secondary">No Notification</p>
     </div>
     <ng-template #notification_list>
