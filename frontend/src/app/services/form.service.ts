@@ -14,7 +14,7 @@ export class FormService {
 
   constructor(private http: HttpClient) { }
 
-  saveForm(formName: String, formFields, newEditors: string[]) {
+  saveForm(formName: string, formFields, newEditors: string[]) {
 
     const userToken = this.tokenService.getToken();
     this.tokenService.tokenChecker();
@@ -30,12 +30,12 @@ export class FormService {
   }
 
   // for show page
-  fetchFormBasic(id: String) {
+  fetchFormBasic(id: string) {
     return this.http.get(`${environment.backend_url}/api/form/${id}`);
   }
 
   // for edit page
-  fetchFormComplete(id: String) {
+  fetchFormComplete(id: string) {
     // const userToken = this.tokenService.getToken();
     // const header = {
     //   headers: new HttpHeaders().set('Authorization',  `Bearer ${userToken}`)
@@ -44,7 +44,7 @@ export class FormService {
     return this.http.get(`${environment.backend_url}/api/form/${id}/complete`);
   }
 
-  updateForm(formName: String, formFields, formId: String) {
+  updateForm(formName: string, formFields, formId: string) {
     const body = {
       formName,
       formFields,

@@ -17,8 +17,8 @@ export class AccountActivationComponent implements OnInit {
   socketService = inject(SocketService);
 
   slug: string = '';
-  error: Boolean = false;
-  loading: Boolean = true;
+  error: boolean = false;
+  loading: boolean = true;
 
   ngOnInit() {
     this.route.params.subscribe((params) => {

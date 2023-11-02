@@ -16,14 +16,14 @@ export class EditFormHolderComponent implements OnInit, OnDestroy {
   route = inject(ActivatedRoute);
   router = inject(Router);
 
-  currentURL: String;
+  currentURL: string;
   formId: string;
   fetchedForm: any;
-  loading: Boolean = true;
-  showError: Boolean = false;
-  errorMessage: String = 'An Error Occured'
+  loading: boolean = true;
+  showError: boolean = false;
+  errorMessage: string = 'An Error Occured'
   dynamicForm: FormGroup;
-  canSubmitForm: Boolean = true;
+  canSubmitForm: boolean = true;
   loaded: boolean = false;
 
   constructor() {
@@ -40,7 +40,7 @@ export class EditFormHolderComponent implements OnInit, OnDestroy {
 
     this.formService.fetchFormComplete(this.formId)
     .subscribe(
-      (res: { message: String, form: any }) => {
+      (res: { message: string, form: any }) => {
         console.log(res);
         if(res.form.mode !== 'draft') {
           alert("Form can't be updated, as it is not in draft stage anymore !");
@@ -79,11 +79,11 @@ export class EditFormHolderComponent implements OnInit, OnDestroy {
     );
   }
 
-  addField(data: { question: String, id: String, type: String, isRequired: Boolean, options: String[] }) {
+  addField(data: { question: string, id: string, type: string, isRequired: boolean, options: string[] }) {
 
     const optionsHolder: FormArray = new FormArray([]);
 
-    data.options.forEach((option: String) => {
+    data.options.forEach((option: string) => {
       optionsHolder.push(
         new FormControl(option, Validators.required)
       )

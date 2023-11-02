@@ -1,50 +1,57 @@
-<mat-toolbar color="primary" class="fixed-top myNav">
-    <div class=" container-fluid d-flex flex-row justify-content-between">
-        <span routerLink="/">Dynamic Forms</span>
-        <div>
-            <div class="me-3 d-flex flex-row">
-                <button 
-                    mat-raised-button 
-                    color="primary" 
-                    class="me-4" 
-                    [matBadge]="newNotificationCount" 
-                    [matBadgeHidden]="newNotificationCount === 0" 
-                    matBadgePosition="before" 
-                    matBadgeColor="warn" 
-                    data-bs-toggle="modal" 
-                    data-bs-target="#exampleModal" 
-                    (click)="toggleNotificationHolder()"
-                >
-                    Notifications
-                </button>
-                <span routerLink="/dashboard/profile" class="me-4">Dashboard</span>
-                <span routerLink="/forms/create" class="me-4">Create Form</span>
-                <span *ngIf="!isLoggedIn() ; else logoutBtn" (click)="loginUser()">Login</span>
-                <ng-template #logoutBtn>
-                    <span (click)="logoutUser()">Logout</span>
-                </ng-template>
-            </div>
-        </div>
-    </div>
-  
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-        <div class="modal-dialog modal-lg modal-dialog-scrollable">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5 text-dark ps-3" id="exampleModalLabel">Notifications</h1>
-                </div>
-                <div class="modal-body">
-                    <app-notification-holder 
-                        *ngIf="showNotification"
-                        (navigateEvent)="showNotification = false"
+<nav class="navbar navbar-expand-lg myNav fixed-top " data-bs-theme="dark">
+    <div class="container-fluid">
+        <a class="navbar-brand fw-medium" routerLink="/">Dynamic Forms</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class=" w-100 d-flex flex-row justify-content-center justify-content-lg-end">
+                <div class="me-lg-3 d-flex flex-lg-row flex-column justify-content-center align-items-center">
+                    <button
+                        *ngIf="isUserLoggedIn"
+                        mat-raised-button 
+                        color="primary" 
+                        class="me-lg-4 mt-3 mt-lg-0" 
+                        [matBadge]="newNotificationCount" 
+                        [matBadgeHidden]="newNotificationCount === 0" 
+                        matBadgePosition="before" 
+                        matBadgeColor="warn" 
+                        data-bs-toggle="modal" 
+                        data-bs-target="#exampleModal" 
+                        (click)="toggleNotificationHolder()"
                     >
-                    </app-notification-holder>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="toggleNotificationHolder()">Close</button>
+                        Notifications
+                    </button>
+                    <a *ngIf="isUserLoggedIn" color="primary" routerLink="/dashboard/profile" class="me-lg-4 nav-link text-light align-center fs-5 fw-normal my-3 my-lg-0">Dashboard</a>
+                    <a *ngIf="isUserLoggedIn" routerLink="/forms/create" class="me-lg-4 nav-link text-light fs-5 fw-normal my-3 my-lg-0">Create Form</a>
+                    <a *ngIf="!isUserLoggedIn ; else logoutBtn" (click)="loginUser()" class="nav-link text-light fs-5 fw-normal my-3 my-lg-0">Login</a>
+                    <ng-template #logoutBtn>
+                        <a (click)="logoutUser()" class="nav-link text-light fs-5 fw-normal my-3 my-lg-0">Logout</a>
+                    </ng-template>
                 </div>
             </div>
         </div>
     </div>
-</mat-toolbar>
+</nav>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5 text-dark ps-3" id="exampleModalLabel">Notifications</h1>
+            </div>
+            <div class="modal-body">
+                <app-notification-holder 
+                    *ngIf="showNotification"
+                    (navigateEvent)="showNotification = false"
+                >
+                </app-notification-holder>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="toggleNotificationHolder()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

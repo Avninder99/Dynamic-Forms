@@ -12,8 +12,8 @@ export class CreatedFormsComponent implements OnInit {
   router = inject(Router)
 
   myForms: { _id: string, title: string, editors: number, responses: number, createdAt: string, mode: string }[] = [];
-  loading: Boolean = true;
-  showError: Boolean = false;
+  loading: boolean = true;
+  showError: boolean = false;
 
   ngOnInit() {
     this.formService.fetchMyForms().subscribe(

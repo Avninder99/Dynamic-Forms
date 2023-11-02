@@ -19,7 +19,24 @@ export class NavComponent implements OnInit {
   notifications: { form: { formTitle: string, formId: string } }[] = [];
   newNotificationCount: number = 0;
 
+  isUserLoggedIn: boolean = false;
+
   ngOnInit() {
+
+    this.tokenService.presentTokenSubject().subscribe(
+      (token) => {
+        if(token){
+          this.isUserLoggedIn = true;
+          console.log('ranI');
+        } else {
+          this.isUserLoggedIn = false;
+          console.log('ranO')
+        }
+      }
+    )
+
+    this.tokenService.setSubjectInitially();
+
     this.socketService.newNotificationPresenter().subscribe(
       (newNotification: { form: { formTitle: string, formId: string } }) => {
         this.newNotificationCount++;
@@ -28,9 +45,9 @@ export class NavComponent implements OnInit {
     )
   }
 
-  isLoggedIn() {
-    return this.tokenService.getToken();
-  }
+  // isLoggedIn() {
+  //   return this.tokenService.getToken();
+  // }
 
   loginUser() {
     return this.router.navigate([ '/login' ]);

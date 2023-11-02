@@ -14,7 +14,7 @@ export class NotificationService {
   tokenService = inject(TokenService);
   constructor() { }
 
-  notifySubscribeToggler(newState: boolean, userId: string, formId: String, cb?: Function) {
+  notifySubscribeToggler(newState: boolean, userId: string, formId: string, cb?: Function) {
     this.socketService.emitEvent('notify_toggle_CTS', { newState, userId, formId }, cb);
   }
 

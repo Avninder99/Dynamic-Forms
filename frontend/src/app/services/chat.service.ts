@@ -15,19 +15,19 @@ export class ChatService {
 
   constructor() { }
 
-  fetchChats(formId: String) {
+  fetchChats(formId: string) {
     return this.http.get(`${environment.backend_url}/api/chats/${formId}`);
   }
 
-  joinChat(formId: String) {
+  joinChat(formId: string) {
 
   }
 
-  leaveChat(userId: string, formId: String, cb: Function) {
+  leaveChat(userId: string, formId: string, cb: Function) {
     this.socketService.emitEvent('leave_chat_CTS', { userId, formId }, cb);
   }
 
-  sendMessage(message: string, userId: string, name: string, formId: String, formTitle: string, cb: Function) {
+  sendMessage(message: string, userId: string, name: string, formId: string, formTitle: string, cb: Function) {
     this.socketService.emitEvent('message_CTS', { message, sender: { userId, name }, form: { formId, formTitle } }, cb);
   }
 }

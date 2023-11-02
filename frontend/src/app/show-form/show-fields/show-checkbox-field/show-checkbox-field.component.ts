@@ -7,10 +7,10 @@ import { FormControl, FormGroup } from '@angular/forms';
   styleUrls: ['./show-checkbox-field.component.css']
 })
 export class ShowCheckboxFieldComponent implements OnInit {
-  @Input() fieldData: { question: String, isRequired: String, id: String, options: string[] };
+  @Input() fieldData: { question: string, isRequired: string, id: string, options: string[] };
   @Input() elementGroup: FormGroup;
 
-  checkedOptions: String[] = [];
+  checkedOptions: string[] = [];
 
   ngOnInit() {
     this.elementGroup.addControl('optionsHolder', new FormGroup({}));

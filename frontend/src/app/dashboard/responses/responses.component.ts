@@ -10,8 +10,8 @@ import { ResponseService } from 'src/app/services/response.service';
 export class ResponsesComponent implements OnInit {
   responseService = inject(ResponseService);
   router = inject(Router);
-  loading: Boolean = true;
-  showError: Boolean = false;
+  loading: boolean = true;
+  showError: boolean = false;
   myResponses: { formTitle: string, createdAt: string, formId: string, _id: string }[];
 
   ngOnInit() {

@@ -57,7 +57,7 @@ export class FormElementComponent implements OnInit {
   }
 
   getType(): void {
-    // this.elementGroup.value.type = String(<FormGroup>this.elementGroup.value.type)
+    // this.elementGroup.value.type = string(<FormGroup>this.elementGroup.value.type)
     if(this.elementGroup.value.type === 'radioButtons'){
       console.log('Radio Buttons selected')
         this.elementGroup.addControl('options', new FormArray([

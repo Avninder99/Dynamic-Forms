@@ -25,7 +25,7 @@ export class FormChatComponent implements OnInit, OnDestroy {
   canSend: boolean = true;
   isSubscribed: boolean = false;
   // newMessageListener
-  @Input() formId: String = '';
+  @Input() formId: string = '';
   @Input() formTitle: string = '';
   
   ngOnInit() {

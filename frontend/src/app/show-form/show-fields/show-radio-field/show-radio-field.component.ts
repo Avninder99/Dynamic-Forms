@@ -7,7 +7,7 @@ import { FormGroup } from '@angular/forms';
   styleUrls: ['./show-radio-field.component.css']
 })
 export class ShowRadioFieldComponent {
-  @Input() fieldData: { question: String, isRequired: String, id: String, options: String[] };
+  @Input() fieldData: { question: string, isRequired: string, id: string, options: string[] };
   @Input() elementGroup: FormGroup;
 
 }

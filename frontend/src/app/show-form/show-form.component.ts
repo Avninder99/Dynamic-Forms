@@ -18,14 +18,14 @@ export class ShowFormComponent implements OnInit {
   route = inject(ActivatedRoute);
   router = inject(Router);
 
-  currentURL: String = '';
-  formId: String = '';
+  currentURL: string = '';
+  formId: string = '';
   fetchedForm: any = null;
-  loading: Boolean = true;
-  showError: Boolean = false;
+  loading: boolean = true;
+  showError: boolean = false;
   dynamicForm: FormGroup = null;
-  canSubmitForm: Boolean = true;
-  chatOpened: Boolean = false;
+  canSubmitForm: boolean = true;
+  chatOpened: boolean = false;
 
   // constructor() {
 
@@ -56,7 +56,7 @@ export class ShowFormComponent implements OnInit {
 
         this.formService.fetchFormBasic(this.formId)
         .subscribe(
-          (res: { message: String, form: any }) => {
+          (res: { message: string, form: any }) => {
             console.log(res);
             this.fetchedForm = res.form;
             this.canSubmitForm = (res.form.mode === 'active');
@@ -76,11 +76,11 @@ export class ShowFormComponent implements OnInit {
     )
   }
 
-  addField(data: { question: String, id: String, type: String, isRequired: Boolean, options: String[] }) {
+  addField(data: { question: string, id: string, type: string, isRequired: boolean, options: string[] }) {
 
     const optionsHolder: FormArray = new FormArray([]);
 
-    data.options.forEach((option: String) => {
+    data.options.forEach((option: string) => {
       optionsHolder.push(
         new FormControl(option, Validators.required)
       )

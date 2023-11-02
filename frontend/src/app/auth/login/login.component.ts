@@ -22,9 +22,9 @@ export class LoginComponent {
   routeService = inject(RouteService);
   socketService = inject(SocketService);
 
-  showError: Boolean = false;
-  errorMessage: String = '';
-  isDisabled: Boolean = false;
+  showError: boolean = false;
+  errorMessage: string = '';
+  isDisabled: boolean = false;
 
   constructor() {
     this.loginForm = new FormGroup({
@@ -41,7 +41,7 @@ export class LoginComponent {
 
     if(this.loginForm.valid) {
       this.authService.sendLoginRequest(this.loginForm.value).subscribe(
-        (res: { message: String, token: string }) => {
+        (res: { message: string, token: string }) => {
           console.log(res.token);
           if(res.token) {
             this.tokenService.saveToken(res.token);
@@ -49,7 +49,7 @@ export class LoginComponent {
             this.route.navigate([ this.routeService.getPrevURL() ]);
           }
         },
-        (error: { message: String }) => {
+        (error: { message: string }) => {
           console.error(error.message);
           this.errorMessage = error.message;
           this.showError = true;
