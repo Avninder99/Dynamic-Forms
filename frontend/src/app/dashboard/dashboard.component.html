@@ -1,6 +1,15 @@
 <div class="d-flex flex-row dashboard">
-    <app-sidebar></app-sidebar>
+    <app-sidebar class="d-none d-lg-block"></app-sidebar>
     <div class="p-4 container-fluid dashboard-content">
         <router-outlet></router-outlet>
+        <button mat-fab color="primary" aria-label="Dashboard options button for small displays" id="dashboard_menu_button" class="d-lg-none" [matMenuTriggerFor]="menu">
+            <mat-icon>dashboard</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu" class="mb-3 me-2">
+            <button mat-menu-item routerLink="/dashboard/profile">My Profile</button>
+            <button mat-menu-item routerLink="/dashboard/myForms">My Forms</button>
+            <button mat-menu-item routerLink="/dashboard/myResponses">My Responses</button>
+            <button mat-menu-item routerLink="/dashboard/sharedWithMe">Shared Forms</button>
+        </mat-menu>
     </div>
 </div>

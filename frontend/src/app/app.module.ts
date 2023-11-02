@@ -17,6 +17,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatTableModule } from '@angular/material/table';
+import { MatMenuModule } from '@angular/material/menu';
 
 import { AppComponent } from './app.component';
 import { FormHolderComponent } from './form-holder/form-holder.component';
@@ -113,7 +114,8 @@ import { httpInterceptorProviders } from './interceptors';
     MatCheckboxModule,
     MatSlideToggleModule,
     MatBadgeModule,
-    MatTableModule
+    MatTableModule,
+    MatMenuModule
   ],
   providers: [
     httpInterceptorProviders
