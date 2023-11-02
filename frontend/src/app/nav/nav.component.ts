@@ -16,7 +16,7 @@ export class NavComponent implements OnInit {
   router = inject(Router);
 
   showNotification: boolean = false;
-  notifications: { form: { formTitle: string, formId: string } }[] = [];
+  notifications: { form: { formTitle: string, formId: string }, notificationId: string }[] = [];
   newNotificationCount: number = 0;
 
   isUserLoggedIn: boolean = false;
@@ -38,7 +38,7 @@ export class NavComponent implements OnInit {
     this.tokenService.setSubjectInitially();
 
     this.socketService.newNotificationPresenter().subscribe(
-      (newNotification: { form: { formTitle: string, formId: string } }) => {
+      (newNotification: { form: { title: string, _id: string }, _id: string, message: string }) => {
         this.newNotificationCount++;
         // this.notifications.unshift(newNotification);
       }
@@ -62,7 +62,6 @@ export class NavComponent implements OnInit {
   toggleNotificationHolder(){
     console.log(this.notifications.length)
     this.showNotification = !this.showNotification;
-
     this.newNotificationCount = 0;
   }
 }
