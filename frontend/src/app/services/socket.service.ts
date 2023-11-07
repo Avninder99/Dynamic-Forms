@@ -3,6 +3,8 @@ import { Socket, io } from 'socket.io-client';
 import { environment } from 'src/environments/environment';
 import { TokenService } from './token.service';
 import { Subject } from 'rxjs';
+import { Notification } from '../interfaces/notification';
+import { Message } from '../interfaces/message';
 
 @Injectable({
   providedIn: 'root'
@@ -20,13 +22,13 @@ export class SocketService {
   private isPending: boolean = false;
   private userToken: string = '';
 
-  private messages$: Subject<{ message: string, createdAt: string, sender: { _id: string, fullname: string } }>;
-  private notification$: Subject<{ form: { title: string, _id: string }, _id: string, message: string }>;
+  private messages$: Subject<Message>;
+  private notification$: Subject<Notification>;
 
   constructor() { 
 
-    this.messages$ = new Subject<{ message: string, createdAt: string, sender: { _id: string, fullname: string } }>();
-    this.notification$ = new Subject<{ form: { title: string, _id: string }, _id: string, message: string }>();
+    this.messages$ = new Subject<Message>();
+    this.notification$ = new Subject<Notification>();
 
     this.userToken = this.tokenService.getToken();
     console.log("Socket checking user token - ", this.userToken);
@@ -55,7 +57,7 @@ export class SocketService {
       this.messages$.next(messageObject);
     })
 
-    this.socket.on('notify_STC', (newNotification: { form: { title: string, _id: string }, _id: string, message: string }) => {
+    this.socket.on('notify_STC', (newNotification: Notification) => {
       this.notification$.next(newNotification);
     })
   }

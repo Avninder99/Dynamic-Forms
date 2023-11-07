@@ -4,6 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormService } from '../services/form.service';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { v4 as uuid } from 'uuid';
+import { CompleteForm } from '../interfaces/complete-form';
+import { FormField } from '../interfaces/form-field';
 
 @Component({
   selector: 'app-edit-form-holder-form',
@@ -18,13 +20,14 @@ export class EditFormHolderComponent implements OnInit, OnDestroy {
 
   currentURL: string;
   formId: string;
-  fetchedForm: any;
+  fetchedForm: CompleteForm;
   loading: boolean = true;
   showError: boolean = false;
   errorMessage: string = 'An Error Occured'
   dynamicForm: FormGroup;
   canSubmitForm: boolean = true;
   loaded: boolean = false;
+  submitted: boolean = false;
 
   constructor() {
     this.dynamicForm = new FormGroup({
@@ -40,7 +43,7 @@ export class EditFormHolderComponent implements OnInit, OnDestroy {
 
     this.formService.fetchFormComplete(this.formId)
     .subscribe(
-      (res: { message: string, form: any }) => {
+      (res: { message: string, form: CompleteForm }) => {
         console.log(res);
         if(res.form.mode !== 'draft') {
           alert("Form can't be updated, as it is not in draft stage anymore !");
@@ -79,7 +82,7 @@ export class EditFormHolderComponent implements OnInit, OnDestroy {
     );
   }
 
-  addField(data: { question: string, id: string, type: string, isRequired: boolean, options: string[] }) {
+  addField(data: FormField) {
 
     const optionsHolder: FormArray = new FormArray([]);
 
@@ -113,6 +116,7 @@ export class EditFormHolderComponent implements OnInit, OnDestroy {
       this.formService.updateForm(this.dynamicForm.get('formName').value, this.dynamicForm.get('completeForm').value, this.formId)
       .subscribe(
         (res) => {
+          this.submitted = true;
           console.log(res);
           this.router.navigate([ '/forms', this.formId ]);
         },
@@ -142,13 +146,15 @@ export class EditFormHolderComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    console.log('unload called');
-    this.unloadTransmitter();
+    if(!this.submitted) {
+      console.log('unload called');
+      this.unloadTransmitter();
+    }
   }
 
   @HostListener('window:beforeunload', ['$event'])
   unloadTransmitter() {
-    if(this.loaded) {
+    if(this.loaded && !this.submitted) {
       this.formService.unloadTransmitter(this.formId).subscribe(
         (res) => {
           console.log(res);

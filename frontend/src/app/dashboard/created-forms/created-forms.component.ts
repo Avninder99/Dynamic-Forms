@@ -1,5 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { MyForm } from 'src/app/interfaces/my-form';
 import { FormService } from 'src/app/services/form.service';
 
 @Component({
@@ -11,16 +12,15 @@ export class CreatedFormsComponent implements OnInit {
   formService = inject(FormService);
   router = inject(Router)
 
-  myForms: { _id: string, title: string, editors: number, responses: number, createdAt: string, mode: string }[] = [];
+  myForms: MyForm[] = [];
   loading: boolean = true;
   showError: boolean = false;
 
   ngOnInit() {
     this.formService.fetchMyForms().subscribe(
-      (res: { message: string, forms: { _id: string, title: string, editors: number, responses: number, createdAt: string, mode: string }[] }) => {
+      (res: { message: string, forms: MyForm[] }) => {
         console.log(res);
         this.myForms = res.forms;
-        // console.log(this.myForms)
         this.loading = false;
       },
       (error) => {

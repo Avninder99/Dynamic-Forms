@@ -1,4 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
+import { UserData } from 'src/app/interfaces/user-data';
 import { TokenService } from 'src/app/services/token.service';
 import { UserService } from 'src/app/services/user.service';
 
@@ -8,7 +9,7 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-  profileInfo: any;
+  profileInfo: UserData;
   showError: boolean = false;
   loading: boolean = true;
   tokenService = inject(TokenService);
@@ -17,11 +18,8 @@ export class ProfileComponent implements OnInit {
   ngOnInit() {
     this.loading = true;
     this.showError = false;
-    // this.profileInfo = this.tokenService.getParsedTokenData();
-    // console.log(this.profileInfo);
     this.userService.fetchMe().subscribe(
-      (res: { message: string, user: Object }) => {
-        console.log(res);
+      (res: { message: string, user: UserData }) => {
         this.profileInfo = res.user;
         this.loading = false;
       },

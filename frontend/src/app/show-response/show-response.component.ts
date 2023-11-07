@@ -2,6 +2,8 @@ import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ResponseService } from '../services/response.service';
 import { RouteService } from '../services/route.service';
+import { Form } from '../interfaces/form';
+import { Response } from '../interfaces/response';
 
 @Component({
   selector: 'app-show-response',
@@ -15,27 +17,8 @@ export class ShowResponseComponent implements OnInit {
   routeService = inject(RouteService);
   router = inject(Router);
 
-  responseData: { 
-    createdAt: string, 
-    fields: any, 
-    submittedBy: string, 
-    submittedToWhichForm: {
-      _id: string,
-      title: string
-    },
-    _id: string
-  };
-  formData: {
-    _id: string,
-    title: string,
-    fields: {
-      _id: string,
-      question: string,
-      isRequired: boolean,
-      type: string,
-      id: string
-    }[]
-  };
+  responseData: Response;
+  formData: Form;
   responseId: string;
   loading: boolean = true;
   showError: boolean = false;
@@ -48,33 +31,8 @@ export class ShowResponseComponent implements OnInit {
     this.responseService.fetchResponse(this.responseId).subscribe(
       (res: {
         message: string,
-        response: { 
-          createdAt: string, 
-          fields: {
-            type: string,
-            id: string,
-            options: string[],
-            answer: any,
-            _id: string
-          }[], 
-          submittedBy: string, 
-          submittedToWhichForm: {
-            _id: string,
-            title: string
-          },
-          _id: string
-        },
-        form: {
-          _id: string,
-          title: string,
-          fields: {
-            _id: string,
-            question: string,
-            isRequired: boolean,
-            type: string,
-            id: string
-          }[]
-        }
+        response: Response,
+        form: Form
       }) => {
         console.log(res);
         this.responseData = res.response;

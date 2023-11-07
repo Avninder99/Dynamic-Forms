@@ -3,6 +3,7 @@ import { TokenService } from '../services/token.service';
 import { SocketService } from '../services/socket.service';
 import { Router } from '@angular/router';
 import { NotificationService } from '../services/notification.service';
+import { Notification } from '../interfaces/notification';
 
 @Component({
   selector: 'app-notification-holder',
@@ -17,7 +18,7 @@ export class NotificationHolderComponent implements OnInit {
   router = inject(Router);
   loading: boolean = true;
 
-  notifications: { form: { title: string, _id: string }, _id: string, message: string }[] = [];
+  notifications: Notification[] = [];
   @Output() navigateEvent: EventEmitter<void>;
 
   constructor() {
@@ -51,7 +52,7 @@ export class NotificationHolderComponent implements OnInit {
     )
 
     this.socketService.newNotificationPresenter().subscribe(
-      (newNotification: { form: { title: string, _id: string }, _id: string, message: string }) => {
+      (newNotification: Notification) => {
         this.notifications.unshift(newNotification);
       }
     )
