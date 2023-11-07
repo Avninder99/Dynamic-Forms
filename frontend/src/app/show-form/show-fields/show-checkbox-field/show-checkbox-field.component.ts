@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { FormField } from 'src/app/interfaces/form-field';
 
 @Component({
   selector: 'app-show-checkbox-field',
@@ -7,7 +8,7 @@ import { FormControl, FormGroup } from '@angular/forms';
   styleUrls: ['./show-checkbox-field.component.css']
 })
 export class ShowCheckboxFieldComponent implements OnInit {
-  @Input() fieldData: { question: string, isRequired: string, id: string, options: string[] };
+  @Input() fieldData: FormField;
   @Input() elementGroup: FormGroup;
 
   checkedOptions: string[] = [];

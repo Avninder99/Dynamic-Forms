@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { FormField } from 'src/app/interfaces/form-field';
 
 @Component({
   selector: 'app-show-number-field',
@@ -7,7 +8,7 @@ import { FormGroup } from '@angular/forms';
   styleUrls: ['./show-number-field.component.css']
 })
 export class ShowNumberFieldComponent {
-  @Input() fieldData: { question: string, isRequired: string, id: string };
+  @Input() fieldData: FormField;
   @Input() elementGroup: FormGroup;
 
   

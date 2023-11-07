@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { FormField } from 'src/app/interfaces/form-field';
 
 @Component({
   selector: 'app-show-text-field',
@@ -7,6 +8,6 @@ import { FormGroup } from '@angular/forms';
   styleUrls: ['./show-text-field.component.css']
 })
 export class ShowTextFieldComponent {
-  @Input() fieldData: { question: string, isRequired: string, id: string };
+  @Input() fieldData: FormField;
   @Input() elementGroup: FormGroup;
 }

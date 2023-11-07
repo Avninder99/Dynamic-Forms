@@ -4,7 +4,8 @@ import { FormService } from '../services/form.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ResponseService } from '../services/response.service';
-import { environment } from 'src/environments/environment';
+import { BasicForm } from '../interfaces/basic-form';
+import { FormField } from '../interfaces/form-field';
 
 @Component({
   selector: 'app-show-form',
@@ -20,16 +21,12 @@ export class ShowFormComponent implements OnInit {
 
   currentURL: string = '';
   formId: string = '';
-  fetchedForm: any = null;
+  fetchedForm: BasicForm = null;
   loading: boolean = true;
   showError: boolean = false;
   dynamicForm: FormGroup = null;
   canSubmitForm: boolean = true;
   chatOpened: boolean = false;
-
-  // constructor() {
-
-  // }
   
   ngOnInit() {
 
@@ -56,7 +53,7 @@ export class ShowFormComponent implements OnInit {
 
         this.formService.fetchFormBasic(this.formId)
         .subscribe(
-          (res: { message: string, form: any }) => {
+          (res: { message: string, form: BasicForm }) => {
             console.log(res);
             this.fetchedForm = res.form;
             this.canSubmitForm = (res.form.mode === 'active');
@@ -76,7 +73,7 @@ export class ShowFormComponent implements OnInit {
     )
   }
 
-  addField(data: { question: string, id: string, type: string, isRequired: boolean, options: string[] }) {
+  addField(data: FormField) {
 
     const optionsHolder: FormArray = new FormArray([]);
 

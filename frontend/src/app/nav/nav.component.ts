@@ -1,9 +1,8 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { TokenService } from '../services/token.service';
 import { Router } from '@angular/router';
-import { MatBadgeModule } from '@angular/material/badge';
-import {MatDialog, MAT_DIALOG_DATA, MatDialogRef, MatDialogModule} from '@angular/material/dialog';
 import { SocketService } from '../services/socket.service';
+import { Notification } from '../interfaces/notification';
 
 @Component({
   selector: 'app-nav',
@@ -16,7 +15,7 @@ export class NavComponent implements OnInit {
   router = inject(Router);
 
   showNotification: boolean = false;
-  notifications: { form: { formTitle: string, formId: string }, notificationId: string }[] = [];
+  // notifications: { form: { formTitle: string, formId: string }, notificationId: string }[] = [];
   newNotificationCount: number = 0;
 
   isUserLoggedIn: boolean = false;
@@ -38,9 +37,8 @@ export class NavComponent implements OnInit {
     this.tokenService.setSubjectInitially();
 
     this.socketService.newNotificationPresenter().subscribe(
-      (newNotification: { form: { title: string, _id: string }, _id: string, message: string }) => {
+      (newNotification: Notification) => {
         this.newNotificationCount++;
-        // this.notifications.unshift(newNotification);
       }
     )
   }
@@ -60,7 +58,7 @@ export class NavComponent implements OnInit {
   }
 
   toggleNotificationHolder(){
-    console.log(this.notifications.length)
+    // console.log(this.notifications.length)
     this.showNotification = !this.showNotification;
     this.newNotificationCount = 0;
   }

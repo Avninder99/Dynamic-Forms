@@ -3,6 +3,7 @@ import { ChatService } from '../services/chat.service';
 import { TokenService } from '../services/token.service';
 import { SocketService } from '../services/socket.service';
 import { NotificationService } from '../services/notification.service';
+import { Message } from '../interfaces/message';
 
 @Component({
   selector: 'app-form-chat',
@@ -17,7 +18,7 @@ export class FormChatComponent implements OnInit, OnDestroy {
   socketService = inject(SocketService);
 
 
-  chats: { message: string, createdAt: string, sender: { _id: string, fullname: string } }[] = [];
+  chats: Message[] = [];
   currentUserId: string;
   payload: any;
   message: string = '';
@@ -33,7 +34,6 @@ export class FormChatComponent implements OnInit, OnDestroy {
     console.log(this.payload);
     if(this.payload) {
       this.currentUserId = this.payload.id;
-
     }
 
     this.socketService.emitEvent('join_chat_CTS', { userId: this.currentUserId, formId: this.formId }, (success: boolean) => {
@@ -49,7 +49,7 @@ export class FormChatComponent implements OnInit, OnDestroy {
     })
 
     this.chatService.fetchChats(this.formId).subscribe(
-      (res: { message: string, chats: { message: string, createdAt: string, sender: { _id: string, fullname: string } }[], subscribed: boolean }) => {
+      (res: { message: string, chats: Message[], subscribed: boolean }) => {
         console.log(res);
         this.chats = res.chats;
         this.isSubscribed = res.subscribed;
@@ -62,7 +62,7 @@ export class FormChatComponent implements OnInit, OnDestroy {
     // this.chatService.joinChat(this.formId);
 
     this.socketService.newMessagePresenter().subscribe(
-      (newMessageObject: { message: string, createdAt: string, sender: { _id: string, fullname: string } }) => {
+      (newMessageObject: Message) => {
         this.chats.push(newMessageObject);
       }
     )
